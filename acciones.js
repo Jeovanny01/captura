@@ -8,44 +8,56 @@ function showSection(sectionId) {
 document.addEventListener('DOMContentLoaded', () => {
     showSection('register');
 });
-function iniciarEscaneo() {
-    const cameraContainer = document.getElementById("camera-container");
 
-    // Mostrar el contenedor de la cámara
-    cameraContainer.style.display = "block";
+let cameraStream;
+const videoElement = document.getElementById("camera-preview");
+const cameraContainer = document.getElementById("camera-container");
 
-    Quagga.init({
-        inputStream: {
-            type: "LiveStream",
-            constraints: {
-                facingMode: "environment" // Usar cámara trasera
-            },
-            target: document.querySelector("#camera-preview") // Video preview
-        },
-        decoder: {
-            readers: ["code_128_reader", "ean_reader", "ean_8_reader"] // Tipos de códigos de barras
-        }
-    }, function (err) {
-        if (err) {
-            console.error("Error al iniciar Quagga:", err);
+async function iniciarEscaneo() {
+    try {
+        // Mostrar el contenedor de la cámara
+        cameraContainer.style.display = "block";
+
+        // Verificar si BarcodeDetector está disponible
+        if (!('BarcodeDetector' in window)) {
+            alert("BarcodeDetector no es compatible con este navegador.");
             detenerEscaneo();
             return;
         }
-        console.log("Quagga iniciado correctamente");
-        Quagga.start();
-    });
 
-    // Escuchar los resultados de escaneo
-    Quagga.onDetected(function (result) {
-        if (result?.codeResult?.code) {
-            console.log("Código detectado:", result.codeResult.code);
-            document.getElementById("codigo").value = result.codeResult.code; // Poner el código en el input
-            detenerEscaneo(); // Detener el escaneo después de capturar un código
-        }
-    });
+        // Inicializar BarcodeDetector
+        const barcodeDetector = new BarcodeDetector({ formats: ['code_128', 'ean_13', 'ean_8'] });
+
+        // Iniciar la cámara
+        cameraStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+        videoElement.srcObject = cameraStream;
+
+        // Detectar códigos de barras en tiempo real
+        const scan = async () => {
+            try {
+                const barcodes = await barcodeDetector.detect(videoElement);
+                if (barcodes.length > 0) {
+                    console.log("Código detectado:", barcodes[0].rawValue);
+                    document.getElementById("codigo").value = barcodes[0].rawValue; // Poner el código en el input
+                    detenerEscaneo(); // Detener el escaneo
+                }
+            } catch (error) {
+                console.error("Error al detectar códigos:", error);
+            }
+            requestAnimationFrame(scan); // Continuar escaneando
+        };
+        scan(); // Iniciar escaneo
+    } catch (error) {
+        console.error("Error al iniciar el escaneo:", error);
+        detenerEscaneo();
+    }
 }
 
 function detenerEscaneo() {
-    Quagga.stop(); // Detener Quagga
-    document.getElementById("camera-container").style.display = "none"; // Ocultar la cámara
+    // Detener la cámara
+    if (cameraStream) {
+        const tracks = cameraStream.getTracks();
+        tracks.forEach(track => track.stop());
+    }
+    cameraContainer.style.display = "none";
 }
