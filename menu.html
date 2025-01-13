@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión Escolar</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <style>
+       
+        nav {
+            display: flex;
+    align-items: center;
+    justify-content: space-between; /* Separar el menú del ícono de logout */
+    padding: 5px 20px; /* Espaciado interno del menú */
+        }
+
+        #menu {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        #menu li {
+            margin: 0 8px;
+        }
+
+        #menu li a {
+            color: white;
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 14px;
+        }
+
+        #logout {
+            cursor: pointer;
+        }
+
+        /* Estilos del menú hamburguesa */
+        .hamburger {
+            display: none;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        /* Ocultar el menú en pantallas pequeñas */
+        @media (max-width: 768px) {
+            #menu {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                background-color: #0044cc;
+                position: absolute;
+                top: 40px;
+                left: 0;
+                z-index: 10;
+            }
+
+            #menu li {
+                margin: 4px 0;
+                text-align: center;
+            }
+
+            .hamburger {
+                display: block;
+            }
+                    #filtros label, 
+            #filtros input[type="date"], 
+            #filtros button {
+                width: 100%; /* Cada elemento ocupa el 100% del contenedor */
+            }
+        }
+
+        /* Mostrar el menú cuando esté activado */
+        #menu.active {
+            display: flex;
+        }
+
+ 
+
+        /* Estilos del formulario */
+        .form- {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #f7f7f7;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: none;
+        }
+
+        .form-container.active {
+            display: block;
+        }
+
+        .form-container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .form-group input[type="submit"] {
+            background-color: #333;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .form-group input[type="submit"]:hover {
+            background-color: #555;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <!-- Ícono de menú hamburguesa -->
+            <div class="hamburger" onclick="toggleMenu()">
+                <i class="fas fa-bars"></i>
+            </div>
+            <ul id="menu">
+              <!-- <li><a onclick="showSection('welcome')">Inicio</a></li> -->
+                <li><a onclick="showSection('register')">Registrar Alumnos</a></li>
+                <li><a onclick="showSection('datos')"> Registros</a></li>
+                           </ul>
+            <div id="logout" onclick="logout()">
+                <i class="fas fa-sign-out-alt" title="Cerrar sesión"></i>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Sección de bienvenida -->
+        <!-- <section id="welcome">
+            <h1>Bienvenido a la Gestión de Academia</h1>
+            <p>Utiliza el menú superior para gestionar los recursos.</p>
+        </section>  -->
+        
+     <!-- Sección de bienvenida -->
+     <section id="datos">
+        <h2>Listado de datos</h2>
+
+        <!-- Contenedor para los filtros, organizado en una línea -->
+         <div id="filtros">
+        <label for="fechaInicio" style="margin-right: 10px;">Fecha Inicial:</label>
+        <input type="date" id="fechaInicio" style="margin-right: 20px;">
+        
+        <label for="fechaFin" style="margin-right: 10px;">Fecha Final:</label>
+        <input type="date" id="fechaFin" style="margin-right: 20px;">
+
+        <button onclick="cargarDatos(document.getElementById('fechaInicio').value,
+                                              document.getElementById('fechaFin').value)">Cargar datos</button>
+        </div>
+
+            <!-- Tabla para los datos -->
+        <table id="tablaDatos">
+                <!-- La tabla se llenará dinámicamente -->
+        </table>
+    </section>
+        <!-- Sección de bienvenida -->
+             
+    
+        <!-- Sección del formulario de registro de alumnos -->
+    <section id="register" class="form-">
+            <h2>Registro de productos</h2>
+            <form id="formRegistrar">
+                
+                <div class="form-group">
+                    
+                
+                    <div class="form-groupdui">
+                    <label for="codigo">Codigo de barras</label>
+                    <input type="text" id="codigo" name="codigo" required>
+                    <button type="button" onclick="iniciarEscaneo()">Buscar</button>
+                    </div>
+                    <!-- Contenedor para la cámara -->
+                    <div id="camera-container" style="display:none;" class="floating-camera-container">
+                        <video id="camera-preview" style="width:100%; height:100%;"></video>
+                        <button type="button" onclick="detenerEscaneo()" style="position:absolute; top:10px; right:10px; z-index:11;">Cerrar</button>
+                    </div>
+                                                 
+                    <label for="Descripcion">Descripcion</label>
+                    <input type="text" id="Descripcion" name="Descripcion" required>
+           
+                    <label for="categoria">Categoría</label>
+                    <select id="categoria" name="categoria">
+                        <option value="">Seleccione una categoría</option >
+                    </select>
+
+
+                    <label for="Cantidad">Cantidad</label>
+                    <input type="number" id="Cantidad" name="Cantidad"  step="1"  min="0" max="10000"  placeholder="1">
+               
+                                  
+                    <label for="precio">Precio</label>
+                    <input type="number" id="precio" name="precio"  step="0.01"  min="0" max="10000"  placeholder="0.00">
+
+                                    
+                    <label for="precioUnit">Precio Unitario</label>
+                    <input type="number" id="precioUnit" name="precioUnit"  step="0.01"  min="0" max="10000"  placeholder="0.00">
+
+                  
+
+
+                    <form>
+                        <label for="archivo">Foto del DUI:</label>
+                        <input 
+                            type="file" 
+                            id="archivo" 
+                            name="archivo" 
+                            accept="image/*,application/pdf,application/doc,application/docx" >
+                           <button type="button" id="btn-quitar">Quitar</button>
+
+                    </form>
+
+                    <br>
+                    <br>
+                    <input type="submit" value="Registrar Alumno">
+                </div>
+            </form>
+        </section>
+      
+    </main>
+  
+ <script src="cargarSucursales.js"></script> <!-- Tu archivo de scripts principal, si existe -->
+ <script src="datos.js"></script> <!-- Tu archivo de scripts principal, si existe -->
+ <script src="acciones.js"></script> <!-- Tu archivo de scripts principal, si existe -->
+   <!-- Incluir React y ReactDOM desde CDN -->
+<!-- Agregar los scripts de React -->
+<script src="https://unpkg.com/react@18.2.0/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/react-icons/fa"></script> <!-- Para usar los íconos -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"></script>
+
+
+</body>
+</html>

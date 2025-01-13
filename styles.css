@@ -1,0 +1,530 @@
+/* Configuración básica */
+html, body {
+    margin: 0; /* Eliminar márgenes por defecto del body */
+    height: 100vh; /* Asegura que el contenedor ocupe toda la altura de la ventana */
+    display: flex; /* Permite usar flexbox */
+    flex-direction: column; /* Organiza los elementos en columna */
+    position: relative; /* Necesario para posicionar el botón correctamente */
+}
+/* Estilo para el contenedor del encabezado *//* Estilo para el contenedor del encabezado principal */
+.header-content {
+    display: flex; /* Utiliza flexbox para centrar el contenido */
+    flex-direction: column; /* Asegura que el logo y el título estén uno debajo del otro */
+    align-items: center; /* Centra el contenido horizontalmente */
+    justify-content: center; /* Centra el contenido verticalmente */
+    flex-grow: 1; /* Permite que este contenedor crezca para ocupar el espacio disponible */
+}
+
+/* Estilo para el logo */
+.logo {
+    width: 50px; /* Ajusta el tamaño según tus necesidades */
+    height: 50px; /* Mismo tamaño para mantener la proporción */
+    border-radius: 50%; /* Hace que el logo sea redondo */
+    object-fit: cover; /* Asegura que la imagen cubra el área del logo */
+    margin-right: 15px; /* Espacio entre el logo y el título */
+}
+
+/* Estilo para el título */
+h1 {
+    font-size: 24px; /* Tamaño del texto */
+    margin: 0; /* Sin margen */
+}
+
+/* Estilo para el contenedor del login */
+.login-container {
+    position: absolute; /* Permite posicionar el botón en relación al contenedor */
+    top: 10px; /* Ajusta la posición superior */
+    right: 10px; /* Ajusta la posición derecha */
+}
+
+#login-button {
+    padding: 10px 20px; /* Ajusta el padding del botón */
+    font-size: 16px; /* Tamaño de fuente */
+    cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
+}
+/* Estilo para la barra de navegación */
+.nav-bar {
+    background-color: #0044cc; /* Color de fondo del nav */
+    /* Sin propiedades de posición para que esté debajo del encabezado */
+}
+
+/* Estilos para los elementos de navegación */
+.nav-bar ul {
+    list-style: none; /* Sin viñetas */
+    padding: 0; /* Sin padding */
+    display: flex; /* Mostrar en línea */
+    flex-direction: row; /* Disposición en fila */
+    justify-content: center; /* Centra los elementos horizontalmente */
+    margin: 0; /* Sin margen */
+}
+
+.nav-bar ul li {
+    margin: 0 15px; /* Espacio horizontal entre los elementos */
+}
+
+/* Estilo para los enlaces en el menú */
+.nav-bar a {
+    color: white; /* Color del texto */
+    text-decoration: none; /* Sin subrayado */
+    padding: 10px; /* Espacio alrededor del enlace */
+}
+
+/* Cambia el color al pasar el ratón sobre los enlaces */
+/*.nav-bar a:hover {
+    background-color: rgba(255, 255, 255, 0.2); /* Fondo semi-transparente */
+/*}*/ 
+
+
+/* Media query para pantallas más pequeñas */
+@media (max-width: 768px) {
+
+    .login-container {
+        flex-direction: column; /* Apila el logo y el título verticalmente */
+        justify-content: flex-start; /* Alinea a la parte superior */
+    }
+    
+    .login-button {
+        position: absolute; /* Mantén el botón absoluto */
+        top: 50px; /* Ajusta según sea necesario */
+        right: 30px; /* Ajusta según sea necesario */
+    }
+
+
+    .header-content {
+        flex-direction: column; /* Apila el logo y el título verticalmente */
+        align-items: flex-start; /* Alinea los elementos a la izquierda */
+    }
+
+    #login-button {
+        margin-top: 10px; /* Espacio superior para el botón en vista móvil */
+    }
+
+    .nav-bar {
+        /* Puedes agregar estilos específicos para móviles aquí si es necesario */
+    }
+
+    .nav-bar ul {
+        justify-content: center; /* Centrar elementos horizontalmente */
+    }
+}
+
+/* Estilo de la ventana modal */
+.modal {
+    display: none; /* Oculto por defecto */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto; /* Asegúrate de habilitar el desplazamiento si el contenido es muy grande */
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+/* Estilo del contenido de la modal */
+.modal-content {
+    background-color: #fefefe;
+    margin: auto; /* Centra horizontalmente */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 300px; /* Ancho fijo */
+    border-radius: 5px;
+    height: auto; /* Permite ajustar automáticamente */
+    max-height: 80%; /* Evita que sea demasiado alto */
+    overflow-y: auto; /* Habilita desplazamiento interno si es necesario */
+}
+
+/* Estilo del botón de cerrar */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black; /* Color al pasar el ratón */
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Estilos para los campos del formulario */
+form {
+    display: flex;
+    flex-direction: column; /* Orientación vertical */
+}
+
+form label {
+    margin-top: 10px; /* Espacio arriba */
+}
+
+form input {
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px; /* Bordes redondeados */
+}
+
+form button {
+    margin-top: 10px; /* Espacio arriba */
+    padding: 10px;
+    background-color: #0044cc; /* Fondo azul */
+    color: white; /* Color del texto */
+    border: none;
+    border-radius: 5px; /* Bordes redondeados */
+    cursor: pointer;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+    font-size: 16px; /* Ajusta el tamaño aquí */
+}
+
+main {
+    flex: 1;
+}
+
+/* Estilos del encabezado, secciones, y pie de página */
+/* Estilo del encabezado */
+header {
+    background-color: #0044cc;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+}
+/* Estilo del menú de navegación */
+nav ul {
+    list-style: none;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline;
+    margin: 0 15px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;    /* Remueve subrayado por defecto */
+    font-weight: bold;
+    padding-bottom: 5px;      /* Espacio para el subrayado */
+    position: relative;       /* Necesario para el pseudo-elemento ::after */
+    transition: color 0.3s ease;  /* Transición suave de color */
+}
+
+/* Estilo al pasar el ratón (hover) */
+nav ul li a:hover {
+    color: yellow;            /* Cambia el color del texto al pasar el ratón */
+}
+
+/* Subrayado animado al pasar el ratón */
+nav ul li a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0;
+    height: 2px;              /* Grosor del subrayado */
+    background-color: yellow; /* Color del subrayado */
+    transition: width 0.3s ease; /* Animación suave para el subrayado */
+}
+
+/* Expande el subrayado cuando se pasa el ratón */
+nav ul li a:hover::after {
+    width: 100%;              /* El subrayado se expande al 100% */
+}
+
+
+section {
+    padding: 20px;
+    margin: 20px 0;
+    background-color: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+/* Logo adaptable a pantallas grandes y pequeñas */
+.header-content {
+    display: flex;
+    align-items: center; /* Centra verticalmente el logo y el título */
+    gap: 10px;           /* Espacio entre el logo y el título */
+}
+
+/* Estilo para el logo redondeado */
+.logo {
+    width: 80px;               /* Tamaño del logo */
+    height: 80px;              /* Asegura que el logo sea cuadrado */
+    border-radius: 50%;        /* Hace que el logo sea circular */
+    object-fit: cover;         /* Asegura que la imagen llene el espacio circular */
+}
+
+.info {
+    padding: 20px;
+    margin: 20px 0;
+}
+footer {
+    text-align: center;
+    padding: 10px;
+    background-color: #0044cc;
+    color: white;
+    width: 100%;
+    /* Posición normal, no sticky ni fixed */
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+form label {
+    margin: 5px 0;
+}
+
+form input, form textarea {
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+button {
+    padding: 10px;
+    background-color: #0044cc;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #003399;
+}
+/* Estilos generales para los campos de entrada */
+input, select, textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+
+
+button[type="submit"]:hover {
+    background-color: #476bce;
+}
+
+/* Estilo para los mensajes de error o respuesta */
+#responseMessage {
+    margin-top: 20px;
+    color: #d9534f;
+    font-weight: bold;
+}
+
+/* aca pata abajo nuevo*/
+
+
+#logout {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    color: white;
+    font-size: 1.5em;
+    cursor: pointer;
+}
+
+#logout:hover {
+    color: #f44336;
+}
+
+
+main {
+    padding: 20px;
+}
+
+@media (max-width: 600px) {
+    nav ul {
+        flex-direction: column;
+    }
+}
+
+
+
+table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+tbody tr:hover {
+    background-color: #f9f9f9;
+}
+#btn-quitar {
+    display: none; /* Ocultar el botón por defecto */
+    margin-left: 10px;
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+#btn-quitar:hover {
+    background-color: #d32f2f;
+}
+
+#btn-quitar2 {
+    display: none; /* Ocultar el botón por defecto */
+    margin-left: 10px;
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+#btn-quitar2:hover {
+    background-color: #d32f2f;
+}
+
+#btn-quitar3 {
+    display: none; /* Ocultar el botón por defecto */
+    margin-left: 10px;
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+#btn-quitar3:hover {
+    background-color: #d32f2f;
+}
+.form-groupdui {
+    display: flex;
+    align-items: center; /* Alinea verticalmente los elementos */
+    gap: 10px; /* Espaciado entre los elementos */
+}
+
+
+.form-groupdui button {
+    padding: 15 10px; /* Agrega un poco de espacio dentro del botón */
+    margin-top: -3px; /* Subir el botón unos píxeles */
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* Sección principal */
+#datos {
+    padding: 20px;
+}
+
+/* Contenedor para los filtros */
+#filtros {
+    display: flex;
+    flex-wrap: wrap; /* Permite que los elementos pasen a una nueva línea si no caben */
+    gap: 10px; /* Espaciado entre los elementos */
+    align-items: center;
+    justify-content: flex-start;
+    margin-bottom: 20px;
+}
+
+#filtros label {
+    flex: 0 0 auto; /* Mantiene el tamaño mínimo necesario para el texto */
+}
+
+
+#filtros input[type="date"] {
+    flex: 1; /* Permite que ocupen espacio proporcional */
+    min-width: 150px; /* Define un ancho mínimo */
+    max-width: 100%; /* Limita el ancho máximo */
+    box-sizing: border-box; /* Asegura que el padding no afecte el ancho */
+    width: 200px; /* Establece un ancho uniforme */
+}
+
+#filtros button {
+    flex: 0 0 auto; /* Evita que el botón se estire */
+    padding: 10px 15px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+/* Estilos de la tabla */
+#tablaDatos {
+    width: 100%; /* O ajusta este valor según lo necesario */
+    border-collapse: collapse;
+    table-layout: auto; /* Ajusta el ancho de las columnas automáticamente */
+}
+
+#tablaDatos th, #tablaDatos td {
+    padding: 8px;
+    text-align: left;
+    border: 1px solid #ddd;
+    white-space: nowrap; /* Evita que el texto se corte en varias líneas */
+}
+
+#tablaDatos th {
+    background-color: #f4f4f4;
+}
+.category-list {
+    display: flex;
+    justify-content: space-around;
+    list-style-type: none;
+    padding: 0;
+}
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.product-item {
+    text-align: center;
+    border: 1px solid #ccc;
+    padding: 1rem;
+    border-radius: 5px;
+}
+
+.product-item img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 1rem;
+}
+.floating-camera-container {
+    position: fixed; /* Hacer el contenedor flotante */
+    top: 50%; /* Centrar verticalmente */
+    left: 50%; /* Centrar horizontalmente */
+    transform: translate(-50%, -50%); /* Ajuste perfecto al centro */
+    width: 90%; /* Ancho ajustable */
+    max-width: 400px; /* Máximo ancho para no exceder */
+    height: auto; /* Altura automática basada en el contenido */
+    background-color: rgba(0, 0, 0, 0.8); /* Fondo semitransparente para enfoque */
+    border-radius: 8px; /* Bordes redondeados */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra */
+    z-index: 1000; /* Asegurarse de que esté encima de otros elementos */
+    overflow: hidden; /* Ocultar cualquier desbordamiento */
+    padding: 10px; /* Espaciado interno */
+}
