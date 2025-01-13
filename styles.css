@@ -528,3 +528,10 @@ body {
     overflow: hidden; /* Ocultar cualquier desbordamiento */
     padding: 10px; /* Espaciado interno */
 }
+#camera-preview {
+    width: 100%; /* Llenar el ancho del contenedor */
+    height: 100%; /* Llenar la altura del contenedor */
+    object-fit: cover; /* Ajustar el video sin distorsión */
+    border-radius: 8px; /* Coincidir con el contenedor */
+    background-color: black; /* Mostrar un fondo negro si no hay video */
+}
