@@ -3,6 +3,12 @@ function showSection(sectionId) {
     document.getElementById(sectionId).style.display = 'block';
 }
 
+
+// Mostrar la sección de bienvenida por defecto cuando se carga la página
+document.addEventListener('DOMContentLoaded', () => {
+    showSection('register');
+});
+
 function iniciarEscaneo() {
     // Mostrar el contenedor de la cámara
     document.getElementById("camera-container").style.display = "block";
