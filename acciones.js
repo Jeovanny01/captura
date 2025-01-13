@@ -15,43 +15,36 @@ const cameraContainer = document.getElementById("camera-container");
 
 async function iniciarEscaneo() {
     try {
-        // Mostrar el contenedor de la cámara
-        cameraContainer.style.display = "block";
+        // Mostrar el contenedor
+        document.getElementById("camera-container").style.display = "block";
 
-        // Verificar si BarcodeDetector está disponible
-        if (!('BarcodeDetector' in window)) {
-            alert("BarcodeDetector no es compatible con este navegador.");
-            detenerEscaneo();
+        // Obtener dispositivos de video
+        const devices = await navigator.mediaDevices.enumerateDevices();
+        const videoDevices = devices.filter(device => device.kind === "videoinput");
+
+        if (videoDevices.length === 0) {
+            alert("No se encontraron cámaras en el dispositivo.");
             return;
         }
 
-        // Inicializar BarcodeDetector
-        const barcodeDetector = new BarcodeDetector({ formats: ['code_128', 'ean_13', 'ean_8'] });
+        // Usar la primera cámara disponible
+        const selectedDeviceId = videoDevices[0].deviceId;
 
-        // Iniciar la cámara
-        cameraStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
-        videoElement.srcObject = cameraStream;
+        // Configurar el flujo de video
+        const stream = await navigator.mediaDevices.getUserMedia({
+            video: { deviceId: selectedDeviceId, facingMode: "environment" }
+        });
 
-        // Detectar códigos de barras en tiempo real
-        const scan = async () => {
-            try {
-                const barcodes = await barcodeDetector.detect(videoElement);
-                if (barcodes.length > 0) {
-                    console.log("Código detectado:", barcodes[0].rawValue);
-                    document.getElementById("codigo").value = barcodes[0].rawValue; // Poner el código en el input
-                    detenerEscaneo(); // Detener el escaneo
-                }
-            } catch (error) {
-                console.error("Error al detectar códigos:", error);
-            }
-            requestAnimationFrame(scan); // Continuar escaneando
-        };
-        scan(); // Iniciar escaneo
+        // Mostrar el video en el elemento <video>
+        const videoElement = document.getElementById("camera-preview");
+        videoElement.srcObject = stream;
+        videoElement.play();
     } catch (error) {
         console.error("Error al iniciar el escaneo:", error);
-        detenerEscaneo();
+        alert("No se pudo acceder a la cámara. Verifica los permisos.");
     }
 }
+
 
 function detenerEscaneo() {
     // Detener la cámara
