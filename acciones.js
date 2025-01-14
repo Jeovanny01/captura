@@ -12,11 +12,12 @@ document.addEventListener('DOMContentLoaded', () => {
 let cameraStream;
 const videoElement = document.getElementById("camera-preview");
 const cameraContainer = document.getElementById("camera-container");
-const inputCodigo = document.getElementById("codigo"); // Input donde se muestra el código detectado
+const inputCodigo = document.getElementById("codigo");
 let codeReader;
+
 async function iniciarEscaneo() {
     try {
-        // Mostrar el contenedor
+        // Mostrar el contenedor de la cámara
         cameraContainer.style.display = "block";
 
         // Obtener dispositivos de video
@@ -29,108 +30,83 @@ async function iniciarEscaneo() {
             return;
         }
 
-        // Intentar seleccionar una cámara trasera primero
-        let selectedDeviceId = videoDevices[0].deviceId; // Predeterminado al primer dispositivo
-
+        // Seleccionar cámara trasera si está disponible
+        let selectedDeviceId = videoDevices[0].deviceId;
         for (const device of videoDevices) {
             if (device.label.toLowerCase().includes("back") || device.label.toLowerCase().includes("trasera")) {
-                selectedDeviceId = device.deviceId; // Usar cámara trasera si está disponible
+                selectedDeviceId = device.deviceId;
                 break;
             }
         }
 
-        // Configurar el flujo de video con enfoque continuo
+        // Configurar restricciones de video
         const constraints = {
             video: {
                 deviceId: selectedDeviceId ? { exact: selectedDeviceId } : undefined,
                 facingMode: "environment",
-                advanced: [{ focusMode: "continuous" }] // Enfoque automático continuo si la cámara lo soporta
+                advanced: [{ focusMode: "continuous" }]
             }
         };
 
-        // Intentar obtener acceso a la cámara
+        // Iniciar flujo de video
         cameraStream = await navigator.mediaDevices.getUserMedia(constraints);
         videoElement.srcObject = cameraStream;
         videoElement.play();
 
-        // Intentar obtener el dispositivo de enfoque automático si está disponible
+        // Configurar enfoque automático si es compatible
         const track = cameraStream.getVideoTracks()[0];
         const capabilities = track.getCapabilities();
-        
-        // Verificar si el enfoque automático está disponible y activarlo manualmente si es posible
-        if (capabilities.focusDistance) {
-            track.applyConstraints({
-                advanced: [{ focusDistance: { ideal: 0.1 } }] // Ajusta el valor según la distancia que desees
-            });
+
+        if (capabilities.focusMode && capabilities.focusMode.includes("continuous")) {
+            await track.applyConstraints({ advanced: [{ focusMode: "continuous" }] });
+        } else if (capabilities.focusDistance) {
+            await track.applyConstraints({ advanced: [{ focusDistance: { ideal: 0.1 } }] }); // Ajustar para enfoque cercano
         }
 
-        // Inicializar ZXing para leer el código de barras
+        // Inicializar el lector de códigos de barras
         if (!codeReader) {
             codeReader = new ZXing.BrowserMultiFormatReader();
         }
-        detectarCodigoDeBarras(); // Comenzar a detectar códigos de barras
+        detectarCodigoDeBarras();
     } catch (error) {
         console.error("Error al iniciar el escaneo:", error);
 
         // Manejo de errores
-        if (error.name === "OverconstrainedError") {
-            alert("No se pudo acceder a la cámara seleccionada. Intentando con otra cámara.");
-            try {
-                cameraStream = await navigator.mediaDevices.getUserMedia({ video: true });
-                videoElement.srcObject = cameraStream;
-                videoElement.play();
-                if (!codeReader) {
-                    codeReader = new ZXing.BrowserMultiFormatReader();
-                }
-                detectarCodigoDeBarras();
-            } catch (innerError) {
-                console.error("Error al intentar usar otra cámara:", innerError);
-                alert("No se pudo acceder a ninguna cámara.");
-                cameraContainer.style.display = "none";
-            }
-        } else if (error.name === "NotAllowedError") {
-            alert("El navegador necesita permisos para acceder a la cámara. Por favor, otórgalos.");
-        } else if (error.name === "NotFoundError") {
-            alert("No se encontraron cámaras disponibles.");
-        } else {
-            alert("Error desconocido al intentar acceder a la cámara.");
-        }
-
-        cameraContainer.style.display = "none";
+        alert("Error al acceder a la cámara. Por favor, verifica los permisos o configura otra cámara.");
+        detenerEscaneo();
     }
 }
 
-
 async function detectarCodigoDeBarras() {
     try {
-        const result = await codeReader.decodeFromVideoElement(videoElement); // Decodificar continuamente
+        const result = await codeReader.decodeFromVideoElement(videoElement);
         if (result) {
             console.log("Código detectado:", result.text);
             inputCodigo.value = result.text;
-            detenerEscaneo()    
+            detenerEscaneo();
         }
     } catch (error) {
         console.error("Error al detectar el código:", error);
     } finally {
-        // Continuar buscando después de procesar
-        requestAnimationFrame(detectarCodigoDeBarras);
+        // Continuar buscando
+        if (cameraStream && codeReader) {
+            requestAnimationFrame(detectarCodigoDeBarras);
+        }
     }
 }
 
 function detenerEscaneo() {
-        // Detener la cámara y ocultar el contenedor
-        if (cameraStream) {
-            const tracks = cameraStream.getTracks();
-            tracks.forEach(track => track.stop());
-        }
-    
-        // Ocultar el contenedor de la cámara
-        cameraContainer.style.display = "none";
-    
-        // Limpiar ZXing si es necesario
-        if (codeReader) {
-            codeReader.reset();
-        }
+    // Detener el flujo de la cámara
+    if (cameraStream) {
+        cameraStream.getTracks().forEach(track => track.stop());
+        cameraStream = null;
     }
-    
 
+    // Ocultar el contenedor de la cámara
+    cameraContainer.style.display = "none";
+
+    // Limpiar el lector de códigos de barras
+    if (codeReader) {
+        codeReader.reset();
+    }
+}
