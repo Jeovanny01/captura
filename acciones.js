@@ -39,12 +39,11 @@ async function iniciarEscaneo() {
             }
         }
 
-        // Configurar restricciones de video
+        // Configurar restricciones de video sin enfoque específico
         const constraints = {
             video: {
                 deviceId: selectedDeviceId ? { exact: selectedDeviceId } : undefined,
-                facingMode: "environment",
-                advanced: [{ focusMode: "continuous" }]
+                facingMode: "environment"
             }
         };
 
@@ -52,16 +51,6 @@ async function iniciarEscaneo() {
         cameraStream = await navigator.mediaDevices.getUserMedia(constraints);
         videoElement.srcObject = cameraStream;
         videoElement.play();
-
-        // Configurar enfoque automático si es compatible
-        const track = cameraStream.getVideoTracks()[0];
-        const capabilities = track.getCapabilities();
-
-        if (capabilities.focusMode && capabilities.focusMode.includes("continuous")) {
-            await track.applyConstraints({ advanced: [{ focusMode: "continuous" }] });
-        } else if (capabilities.focusDistance) {
-            await track.applyConstraints({ advanced: [{ focusDistance: { ideal: 0.1 } }] }); // Ajustar para enfoque cercano
-        }
 
         // Inicializar el lector de códigos de barras
         if (!codeReader) {
