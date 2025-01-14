@@ -8,7 +8,6 @@ function showSection(sectionId) {
 document.addEventListener('DOMContentLoaded', () => {
     showSection('register');
 });
-
 let cameraStream;
 const videoElement = document.getElementById("camera-preview");
 const cameraContainer = document.getElementById("camera-container");
@@ -41,7 +40,7 @@ async function iniciarEscaneo() {
 
         // Verificar si el flujo de cámara fue exitoso
         if (cameraStream) {
-            console.log("Cámara accesada exitosamente");
+            console.log("Cámara accesada exitosamente", cameraStream);
             videoElement.srcObject = cameraStream;
             videoElement.play();
             // Crear una instancia del lector de códigos de ZXing
@@ -58,6 +57,8 @@ async function iniciarEscaneo() {
             alert("El navegador necesita permisos para acceder a la cámara. Por favor, otórgales permisos.");
         } else if (error.name === "NotReadableError") {
             alert("La cámara está siendo utilizada por otra aplicación.");
+        } else if (error.name === "AbortError") {
+            alert("El acceso a la cámara fue cancelado.");
         } else {
             alert("No se pudo acceder a la cámara. Verifica los permisos.");
         }
@@ -66,7 +67,6 @@ async function iniciarEscaneo() {
         cameraContainer.style.display = "none";
     }
 }
-
 
 async function detectarCodigoDeBarras() {
     try {
