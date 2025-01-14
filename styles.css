@@ -513,7 +513,6 @@ body {
     height: auto;
     margin-bottom: 1rem;
 }
-
 .floating-camera-container {
     position: fixed; /* Hacer el contenedor flotante */
     top: 50%; /* Centrar verticalmente */
@@ -530,24 +529,25 @@ body {
     padding: 10px; /* Espaciado interno */
 }
 
-#camera-container {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 90%;
-    max-width: 400px;
-    height: auto;
-    background-color: rgba(0, 0, 0, 0.8);
-    border-radius: 8px;
-    z-index: 1000;
-    overflow: hidden;
-    padding: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
+    #camera-container {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 90%;
+        max-width: 400px;
+        height: 150px; /* Establecer una altura fija */
+        background-color: rgba(0, 0, 0, 0.8);
+        border-radius: 8px;
+        z-index: 1000;
+        overflow: hidden;
+        padding: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+    
 
 #camera-preview {
     width: 100%;
