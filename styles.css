@@ -572,3 +572,13 @@ body {
     50% { opacity: 0.5; }
     100% { opacity: 1; }
 }
+#scan-overlay {
+    position: absolute;
+    top: 50%; /* Centrado verticalmente */
+    left: 0;
+    width: 100%; /* Ancho completo */
+    height: 2px; /* Altura de la línea */
+    background-color: rgba(255, 0, 0, 0.8); /* Línea roja semi-opaca */
+    transform: translateY(-50%);
+    z-index: 10; /* Asegurar que esté sobre el video */
+}

@@ -44,7 +44,9 @@ async function iniciarEscaneo() {
         const constraints = {
             video: {
                 deviceId: selectedDeviceId ? { exact: selectedDeviceId } : undefined,
-                facingMode: "environment"
+                facingMode: "environment",
+                advanced: [{ focusMode: "continuous" }] // Habilitar enfoque automático si es compatible
+
             }
         };
 
@@ -90,17 +92,27 @@ async function iniciarEscaneo() {
 }
 
 async function detectarCodigoDeBarras() {
-    try {
-        const result = await codeReader.decodeOnceFromVideoElement(videoElement);
-        if (result) {
-            console.log("Código detectado:", result.text);
-            inputCodigo.value = result.text;
-            detenerEscaneo();
+    async function detectarCodigoDeBarras() {
+        try {
+            const result = await codeReader.decodeOnceFromVideoElement(videoElement);
+    
+            if (result) {
+                console.log("Código detectado:", result.text);
+                inputCodigo.value = result.text;
+                detenerEscaneo();
+            }
+        } catch (error) {
+            console.error("Error al detectar el código:", error);
+    
+            // Manejo de intentos fallidos
+            if (error.name === "NotFoundException") {
+                requestAnimationFrame(detectarCodigoDeBarras); // Continuar buscando
+            } else {
+                alert("Error al detectar el código. Por favor, intente nuevamente.");
+            }
         }
-    } catch (error) {
-        console.error("Error al detectar el código:", error);
-        requestAnimationFrame(detectarCodigoDeBarras); // Sigue buscando
     }
+    
 }
 
 function detenerEscaneo() {

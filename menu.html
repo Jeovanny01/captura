@@ -193,12 +193,14 @@
                     
 
 
-                    <!-- Contenedor para la cámara -->
+              
+
                     <div id="camera-container" style="display: none; position: relative;">
                         <video id="camera-preview" autoplay playsinline style="width: 100%; height: auto;"></video>
-                        <!-- Línea roja para guía -->
-                        <div id="scan-line"></div>
+                        <!-- Máscara para el área de escaneo -->
+                        <div id="scan-overlay"></div>
                         <button type="button" onclick="detenerEscaneo()" style="position:absolute; top:10px; right:10px; z-index:11;">Cerrar</button>
+
                     </div>
                     
             
