@@ -528,43 +528,48 @@ body {
     overflow: hidden; /* Ocultar cualquier desbordamiento */
     padding: 10px; /* Espaciado interno */
 }
+
 #camera-container {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    background: black;
-    z-index: 10;
-    overflow: hidden;
-}
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 90%;
+        max-width: 400px;
+        height: auto;
+        background-color: rgba(0, 0, 0, 0.8);
+        border-radius: 8px;
+        z-index: 1000;
+        overflow: hidden;
+        padding: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
 
 #camera-preview {
-    width: 100%; /* Ocupar todo el ancho del contenedor */
-    height: auto; /* Ajustar altura automáticamente */
-    display: block;
-    object-fit: cover; /* Asegura que el video ocupe todo el contenedor */
-    z-index: 10;
+    width: 100%;
+    height: 100%;
+    position: relative;
 }
 
-#scan-overlay {
+
+#scan-line {
     position: absolute;
-    top: 0;
+    top: 50%; /* Centrado verticalmente */
     left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 11;
-    border: 2px dashed red; /* Una máscara visual para el área de escaneo */
-    pointer-events: none;
+    width: 100%; /* Ancho completo del video */
+    height: 2px; /* Altura de la línea */
+    background-color: red; /* Color de la línea */
+    transform: translateY(-50%); /* Asegurar que la línea esté perfectamente centrada */
+    z-index: 10; /* Asegurar que esté encima del video */
+    animation: scan-animation 2s infinite linear; /* Animación de escaneo */
 }
 
-.floating-camera-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1000;
-    background: rgba(0, 0, 0, 0.5); /* Fondo oscuro para resaltar el video */
-    display: flex;
-    justify-content: center;
-    align-items: center;
+@keyframes scan-animation {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
 }
