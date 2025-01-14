@@ -9,11 +9,12 @@ document.addEventListener('DOMContentLoaded', () => {
     showSection('register');
 });
 
-
 let cameraStream;
 const videoElement = document.getElementById("camera-preview");
 const cameraContainer = document.getElementById("camera-container");
 const inputCodigo = document.getElementById("codigo");
+
+let codeReader;
 
 async function iniciarEscaneo() {
     try {
@@ -26,6 +27,7 @@ async function iniciarEscaneo() {
 
         if (videoDevices.length === 0) {
             alert("No se encontraron cámaras en el dispositivo.");
+            cameraContainer.style.display = "none";
             return;
         }
 
@@ -41,6 +43,9 @@ async function iniciarEscaneo() {
         videoElement.srcObject = cameraStream;
         videoElement.play();
 
+        // Crear una instancia del lector de códigos de ZXing
+        codeReader = new ZXing.BrowserMultiFormatReader();
+        
         // Iniciar detección de código de barras
         detectarCodigoDeBarras();
     } catch (error) {
@@ -50,37 +55,17 @@ async function iniciarEscaneo() {
 }
 
 async function detectarCodigoDeBarras() {
-    if (!("BarcodeDetector" in window)) {
-        alert("Tu navegador no soporta la API BarcodeDetector.");
-        detenerEscaneo();
-        return;
-    }
-
-    const barcodeDetector = new BarcodeDetector({ formats: ["code_128", "ean_13", "ean_8"] });
-
-    const detectar = async () => {
-        try {
-            const barcodes = await barcodeDetector.detect(videoElement);
-            if (barcodes.length > 0) {
-                // Capturar el primer código detectado
-                const codigo = barcodes[0].rawValue;
-                console.log("Código detectado:", codigo);
-
-                // Asignar el código al input
-                inputCodigo.value = codigo;
-
-                // Detener el escaneo después de capturar el código
-                detenerEscaneo();
-            } else {
-                // Seguir buscando
-                requestAnimationFrame(detectar);
-            }
-        } catch (error) {
-            console.error("Error al detectar el código:", error);
+    try {
+        const result = await codeReader.decodeOnceFromVideoDevice(undefined, videoElement);
+        if (result) {
+            console.log("Código detectado:", result.text);
+            inputCodigo.value = result.text;
+            detenerEscaneo();
         }
-    };
-
-    detectar();
+    } catch (error) {
+        console.error("Error al detectar el código:", error);
+        requestAnimationFrame(detectarCodigoDeBarras); // Sigue buscando
+    }
 }
 
 function detenerEscaneo() {
@@ -96,4 +81,9 @@ function detenerEscaneo() {
     // Detener la reproducción del video
     videoElement.pause();
     videoElement.srcObject = null;
+
+    // Detener el lector de ZXing
+    if (codeReader) {
+        codeReader.reset();
+    }
 }

@@ -186,14 +186,16 @@
                     
                 
                     <div class="form-groupdui">
-                    <label for="codigo">Codigo de barras</label>
-                    <input type="text" id="codigo" name="codigo" required>
-                    <button type="button" onclick="iniciarEscaneo()">Buscar</button>
+                        <label for="codigo">Código de barras</label>
+                        <input type="text" id="codigo" name="codigo" required>
+                        <button type="button" onclick="iniciarEscaneo()">Buscar</button>
                     </div>
+                    
                     <div id="camera-container" class="floating-camera-container" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0, 0, 0, 0.8); z-index:100;">
                         <video id="camera-preview" autoplay playsinline style="width:100%; height:100%; object-fit:cover;"></video>
                         <button type="button" onclick="detenerEscaneo()" style="position:absolute; top:10px; right:10px; z-index:11; background:#fff; border:none; padding:10px; border-radius:5px; cursor:pointer;">Cerrar</button>
                     </div>
+                    
                                                  
                     <label for="Descripcion">Descripcion</label>
                     <input type="text" id="Descripcion" name="Descripcion" required>
