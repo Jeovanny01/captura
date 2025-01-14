@@ -8,6 +8,7 @@ function showSection(sectionId) {
 document.addEventListener('DOMContentLoaded', () => {
     showSection('register');
 });
+
 let cameraStream;
 const videoElement = document.getElementById("camera-preview");
 const cameraContainer = document.getElementById("camera-container");
@@ -16,10 +17,10 @@ const inputCodigo = document.getElementById("codigo");
 let codeReader;
 
 async function iniciarEscaneo() {
-
     try {
         // Mostrar el contenedor
         cameraContainer.style.display = "block";
+
         // Obtener dispositivos de video
         const devices = await navigator.mediaDevices.enumerateDevices();
         const videoDevices = devices.filter(device => device.kind === "videoinput");
@@ -30,13 +31,22 @@ async function iniciarEscaneo() {
             return;
         }
 
-        // Usar la primera cámara disponible
-        const selectedDeviceId = videoDevices[0].deviceId;
+        // Intentar usar primero la cámara trasera
+        let selectedDeviceId;
+        const backCamera = videoDevices.find(device => device.label.toLowerCase().includes("back"));
+
+        if (backCamera) {
+            selectedDeviceId = backCamera.deviceId;
+        } else {
+            // Si no hay cámara trasera, usar la primera disponible
+            selectedDeviceId = videoDevices[0].deviceId;
+        }
 
         // Intentar obtener acceso a la cámara
         cameraStream = await navigator.mediaDevices.getUserMedia({
-            video: { deviceId: selectedDeviceId, facingMode: "environment" }
+            video: { deviceId: selectedDeviceId }
         });
+
         // Verificar si el flujo de cámara fue exitoso
         if (cameraStream) {
             console.log("Cámara accesada exitosamente", cameraStream);
@@ -48,39 +58,34 @@ async function iniciarEscaneo() {
         } else {
             throw new Error("No se pudo acceder al flujo de la cámara.");
         }
-
     } catch (error) {
-        console.error("Error al iniciar el escaneo:", error);    
-        // Imprimir detalles adicionales del error
+        console.error("Error al iniciar el escaneo:", error);
+
         if (error instanceof DOMException) {
             console.error("Detalles del error:", error.message, error.name);
         }
-   
-        // Verificar el tipo de error\
+
+        // Verificar el tipo de error
         if (error.name === "NotAllowedError") {
-           alert("El navegador necesita permisos para acceder a la cámara. Por favor, otórgales permisos.");
+            alert("El navegador necesita permisos para acceder a la cámara. Por favor, otórgales permisos.");
         } else if (error.name === "NotFoundError") {
             alert("No se encontraron cámaras disponibles.");
         } else if (error.name === "NotReadableError") {
             alert("La cámara está siendo utilizada por otra aplicación.");
         } else if (error.name === "AbortError") {
             alert("El acceso a la cámara fue cancelado.");
-            detenerEscaneo() 
+            detenerEscaneo();
         } else {
             alert("No se pudo acceder a la cámara. Verifica los permisos.");
         }
-  
 
         // Ocultar el contenedor de la cámara
-
-       cameraContainer.style.display = "none";
-    }  
+        cameraContainer.style.display = "none";
+    }
 }
 
-
-
 async function detectarCodigoDeBarras() {
-   try {
+    try {
         const result = await codeReader.decodeOnceFromVideoDevice(undefined, videoElement);
         if (result) {
             console.log("Código detectado:", result.text);
