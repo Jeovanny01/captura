@@ -513,6 +513,7 @@ body {
     height: auto;
     margin-bottom: 1rem;
 }
+
 .floating-camera-container {
     position: fixed; /* Hacer el contenedor flotante */
     top: 50%; /* Centrar verticalmente */

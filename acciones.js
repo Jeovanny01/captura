@@ -14,7 +14,6 @@ const videoElement = document.getElementById("camera-preview");
 const cameraContainer = document.getElementById("camera-container");
 const inputCodigo = document.getElementById("codigo"); // Input donde se muestra el código detectado
 let codeReader;
-
 async function iniciarEscaneo() {
     try {
         // Mostrar el contenedor
@@ -40,12 +39,12 @@ async function iniciarEscaneo() {
             }
         }
 
-        // Configurar el flujo de video
+        // Configurar el flujo de video con enfoque continuo
         const constraints = {
             video: {
                 deviceId: selectedDeviceId ? { exact: selectedDeviceId } : undefined,
                 facingMode: "environment",
-                advanced: [{ focusMode: "continuous" }] // Habilitar enfoque automático si es compatible
+                advanced: [{ focusMode: "continuous" }] // Enfoque automático continuo si la cámara lo soporta
             }
         };
 
@@ -53,6 +52,17 @@ async function iniciarEscaneo() {
         cameraStream = await navigator.mediaDevices.getUserMedia(constraints);
         videoElement.srcObject = cameraStream;
         videoElement.play();
+
+        // Intentar obtener el dispositivo de enfoque automático si está disponible
+        const track = cameraStream.getVideoTracks()[0];
+        const capabilities = track.getCapabilities();
+        
+        // Verificar si el enfoque automático está disponible y activarlo manualmente si es posible
+        if (capabilities.focusDistance) {
+            track.applyConstraints({
+                advanced: [{ focusDistance: { ideal: 0.1 } }] // Ajusta el valor según la distancia que desees
+            });
+        }
 
         // Inicializar ZXing para leer el código de barras
         if (!codeReader) {
@@ -90,6 +100,7 @@ async function iniciarEscaneo() {
     }
 }
 
+
 async function detectarCodigoDeBarras() {
     try {
         const result = await codeReader.decodeFromVideoElement(videoElement); // Decodificar continuamente
@@ -106,15 +117,19 @@ async function detectarCodigoDeBarras() {
 }
 
 function detenerEscaneo() {
-    // Detener la cámara y ocultar el contenedor
-    if (cameraStream) {
-        const tracks = cameraStream.getTracks();
-        tracks.forEach(track => track.stop());
+        // Detener la cámara y ocultar el contenedor
+        if (cameraStream) {
+            const tracks = cameraStream.getTracks();
+            tracks.forEach(track => track.stop());
+        }
+    
+        // Ocultar el contenedor de la cámara
+        cameraContainer.style.display = "none";
+    
+        // Limpiar ZXing si es necesario
+        if (codeReader) {
+            codeReader.reset();
+        }
     }
-    cameraContainer.style.display = "none";
+    
 
-    // Limpiar ZXing si es necesario
-    if (codeReader) {
-        codeReader.reset();
-    }
-}
