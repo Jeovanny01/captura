@@ -65,6 +65,7 @@ async function iniciarEscaneo() {
             alert("La cámara está siendo utilizada por otra aplicación.");
         } else if (error.name === "AbortError") {
             alert("El acceso a la cámara fue cancelado.");
+            detenerEscaneo() 
         } else {
             alert("No se pudo acceder a la cámara. Verifica los permisos.");
         }
