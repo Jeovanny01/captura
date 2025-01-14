@@ -8,6 +8,7 @@ function showSection(sectionId) {
 document.addEventListener('DOMContentLoaded', () => {
     showSection('register');
 });
+
 let cameraStream;
 const videoElement = document.getElementById("camera-preview");
 const cameraContainer = document.getElementById("camera-container");
@@ -38,21 +39,25 @@ async function iniciarEscaneo() {
             video: { deviceId: selectedDeviceId, facingMode: "environment" }
         });
 
-        // Mostrar el video en el elemento <video>
-        videoElement.srcObject = cameraStream;
-        videoElement.play();
-
-        // Crear una instancia del lector de códigos de ZXing
-        codeReader = new ZXing.BrowserMultiFormatReader();
-        
-        // Iniciar detección de código de barras
-        detectarCodigoDeBarras();
+        // Verificar si el flujo de cámara fue exitoso
+        if (cameraStream) {
+            console.log("Cámara accesada exitosamente");
+            videoElement.srcObject = cameraStream;
+            videoElement.play();
+            // Crear una instancia del lector de códigos de ZXing
+            codeReader = new ZXing.BrowserMultiFormatReader();
+            detectarCodigoDeBarras();
+        } else {
+            throw new Error("No se pudo acceder al flujo de la cámara.");
+        }
     } catch (error) {
         console.error("Error al iniciar el escaneo:", error);
-
-        // Verificar si el error es de permisos
+        
+        // Verificar el tipo de error
         if (error.name === "NotAllowedError" || error.name === "NotFoundError") {
             alert("El navegador necesita permisos para acceder a la cámara. Por favor, otórgales permisos.");
+        } else if (error.name === "NotReadableError") {
+            alert("La cámara está siendo utilizada por otra aplicación.");
         } else {
             alert("No se pudo acceder a la cámara. Verifica los permisos.");
         }
@@ -61,6 +66,7 @@ async function iniciarEscaneo() {
         cameraContainer.style.display = "none";
     }
 }
+
 
 async function detectarCodigoDeBarras() {
     try {
