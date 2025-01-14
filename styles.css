@@ -513,3 +513,25 @@ body {
     height: auto;
     margin-bottom: 1rem;
 }
+.floating-camera-container {
+    position: fixed; /* Hacer el contenedor flotante */
+    top: 50%; /* Centrar verticalmente */
+    left: 50%; /* Centrar horizontalmente */
+    transform: translate(-50%, -50%); /* Ajuste perfecto al centro */
+    width: 90%; /* Ancho ajustable */
+    max-width: 400px; /* Máximo ancho para no exceder */
+    height: auto; /* Altura automática basada en el contenido */
+    background-color: rgba(0, 0, 0, 0.8); /* Fondo semitransparente para enfoque */
+    border-radius: 8px; /* Bordes redondeados */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra */
+    z-index: 1000; /* Asegurarse de que esté encima de otros elementos */
+    overflow: hidden; /* Ocultar cualquier desbordamiento */
+    padding: 10px; /* Espaciado interno */
+}
+#camera-preview {
+    width: 100%; /* Llenar el ancho del contenedor */
+    height: 100%; /* Llenar la altura del contenedor */
+    object-fit: cover; /* Ajustar el video sin distorsión */
+    border-radius: 8px; /* Coincidir con el contenedor */
+    background-color: black; /* Mostrar un fondo negro si no hay video */
+}
