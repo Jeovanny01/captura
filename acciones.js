@@ -8,6 +8,7 @@ function showSection(sectionId) {
 document.addEventListener('DOMContentLoaded', () => {
     showSection('register');
 });
+
 let cameraStream;
 const videoElement = document.getElementById("camera-preview");
 const cameraContainer = document.getElementById("camera-container");
@@ -52,9 +53,16 @@ async function iniciarEscaneo() {
     } catch (error) {
         console.error("Error al iniciar el escaneo:", error);
         
+        // Imprimir detalles adicionales del error
+        if (error instanceof DOMException) {
+            console.error("Detalles del error:", error.message, error.name);
+        }
+    
         // Verificar el tipo de error
-        if (error.name === "NotAllowedError" || error.name === "NotFoundError") {
+        if (error.name === "NotAllowedError") {
             alert("El navegador necesita permisos para acceder a la cámara. Por favor, otórgales permisos.");
+        } else if (error.name === "NotFoundError") {
+            alert("No se encontraron cámaras disponibles.");
         } else if (error.name === "NotReadableError") {
             alert("La cámara está siendo utilizada por otra aplicación.");
         } else if (error.name === "AbortError") {
@@ -62,10 +70,11 @@ async function iniciarEscaneo() {
         } else {
             alert("No se pudo acceder a la cámara. Verifica los permisos.");
         }
-
+    
         // Ocultar el contenedor de la cámara
         cameraContainer.style.display = "none";
     }
+    
 }
 
 async function detectarCodigoDeBarras() {
