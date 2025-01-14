@@ -31,12 +31,24 @@ async function iniciarEscaneo() {
             return;
         }
 
-        // Usar la primera cámara disponible
-        const selectedDeviceId = videoDevices[0].deviceId;
+        // Intentar seleccionar la cámara trasera
+        let selectedDeviceId = null;
+        for (const device of videoDevices) {
+            if (device.label.toLowerCase().includes("back") || device.label.toLowerCase().includes("trasera")) {
+                selectedDeviceId = device.deviceId;
+                break;
+            }
+        }
 
-        // Intentar obtener acceso a la cámara
+        // Si no se encuentra una cámara trasera, usar la primera disponible
+        if (!selectedDeviceId) {
+            console.warn("No se encontró cámara trasera, usando la primera disponible.");
+            selectedDeviceId = videoDevices[0].deviceId;
+        }
+
+        // Intentar obtener acceso a la cámara seleccionada
         cameraStream = await navigator.mediaDevices.getUserMedia({
-            video: { deviceId: selectedDeviceId, facingMode: "environment" }
+            video: { deviceId: { exact: selectedDeviceId }, facingMode: "environment" }
         });
 
         // Verificar si el flujo de cámara fue exitoso
@@ -44,6 +56,7 @@ async function iniciarEscaneo() {
             console.log("Cámara accesada exitosamente", cameraStream);
             videoElement.srcObject = cameraStream;
             videoElement.play();
+
             // Crear una instancia del lector de códigos de ZXing
             codeReader = new ZXing.BrowserMultiFormatReader();
             detectarCodigoDeBarras();
@@ -52,12 +65,12 @@ async function iniciarEscaneo() {
         }
     } catch (error) {
         console.error("Error al iniciar el escaneo:", error);
-        
+
         // Imprimir detalles adicionales del error
         if (error instanceof DOMException) {
             console.error("Detalles del error:", error.message, error.name);
         }
-    
+
         // Verificar el tipo de error
         if (error.name === "NotAllowedError") {
             alert("El navegador necesita permisos para acceder a la cámara. Por favor, otórgales permisos.");
@@ -70,12 +83,12 @@ async function iniciarEscaneo() {
         } else {
             alert("No se pudo acceder a la cámara. Verifica los permisos.");
         }
-    
+
         // Ocultar el contenedor de la cámara
         cameraContainer.style.display = "none";
     }
-    
 }
+
 
 async function detectarCodigoDeBarras() {
     try {
