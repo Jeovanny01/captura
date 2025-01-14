@@ -191,12 +191,16 @@
                         <button type="button" onclick="iniciarEscaneo()">Escanar2</button>
                     </div>
                     
-               <!-- Contenedor para la cámara -->
-               <div id="camera-container" style="display:none;" class="floating-camera-container">
-                <video id="camera-preview" style="width:100%; height:100%;"></video>
-                <div id="linea-guia"></div>
-                <button type="button" onclick="detenerEscaneo()" style="position:absolute; top:10px; right:10px; z-index:11;">Cerrar</button>
-            </div>
+
+
+                    <!-- Contenedor para la cámara -->
+                    <div id="camera-container" style="display: none; position: relative;">
+                        <video id="camera-preview" autoplay playsinline style="width: 100%; height: auto;"></video>
+                        <!-- Línea roja para guía -->
+                        <div id="scan-line"></div>
+                        <button type="button" onclick="detenerEscaneo()" style="position:absolute; top:10px; right:10px; z-index:11;">Cerrar</button>
+                    </div>
+                    
             
                                                  
                     <label for="Descripcion">Descripcion</label>

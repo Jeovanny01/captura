@@ -554,15 +554,21 @@ body {
     position: relative;
 }
 
-#linea-guia {
+
+#scan-line {
     position: absolute;
-    top: 50%; /* Coloca la línea en el centro vertical */
+    top: 50%; /* Centrado verticalmente */
     left: 0;
-    width: 100%;
-    height: 2px; /* Grosor de la línea */
+    width: 100%; /* Ancho completo del video */
+    height: 2px; /* Altura de la línea */
     background-color: red; /* Color de la línea */
-    z-index: 10; /* Asegúrate de que esté por encima del video */
-    transform: translateY(-50%);
-    opacity: 0.7; /* Opacidad para que no sea muy invasiva */
+    transform: translateY(-50%); /* Asegurar que la línea esté perfectamente centrada */
+    z-index: 10; /* Asegurar que esté encima del video */
+    animation: scan-animation 2s infinite linear; /* Animación de escaneo */
 }
 
+@keyframes scan-animation {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
