@@ -72,7 +72,7 @@ async function iniciarEscaneo() {
             alert("No se encontraron cámaras disponibles.");
         } else if (error.name === "NotReadableError") {
             alert("La cámara está siendo utilizada por otra aplicación.");
-            detenerEscaneo();
+            //detenerEscaneo();
         } else if (error.name === "AbortError") {
             alert("El acceso a la cámara fue cancelado.");
            
@@ -91,6 +91,7 @@ async function detectarCodigoDeBarras() {
         if (result) {
             console.log("Código detectado:", result.text);
             inputCodigo.value = result.text;
+            emitirPitido();
             detenerEscaneo();
         }
     } catch (error) {
@@ -117,4 +118,21 @@ function detenerEscaneo() {
     if (codeReader) {
         codeReader.reset();
     }
+}
+
+function emitirPitido() {
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    const oscillator = audioContext.createOscillator();
+    const gainNode = audioContext.createGain();
+
+    oscillator.type = "sine"; // Tipo de onda (senoidal para un tono básico)
+    oscillator.frequency.setValueAtTime(1000, audioContext.currentTime); // Frecuencia en Hz (1000 es un tono típico)
+    oscillator.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+
+    // Configuración de duración del pitido
+    gainNode.gain.setValueAtTime(1, audioContext.currentTime); // Volumen inicial
+    gainNode.gain.exponentialRampToValueAtTime(0.0001, audioContext.currentTime + 0.2); // Disminuye el volumen
+    oscillator.start(audioContext.currentTime); // Inicia el sonido
+    oscillator.stop(audioContext.currentTime + 0.2); // Detiene el sonido después de 0.2 segundos
 }
