@@ -8,12 +8,11 @@ function showSection(sectionId) {
 document.addEventListener('DOMContentLoaded', () => {
     showSection('register');
 });
-
-let cameraStream;
+let cameraStream = null;
 const videoElement = document.getElementById("camera-preview");
 const cameraContainer = document.getElementById("camera-container");
 const inputCodigo = document.getElementById("codigo");
-let codeReader;
+let codeReader = null;
 
 async function iniciarEscaneo() {
     try {
@@ -39,11 +38,12 @@ async function iniciarEscaneo() {
             }
         }
 
-        // Configurar restricciones de video sin enfoque específico
+        // Configurar restricciones de video con enfoque cercano si es posible
         const constraints = {
             video: {
                 deviceId: selectedDeviceId ? { exact: selectedDeviceId } : undefined,
-                facingMode: "environment"
+                facingMode: "environment",
+                advanced: [{ focusMode: "macro" }] // Intenta habilitar enfoque cercano
             }
         };
 
@@ -51,6 +51,16 @@ async function iniciarEscaneo() {
         cameraStream = await navigator.mediaDevices.getUserMedia(constraints);
         videoElement.srcObject = cameraStream;
         videoElement.play();
+
+        // Aplicar configuraciones avanzadas si están disponibles
+        const track = cameraStream.getVideoTracks()[0];
+        const capabilities = track.getCapabilities();
+
+        if (capabilities.focusMode && capabilities.focusMode.includes("macro")) {
+            await track.applyConstraints({
+                advanced: [{ focusMode: "macro" }]
+            });
+        }
 
         // Inicializar el lector de códigos de barras
         if (!codeReader) {
@@ -75,7 +85,9 @@ async function detectarCodigoDeBarras() {
             detenerEscaneo();
         }
     } catch (error) {
-        console.error("Error al detectar el código:", error);
+        if (error.name !== "NotFoundException") {
+            console.error("Error al detectar el código:", error);
+        }
     } finally {
         // Continuar buscando
         if (cameraStream && codeReader) {
