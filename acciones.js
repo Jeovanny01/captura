@@ -58,7 +58,7 @@ async function iniciarEscaneo() {
         if (!codeReader) {
             codeReader = new ZXing.BrowserMultiFormatReader();
         }
-        detectarCodigoDeBarras();
+        detectarCodigoDeBarras(); // Comenzar a detectar códigos de barras
     } catch (error) {
         console.error("Error al iniciar el escaneo:", error);
 
@@ -90,28 +90,20 @@ async function iniciarEscaneo() {
     }
 }
 
-   async function detectarCodigoDeBarras() {
+async function detectarCodigoDeBarras() {
     try {
-        const result = await codeReader.decodeOnceFromVideoElement(videoElement);
-
+        const result = await codeReader.decodeFromVideoElement(videoElement); // Decodificar continuamente
         if (result) {
             console.log("Código detectado:", result.text);
             inputCodigo.value = result.text;
-            detenerEscaneo();
         }
     } catch (error) {
         console.error("Error al detectar el código:", error);
-
-        // Manejo de intentos fallidos
-        if (error.name === "NotFoundException") {
-            requestAnimationFrame(detectarCodigoDeBarras); // Continuar buscando
-        } else {
-           // alert("Error al detectar el código. Por favor, intente nuevamente.");
-        }
+    } finally {
+        // Continuar buscando después de procesar
+        requestAnimationFrame(detectarCodigoDeBarras);
     }
 }
-
-
 
 function detenerEscaneo() {
     // Detener la cámara y ocultar el contenedor
