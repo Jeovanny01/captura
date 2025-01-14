@@ -72,9 +72,10 @@ async function iniciarEscaneo() {
             alert("No se encontraron cámaras disponibles.");
         } else if (error.name === "NotReadableError") {
             alert("La cámara está siendo utilizada por otra aplicación.");
+            detenerEscaneo();
         } else if (error.name === "AbortError") {
             alert("El acceso a la cámara fue cancelado.");
-            detenerEscaneo();
+           
         } else {
             alert("No se pudo acceder a la cámara. Verifica los permisos.");
         }

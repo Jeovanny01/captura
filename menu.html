@@ -229,14 +229,14 @@
 
 
                     <form>
-                        <label for="archivo">Foto del DUI:</label>
+                        <label for="archivo">Fotografía:</label>
                         <input 
                             type="file" 
                             id="archivo" 
                             name="archivo" 
-                            accept="image/*,application/pdf,application/doc,application/docx" >
-                           <button type="button" id="btn-quitar">Quitar</button>
-
+                            accept="image/*" 
+                            capture="environment">
+                        <button type="button" id="btn-quitar">Quitar</button>
                     </form>
 
                     <br>
