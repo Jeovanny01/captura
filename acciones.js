@@ -8,7 +8,6 @@ function showSection(sectionId) {
 document.addEventListener('DOMContentLoaded', () => {
     showSection('register');
 });
-
 let cameraStream;
 const videoElement = document.getElementById("camera-preview");
 const cameraContainer = document.getElementById("camera-container");
@@ -34,7 +33,7 @@ async function iniciarEscaneo() {
         // Usar la primera cámara disponible
         const selectedDeviceId = videoDevices[0].deviceId;
 
-        // Configurar el flujo de video
+        // Intentar obtener acceso a la cámara
         cameraStream = await navigator.mediaDevices.getUserMedia({
             video: { deviceId: selectedDeviceId, facingMode: "environment" }
         });
@@ -50,7 +49,16 @@ async function iniciarEscaneo() {
         detectarCodigoDeBarras();
     } catch (error) {
         console.error("Error al iniciar el escaneo:", error);
-        alert("No se pudo acceder a la cámara. Verifica los permisos.");
+
+        // Verificar si el error es de permisos
+        if (error.name === "NotAllowedError" || error.name === "NotFoundError") {
+            alert("El navegador necesita permisos para acceder a la cámara. Por favor, otórgales permisos.");
+        } else {
+            alert("No se pudo acceder a la cámara. Verifica los permisos.");
+        }
+
+        // Ocultar el contenedor de la cámara
+        cameraContainer.style.display = "none";
     }
 }
 
