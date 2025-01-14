@@ -529,14 +529,14 @@ body {
     padding: 10px; /* Espaciado interno */
 }
 
-    #camera-container {
+#camera-container {
         position: fixed;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
         width: 90%;
         max-width: 400px;
-        height: 150px; /* Establecer una altura fija */
+        height: auto;
         background-color: rgba(0, 0, 0, 0.8);
         border-radius: 8px;
         z-index: 1000;
@@ -548,6 +548,7 @@ body {
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     }
     
+}
 
 #camera-preview {
     width: 100%;
