@@ -31,60 +31,53 @@ async function iniciarEscaneo() {
             return;
         }
 
-        // Intentar seleccionar la cámara trasera
-        let selectedDeviceId = null;
+        // Intentar seleccionar una cámara trasera primero
+        let selectedDeviceId = videoDevices[0].deviceId; // Predeterminado al primer dispositivo
+
         for (const device of videoDevices) {
             if (device.label.toLowerCase().includes("back") || device.label.toLowerCase().includes("trasera")) {
-                selectedDeviceId = device.deviceId;
+                selectedDeviceId = device.deviceId; // Usar cámara trasera si está disponible
                 break;
             }
         }
 
-        // Si no se encuentra una cámara trasera, usar la primera disponible
-        if (!selectedDeviceId) {
-            console.warn("No se encontró cámara trasera, usando la primera disponible.");
-            selectedDeviceId = videoDevices[0].deviceId;
-        }
+        // Configurar el flujo de video
+        const constraints = {
+            video: {
+                deviceId: selectedDeviceId ? { exact: selectedDeviceId } : undefined,
+                facingMode: "environment" // Intentar usar la cámara trasera
+            }
+        };
 
-        // Intentar obtener acceso a la cámara seleccionada
-        cameraStream = await navigator.mediaDevices.getUserMedia({
-            video: { deviceId: { exact: selectedDeviceId }, facingMode: "environment" }
-        });
+        // Intentar obtener acceso a la cámara
+        cameraStream = await navigator.mediaDevices.getUserMedia(constraints);
 
-        // Verificar si el flujo de cámara fue exitoso
-        if (cameraStream) {
-            console.log("Cámara accesada exitosamente", cameraStream);
-            videoElement.srcObject = cameraStream;
-            videoElement.play();
-
-            // Crear una instancia del lector de códigos de ZXing
-            codeReader = new ZXing.BrowserMultiFormatReader();
-            detectarCodigoDeBarras();
-        } else {
-            throw new Error("No se pudo acceder al flujo de la cámara.");
-        }
+        // Mostrar el video en el elemento <video>
+        videoElement.srcObject = cameraStream;
+        videoElement.play();
     } catch (error) {
         console.error("Error al iniciar el escaneo:", error);
 
-        // Imprimir detalles adicionales del error
-        if (error instanceof DOMException) {
-            console.error("Detalles del error:", error.message, error.name);
-        }
-
-        // Verificar el tipo de error
-        if (error.name === "NotAllowedError") {
-            alert("El navegador necesita permisos para acceder a la cámara. Por favor, otórgales permisos.");
+        // Manejo de errores
+        if (error.name === "OverconstrainedError") {
+            alert("No se pudo acceder a la cámara seleccionada. Intentando con otra cámara.");
+            try {
+                cameraStream = await navigator.mediaDevices.getUserMedia({ video: true });
+                videoElement.srcObject = cameraStream;
+                videoElement.play();
+            } catch (innerError) {
+                console.error("Error al intentar usar otra cámara:", innerError);
+                alert("No se pudo acceder a ninguna cámara.");
+                cameraContainer.style.display = "none";
+            }
+        } else if (error.name === "NotAllowedError") {
+            alert("El navegador necesita permisos para acceder a la cámara. Por favor, otórgalos.");
         } else if (error.name === "NotFoundError") {
             alert("No se encontraron cámaras disponibles.");
-        } else if (error.name === "NotReadableError") {
-            alert("La cámara está siendo utilizada por otra aplicación.");
-        } else if (error.name === "AbortError") {
-            alert("El acceso a la cámara fue cancelado.");
         } else {
-            alert("No se pudo acceder a la cámara. Verifica los permisos.");
+            alert("Error desconocido al intentar acceder a la cámara.");
         }
 
-        // Ocultar el contenedor de la cámara
         cameraContainer.style.display = "none";
     }
 }
