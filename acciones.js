@@ -107,6 +107,7 @@ async function detectarCodigoDeBarras() {
         if (result) {
             console.log("Código detectado:", result.text);
             inputCodigo.value = result.text;
+            detenerEscaneo()
         }
     } catch (error) {
         console.error("Error al detectar el código:", error);
