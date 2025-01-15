@@ -121,6 +121,7 @@ async function  saveArticulo(event) {
     const bulto = document.getElementById("cantidad").value;
     const precio = document.getElementById("precio").value;
     const precioUnit = document.getElementById("precioUnit").value;
+    const precioNomal = document.getElementById("precioNomal").value;
     const session = JSON.parse(localStorage.getItem("session") || "{}");
 
    // const usuario = "sa";
@@ -132,7 +133,7 @@ async function  saveArticulo(event) {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                accion:"INSERT",  articulo,  descripcion,  clasi1,  clasi2,  bulto,  precio,  precioUnit,  fotografia:IMAGEN,  usuario:session.user })
+                accion:"INSERT",  articulo,  descripcion,  clasi1,  clasi2,  bulto,  precio,  precioUnit,  fotografia:IMAGEN,  usuario:session.user,precioNomal })
     }) 
         .then(response => {
             // Verificar si la respuesta es exitosa
