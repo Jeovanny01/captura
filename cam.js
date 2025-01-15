@@ -1,8 +1,6 @@
-
-
 const startScanButton = document.getElementById("start-scan");
 const stopScanButton = document.getElementById("stop-scan");
-const resultOutput = document.getElementById("result-output");
+const inputCodigo = document.getElementById("codigo");
 
 let html5QrCode;
 
@@ -22,24 +20,35 @@ startScanButton.addEventListener("click", () => {
         ],
     };
 
-    // Iniciar el escáner
+    // Obtener las cámaras disponibles
     Html5Qrcode.getCameras()
         .then((devices) => {
             if (devices && devices.length) {
-                const cameraId = devices[0].id; // Selecciona la primera cámara
+                // Intentar usar la cámara trasera primero
+                let cameraId;
+                const backCamera = devices.find(device => device.label.toLowerCase().includes("back"));
+
+                if (backCamera) {
+                    cameraId = backCamera.id; // Usar la cámara trasera si está disponible
+                } else {
+                    cameraId = devices[0].id; // Si no hay cámara trasera, usar la primera cámara disponible
+                }
+
+                // Iniciar el escáner
                 html5QrCode
                     .start(
                         cameraId,
                         config,
                         (decodedText, decodedResult) => {
                             // Muestra el resultado
-                            resultOutput.textContent = decodedText;
+                            inputCodigo.value = decodedText;
                             console.log("Resultado completo:", decodedResult);
                         }
                     )
                     .catch((err) => {
                         console.error("Error al iniciar el escáner:", err);
                     });
+
                 stopScanButton.disabled = false;
                 startScanButton.disabled = true;
             } else {
