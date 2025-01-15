@@ -96,12 +96,14 @@ function reducirYConvertirImagen(archivo) {
 // Uso:
 document.getElementById('archivo').addEventListener('change', function (event) {
     const archivo = event.target.files[0];
-    if (!archivo) return;
 
+    if (!archivo) return;
+ 
     reducirYConvertirImagen(archivo)
         .then(base64 => {
             IMAGEN = base64.replace(/^data:.+;base64,/, '');
             console.log("Imagen redimensionada y convertida:", IMAGEN);
+            alert(IMAGEN);
         })
         .catch(error => {
             console.error("Error al redimensionar o convertir la imagen:", error);
