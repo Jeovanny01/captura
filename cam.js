@@ -11,7 +11,7 @@ startScanButton.addEventListener("click", () => {
     // Configuración para leer códigos de barras y QR
     const config = {
         fps: 10, // Cuadros por segundo
-        qrbox: { width: 300, height: 300 }, // Tamaño del cuadro de escaneo
+        qrbox: { width: 300, height: 200 }, // Cuadro de escaneo con tamaño fijo
         formatsToSupport: [
             Html5QrcodeSupportedFormats.QR_CODE,
             Html5QrcodeSupportedFormats.CODE_128, // Códigos de barras
@@ -43,7 +43,7 @@ startScanButton.addEventListener("click", () => {
                             // Muestra el resultado
                             inputCodigo.value = decodedText;
                             console.log("Resultado completo:", decodedResult);
-                            detener()
+                            detener();
                         }
                     )
                     .catch((err) => {
@@ -63,19 +63,18 @@ startScanButton.addEventListener("click", () => {
 
 // Detener el escáner
 stopScanButton.addEventListener("click", () => {
-    detener()
+    detener();
 });
 
-function detener(){
-  // Detener el escáner después de leer el código
-  html5QrCode.stop()
-  .then(() => {
-      console.log("Escáner detenido automáticamente.");
-      stopScanButton.disabled = true; // Deshabilitar el botón "Detener escaneo"
-      startScanButton.disabled = false; // Habilitar el botón "Iniciar escaneo"
-  })
-  .catch((err) => {
-      console.error("Error al detener el escáner automáticamente:", err);
-  });
-
+function detener() {
+    // Detener el escáner después de leer el código
+    html5QrCode.stop()
+    .then(() => {
+        console.log("Escáner detenido automáticamente.");
+        stopScanButton.disabled = true; // Deshabilitar el botón "Detener escaneo"
+        startScanButton.disabled = false; // Habilitar el botón "Iniciar escaneo"
+    })
+    .catch((err) => {
+        console.error("Error al detener el escáner automáticamente:", err);
+    });
 }
