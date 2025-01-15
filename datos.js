@@ -77,7 +77,7 @@ async function  saveArticulo(event) {
     const precioUnit = document.getElementById("precioUnit").value;
     const session = JSON.parse(localStorage.getItem("session") || "{}");
 
-    const usuario = "sa";
+   // const usuario = "sa";
    
         // Envía los datos al backend mediante fetch
         fetch(url+"articulo", {
@@ -131,7 +131,7 @@ async function  saveArticulo(event) {
                 }
             } catch (e) {
                 console.error('Error al procesar la respuesta JSON:', e);
-                alert('Hubo un error al procesar la respuesta del servidor');
+                alert('Hubo un error al procesar la respuesta del servidor',e);
             }
         })
         .catch(error => {
