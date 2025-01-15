@@ -160,3 +160,8 @@ btnQuitar.addEventListener('click', function () {
     btnQuitar.style.display = 'none'; // Ocultar el botón
     DOC_DUI=null;
 });
+
+document.getElementById('formRegistrar').addEventListener('submit', function(event) {
+    event.preventDefault(); // Evita el envío tradicional del formulario
+    saveArticulo(); // Llama a la función para registrar al alumno
+});
