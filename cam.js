@@ -45,13 +45,16 @@ startScanButton.addEventListener("click", () => {
                         config,
                         (decodedText, decodedResult) => {
                             // Muestra el resultado
-                            setTimeout(() => {
+                           
                                 emitirPitido();
-                            }, 2000);
+                            
 
                             inputCodigo.value = decodedText;
                             console.log("Resultado completo:", decodedResult);
-                            detener();
+                            setTimeout(() => {
+                                detener();
+                            }, 1500);
+                            
                         }
                     )
                     .catch((err) => {
