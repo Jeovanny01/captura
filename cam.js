@@ -47,7 +47,13 @@ startScanButton.addEventListener("click", () => {
                             // Muestra el resultado
                             inputCodigo.value = decodedText;
                             console.log("Resultado completo:", decodedResult);
-                            detener();
+                            setTimeout(() => {
+                                html5QrCode.stop().then(() => {
+                                    console.log("Escaneo detenido.");
+                                }).catch((err) => {
+                                    console.error("Error al detener el escaneo:", err);
+                                });
+                            }, 1000); // Espera 1 segundo antes de detener
                         }
                     )
                     .catch((err) => {
