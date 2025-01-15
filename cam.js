@@ -45,7 +45,7 @@ startScanButton.addEventListener("click", () => {
                         config,
                         (decodedText, decodedResult) => {
                             // Muestra el resultado
-                            emitirPitido
+                            emitirPitido();
                             inputCodigo.value = decodedText;
                             console.log("Resultado completo:", decodedResult);
                             detener();
