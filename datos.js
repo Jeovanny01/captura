@@ -27,8 +27,13 @@ async function cargarCategorias() {
             console.log('Los Distritos ya están categoria.');
             return;
         }
-        const dat = await fetchEjecutar("categorias");
-        distritos = dat; // Guardar distritos en el arreglo global
+        const dat = await fetchEjecutar("categoriasProd");
+        dat.forEach(data => {
+            const option = document.createElement('option');
+            option.value = data.CLASIFICACION;
+            option.textContent = data.DESCRIPCION;
+            selectBranch.appendChild(option);
+        });
     } catch (error) {
         console.error('Error al cargar los categoria:', error.message);
         const selectBranch = document.getElementById('categoria');

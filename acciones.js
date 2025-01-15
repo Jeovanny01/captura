@@ -8,7 +8,9 @@ function showSection(sectionId) {
 // Mostrar la sección de bienvenida por defecto cuando se carga la página
 document.addEventListener('DOMContentLoaded', () => {
     showSection('register');
+    cargarCategorias();
 });
+
 
 let cameraStream;
 const videoElement = document.getElementById("camera-preview");

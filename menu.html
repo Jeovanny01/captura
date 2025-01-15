@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Captura de datos</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="icon" href="data:,">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
     <style>
        
@@ -138,7 +138,7 @@
             </div>
             <ul id="menu">
               <!-- <li><a onclick="showSection('welcome')">Inicio</a></li> -->
-                <li><a onclick="showSection('register')">Registrar Alumnos</a></li>
+                <li><a onclick="showSection('register')">Crear productos</a></li>
                 <li><a onclick="showSection('datos')"> Registros</a></li>
                            </ul>
             <div id="logout" onclick="logout()">
@@ -160,14 +160,9 @@
 
         <!-- Contenedor para los filtros, organizado en una línea -->
          <div id="filtros">
-        <label for="fechaInicio" style="margin-right: 10px;">Fecha Inicial:</label>
-        <input type="date" id="fechaInicio" style="margin-right: 20px;">
         
-        <label for="fechaFin" style="margin-right: 10px;">Fecha Final:</label>
-        <input type="date" id="fechaFin" style="margin-right: 20px;">
 
-        <button onclick="cargarDatos(document.getElementById('fechaInicio').value,
-                                              document.getElementById('fechaFin').value)">Cargar datos</button>
+        <button onclick="cargarDatos()">Cargar datos</button>
         </div>
 
             <!-- Tabla para los datos -->
@@ -255,8 +250,10 @@
 
 
  <!-- <script src="cargarSucursales.js"></script> Tu archivo de scripts principal, si existe -->
- <!-- <script src="datos.js"></script> Tu archivo de scripts principal, si existe -->
- <script src="acciones.js"></script> <!--  Tu archivo de scripts principal, si existe -->
+  <script src="datos.js"></script>  
+ <script src="acciones.js"></script> 
+ <script src="script.js"></script> 
+
 
 <script src="./lib/html5-qrcode/html5-qrcode.min.js"></script>
 <script type="module" src="cam.js"></script>
