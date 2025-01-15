@@ -7,6 +7,13 @@ function showSection(sectionId) {
 
 // Mostrar la sección de bienvenida por defecto cuando se carga la página
 document.addEventListener('DOMContentLoaded', () => {
+    const session = JSON.parse(localStorage.getItem("session") || "{}");
+
+    if (!session.isLoggedIn) {
+        window.location.href = "index.html";
+        return;
+    }
+    
     showSection('register');
     cargarCategorias();
 });

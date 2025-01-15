@@ -119,19 +119,41 @@
                 });
 
                 if (response.ok) {
-                    const data = await response.json();
-                    if (data.success) {
-                        const [{ COD_ROLL: userRole = null }] = data.data || [{}];
-                        localStorage.setItem("session", JSON.stringify({ isLoggedIn: true, userRole }));
-                        alert("Inicio de sesión exitoso");
-                        modal.style.display = "none";
-                        window.location.href = "menu.html"; // Cambia a la página de categorías
-                    } else {
-                        alert("Credenciales incorrectas");
-                    }
+            const data = await response.json();
+            
+            if (data.success) { // Verifica si la autenticación fue exitosa
+                // Por ejemplo, aquí puedes verificar el rol del usuario
+                const [{ COD_ROLL: userRole=null, ROL: rol=null,VENDEDOR: vend=null } = {}] = data.data || [{}];
+
+               // console.log(vend);
+               // console.log(userRole); // Muestra el rol del usuario o `undefined` si no existe
+                if (userRole == "1") {
+                    alert("Inicio de sesión exitoso como " + rol);
+                } else if (userRole == "2") {
+                    alert("Inicio de sesión exitoso como " + rol);
+                } else if (userRole == "3") {
+                    alert("Inicio de sesión exitoso como " +rol);
+                    
                 } else {
-                    alert("Error: " + response.status);
+                    alert("Inicio de sesión exitoso con rol "+  rol);
                 }
+
+                // Cierra el modal
+                modal.style.display = "none";
+                // Guarda la información de sesión en `localStorage`
+                localStorage.setItem("session", JSON.stringify({ isLoggedIn: true, userRole, rol,vend,user }));
+
+                // Redirige al menú principal
+                window.location.href = "menu.html";
+
+            } else {
+                // Si el servidor devuelve que la autenticación falló
+                alert("Credenciales incorrectas");
+            }
+        } else {
+            alert("Error en la solicitud: " + response.status);
+        }
+
             } catch (error) {
                 console.error(error);
                 alert("Error al conectar con el servidor");
