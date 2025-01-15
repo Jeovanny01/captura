@@ -34,7 +34,7 @@ startScanButton.addEventListener("click", () => {
  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
 
  if (isIOS) {
-     cameraId = devices[devices.length - 1].id; // Selecciona la última cámara (generalmente es la trasera en iOS)
+     cameraId = devices[devices.length - 2].id; // Selecciona la última cámara (generalmente es la trasera en iOS)
  } else {
      const backCamera = devices.find(device => device.label.toLowerCase().includes("back"));
      cameraId = backCamera ? backCamera.id : devices[0].id; // Usa la cámara trasera si está disponible
