@@ -47,23 +47,67 @@ async function cargarCategorias() {
         selectBranch.appendChild(option);
     }
 };
+function reducirYConvertirImagen(archivo) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = function (event) {
+            const img = new Image();
+            img.onload = function () {
+                const canvas = document.createElement('canvas');
+                const maxDimension = 1024; // Tamaño máximo en px
+                let width = img.width;
+                let height = img.height;
 
-document.getElementById('archivo').addEventListener('change', function(event) {
-    const archivo = event.target.files[0];  // Obtener el archivo seleccionado
+                // Redimensionar la imagen si es demasiado grande
+                if (width > height && width > maxDimension) {
+                    height = Math.round((height *= maxDimension / width));
+                    width = maxDimension;
+                } else if (height > maxDimension) {
+                    width = Math.round((width *= maxDimension / height));
+                    height = maxDimension;
+                }
 
-    // Asegúrate de que se ha seleccionado un archivo
-    if (archivo) {
-      // Convertir el archivo a base64 cuando se seleccione
-      convertirArchivoABase64(archivo).then(base64 => {
-        // Asigna el archivo base64 a la variable global DOC_DUI
-        IMAGEN =  base64.replace(/^data:.+;base64,/, '');
-       // console.log("Archivo en base64:", DOC_COMPROBANTE);  // Puedes ver el resultado en la consola
-      }).catch(error => {
-        //console.error('Error al convertir el archivo a base64:', error);
-        IMAGEN=null;
-      });
-    }
-  });
+                canvas.width = width;
+                canvas.height = height;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, width, height);
+
+                // Convertir el canvas a base64
+                canvas.toBlob(
+                    blob => {
+                        const readerBlob = new FileReader();
+                        readerBlob.onload = function (e) {
+                            resolve(e.target.result);
+                        };
+                        readerBlob.onerror = reject;
+                        readerBlob.readAsDataURL(blob);
+                    },
+                    'image/jpeg',
+                    0.8 // Calidad (80%)
+                );
+            };
+            img.src = event.target.result;
+        };
+        reader.onerror = reject;
+        reader.readAsDataURL(archivo);
+    });
+}
+
+// Uso:
+document.getElementById('archivo').addEventListener('change', function (event) {
+    const archivo = event.target.files[0];
+    if (!archivo) return;
+
+    reducirYConvertirImagen(archivo)
+        .then(base64 => {
+            IMAGEN = base64.replace(/^data:.+;base64,/, '');
+            console.log("Imagen redimensionada y convertida:", IMAGEN);
+        })
+        .catch(error => {
+            console.error("Error al redimensionar o convertir la imagen:", error);
+        });
+});
+
 
 // Guardar sucursal (creación o edición)
 async function  saveArticulo(event) {
@@ -139,6 +183,8 @@ async function  saveArticulo(event) {
             alert('Hubo un error al procesar la solicitud');
         });
 };
+
+
 
 // Función para leer el archivo como ArrayBuffer
 function convertirArchivoABase64(archivo) {
