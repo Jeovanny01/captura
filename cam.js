@@ -53,7 +53,7 @@ startScanButton.addEventListener("click", () => {
                             console.log("Resultado completo:", decodedResult);
                             setTimeout(() => {
                                 detener();
-                            }, 1500);
+                            }, 500);
                             
                         }
                     )
