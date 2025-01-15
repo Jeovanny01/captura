@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Captura de datos</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    
+    <link rel="icon" href="data:,">
+
     <style>
        
         nav {
@@ -127,6 +127,7 @@
             background-color: #555;
         }
     </style>
+
 </head>
 <body>
     <header>
@@ -185,23 +186,28 @@
                 <div class="form-group">
                     
                 
-                    <div class="form-groupdui">
+                    <div id="reader" style="width: 600px;"></div>
+                    <div id="result">Resultado: <span id="result-output"></span></div>
+                    <button id="start-scan" type="button"> Iniciar Escaneo</button>
+                    <button id="stop-scan" type="button" disabled>Detener Escaneo</button>
+                    <!-- <div class="form-groupdui">
                         <label for="codigo">Código de barras</label>
                         <input type="text" id="codigo" name="codigo" required>
-                        <button type="button" onclick="iniciarEscaneo()">Escanar</button>
+                        <button id="start-scan" type="button">Escanear</button>
                     </div>
                     
 
 
               
 
-                  <div id="camera-container" style="display:none;" class="floating-camera-container">
+                  <div id="camera-container" style="display:flex;" class="floating-camera-container">
                         <video id="camera-preview" autoplay playsinline style="width: 100%; height: auto;"></video>
-                        <!-- Máscara para el área de escaneo -->
-                        <div id="scan-overlay"></div>
-                        <button type="button" onclick="detenerEscaneo()" style="position:absolute; top:10px; right:10px; z-index:11;">Cerrar</button>
-
-                    </div>
+                        < Máscara para el área de escaneo -->
+                         
+                        <!-- <div id="reader"></div>
+                        <button id="stop-scan" type="button" disabled>Detener Escaneo</button> -->
+                        <!-- <button type="button" onclick="detenerEscaneo()" style="position:absolute; top:10px; right:10px; z-index:11;">Cerrar</button> -->
+                    <!-- </div> --> 
                     
             
                                                  
@@ -252,16 +258,17 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"></script>
 
 
- <script src="cargarSucursales.js"></script> <!-- Tu archivo de scripts principal, si existe -->
- <script src="datos.js"></script> <!-- Tu archivo de scripts principal, si existe -->
- <script src="acciones.js"></script> <!-- Tu archivo de scripts principal, si existe -->
+ <!-- <script src="cargarSucursales.js"></script> Tu archivo de scripts principal, si existe -->
+ <!-- <script src="datos.js"></script> Tu archivo de scripts principal, si existe -->
+ <script src="acciones.js"></script> <!--  Tu archivo de scripts principal, si existe -->
    <!-- Incluir React y ReactDOM desde CDN -->
 <!-- Agregar los scripts de React -->
 <script src="https://unpkg.com/react@18.2.0/umd/react.production.min.js"></script>
 <script src="https://unpkg.com/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
-<script src="https://unpkg.com/react-icons/fa"></script> <!-- Para usar los íconos -->
-
-
+<!-- <script src="https://unpkg.com/react-icons/fa"></script> Para usar los íconos -->
+<!-- <script src="./node_modules/@zxing/library"></script> -->
+<script src="./lib/html5-qrcode/html5-qrcode.min.js"></script>
+<script type="module" src="cam.js"></script>
 
 </body>
 </html>

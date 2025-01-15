@@ -1,3 +1,4 @@
+
 function showSection(sectionId) {
     document.querySelectorAll('section').forEach(section => section.style.display = 'none');
     document.getElementById(sectionId).style.display = 'block';
@@ -53,6 +54,7 @@ async function iniciarEscaneo() {
             videoElement.srcObject = cameraStream;
             videoElement.play();
             // Crear una instancia del lector de códigos de ZXing
+            
             codeReader = new ZXing.BrowserMultiFormatReader();
             detectarCodigoDeBarras();
         } else {
