@@ -30,13 +30,15 @@ startScanButton.addEventListener("click", () => {
             if (devices && devices.length) {
                 // Intentar usar la cámara trasera primero
                 let cameraId;
-                const backCamera = devices.find(device => device.label.toLowerCase().includes("back"));
+      // Priorizar la cámara trasera si el dispositivo es iOS
+ const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
 
-                if (backCamera) {
-                    cameraId = backCamera.id; // Usar la cámara trasera si está disponible
-                } else {
-                    cameraId = devices[0].id; // Si no hay cámara trasera, usar la primera cámara disponible
-                }
+ if (isIOS) {
+     cameraId = devices[devices.length - 1].id; // Selecciona la última cámara (generalmente es la trasera en iOS)
+ } else {
+     const backCamera = devices.find(device => device.label.toLowerCase().includes("back"));
+     cameraId = backCamera ? backCamera.id : devices[0].id; // Usa la cámara trasera si está disponible
+ }
 
                 // Iniciar el escáner
                 html5QrCode
