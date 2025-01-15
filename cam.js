@@ -43,6 +43,7 @@ startScanButton.addEventListener("click", () => {
                             // Muestra el resultado
                             inputCodigo.value = decodedText;
                             console.log("Resultado completo:", decodedResult);
+                            detener()
                         }
                     )
                     .catch((err) => {
@@ -62,14 +63,19 @@ startScanButton.addEventListener("click", () => {
 
 // Detener el escáner
 stopScanButton.addEventListener("click", () => {
-    html5QrCode
-        .stop()
-        .then(() => {
-            console.log("Escáner detenido.");
-        })
-        .catch((err) => {
-            console.error("Error al detener el escáner:", err);
-        });
-    stopScanButton.disabled = true;
-    startScanButton.disabled = false;
+    detener()
 });
+
+function detener(){
+  // Detener el escáner después de leer el código
+  html5QrCode.stop()
+  .then(() => {
+      console.log("Escáner detenido automáticamente.");
+      stopScanButton.disabled = true; // Deshabilitar el botón "Detener escaneo"
+      startScanButton.disabled = false; // Habilitar el botón "Iniciar escaneo"
+  })
+  .catch((err) => {
+      console.error("Error al detener el escáner automáticamente:", err);
+  });
+
+}
