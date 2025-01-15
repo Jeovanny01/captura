@@ -45,6 +45,7 @@ startScanButton.addEventListener("click", () => {
                         config,
                         (decodedText, decodedResult) => {
                             // Muestra el resultado
+                            emitirPitido
                             inputCodigo.value = decodedText;
                             console.log("Resultado completo:", decodedResult);
                             detener();
@@ -81,4 +82,23 @@ function detener() {
     .catch((err) => {
         console.error("Error al detener el escáner automáticamente:", err);
     });
+}
+
+
+
+function emitirPitido() {
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    const oscillator = audioContext.createOscillator();
+    const gainNode = audioContext.createGain();
+
+    oscillator.type = "sine"; // Tipo de onda (senoidal para un tono básico)
+    oscillator.frequency.setValueAtTime(1000, audioContext.currentTime); // Frecuencia en Hz (1000 es un tono típico)
+    oscillator.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+
+    // Configuración de duración del pitido
+    gainNode.gain.setValueAtTime(1, audioContext.currentTime); // Volumen inicial
+    gainNode.gain.exponentialRampToValueAtTime(0.0001, audioContext.currentTime + 0.2); // Disminuye el volumen
+    oscillator.start(audioContext.currentTime); // Inicia el sonido
+    oscillator.stop(audioContext.currentTime + 0.2); // Detiene el sonido después de 0.2 segundos
 }
