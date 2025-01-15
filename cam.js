@@ -3,6 +3,10 @@ const stopScanButton = document.getElementById("stop-scan");
 const inputCodigo = document.getElementById("codigo");
 
 let html5QrCode;
+   // Detectar el ancho del dispositivo
+   const screenWidth = window.innerWidth;
+   const screenHeight = window.innerHeight;
+   const qrboxSize = Math.min(screenWidth * 0.6, screenHeight * 0.6);
 
 startScanButton.addEventListener("click", () => {
     const qrCodeRegionId = "reader";
@@ -11,7 +15,7 @@ startScanButton.addEventListener("click", () => {
     // Configuración para leer códigos de barras y QR
     const config = {
         fps: 10, // Cuadros por segundo
-        qrbox: { width: 300, height: 200 }, // Cuadro de escaneo con tamaño fijo
+        qrbox: {  width: qrboxSize, height: qrboxSize * 0.67  }, // Cuadro de escaneo con tamaño fijo
         formatsToSupport: [
             Html5QrcodeSupportedFormats.QR_CODE,
             Html5QrcodeSupportedFormats.CODE_128, // Códigos de barras
