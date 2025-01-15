@@ -542,7 +542,10 @@ body {
     overflow: hidden; /* Ocultar cualquier desbordamiento */
     padding: 10px; /* Espaciado interno */
 }
-
+  #register h2 {
+    margin-top: 0; /* Elimina cualquier margen superior */
+    padding-top: 0; /* Opcional si hay padding */
+  }
 #camera-container {
         position: fixed;
         top: 50%;

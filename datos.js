@@ -1,28 +1,5 @@
 const url = "https://apitest.grupocarosa.com/ApiDatos/"
-
-const articulo = async (accion,  articulo,  descripcion,  clasi1,  clasi2,  bulto,  precio,  precioUnit,  fotografia,  usuario) => {
-    try {
-        const response = await fetch(url + "articulo", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                accion,  articulo,  descripcion,  clasi1,  clasi2,  bulto,  precio,  precioUnit,  fotografia,  usuario
-            })
-        });
-
-        if (response.ok) {
-            const data = await response.json();
-            return data;
-        } else {
-            throw new Error(`Error en la petición. Código de estado: ${response.status}`);
-        }
-    } catch (error) {
-        console.error("Error en la petición:", error.message);
-        throw error;
-    }
-};
+let IMAGEN = null
 
 const fetchEjecutar = async (funct) => {
     try {
@@ -70,10 +47,26 @@ async function cargarCategorias() {
     }
 };
 
+document.getElementById('archivo').addEventListener('change', function(event) {
+    const archivo = event.target.files[0];  // Obtener el archivo seleccionado
+
+    // Asegúrate de que se ha seleccionado un archivo
+    if (archivo) {
+      // Convertir el archivo a base64 cuando se seleccione
+      convertirArchivoABase64(archivo).then(base64 => {
+        // Asigna el archivo base64 a la variable global DOC_DUI
+        IMAGEN =  base64.replace(/^data:.+;base64,/, '');
+       // console.log("Archivo en base64:", DOC_COMPROBANTE);  // Puedes ver el resultado en la consola
+      }).catch(error => {
+        //console.error('Error al convertir el archivo a base64:', error);
+        IMAGEN=null;
+      });
+    }
+  });
 
 // Guardar sucursal (creación o edición)
 async function  saveArticulo(event) {
-    event.preventDefault(); // Evitar recarga de la página
+    //event.preventDefault(); // Evitar recarga de la página
     const articulo = document.getElementById("codigo").value;
     const descripcion = document.getElementById("descripcion").value;
     const clasi1 = document.getElementById("categoria").value.charAt(0) || null;;
@@ -81,40 +74,69 @@ async function  saveArticulo(event) {
     const bulto = document.getElementById("cantidad").value;
     const precio = document.getElementById("precio").value;
     const precioUnit = document.getElementById("precioUnit").value;
-    const fotografia = document.getElementById("archivo").value;
-    // Asegúrate de que se ha seleccionado un archivo
-    if (fotografia) {
-        // Convertir el archivo a base64 cuando se seleccione
-        convertirArchivoABase64(fotografia).then(base64 => {
-          // Asigna el archivo base64 a la variable global DOC_DUI
-          fotografia =  base64.replace(/^data:.+;base64,/, '');
-         // console.log("Archivo en base64:", DOC_INCRIPCION);  // Puedes ver el resultado en la consola
-        }).catch(error => {
-          console.error('Error al convertir el archivo a base64:', error);
-          fotografia =null;
-        });
-      }
 
-    const usuario = "";
 
+    const usuario = "sa";
+   
+        // Envía los datos al backend mediante fetch
+        fetch(url+"articulo", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                accion:"INSERT",  articulo,  descripcion,  clasi1,  clasi2,  bulto,  precio,  precioUnit,  fotografia:IMAGEN,  usuario })
+    }) 
+        .then(response => {
+            // Verificar si la respuesta es exitosa
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.text();  // Leer la respuesta como texto
+        })
+        .then(text => {
+            console.log('Raw response:', text);  // Verifica lo que devuelve el servidor
+            try {
+                // Intentar convertir el texto a JSON
+                const result = JSON.parse(text);
+                console.log(result);  // Ver el contenido del objeto JSON
+                if (result.success) {
+                    alert('Producto registrado con éxito');
+                     // Limpiar el formulario
+                    document.getElementById('formRegistrar').reset();  // 'miFormulario' es el ID del formulario
+                    document.getElementById('btn-quitar').style.display = 'none';  // Ocultar el botón
+                    IMAGEN=null;
+                        // Regresar al principio de la página
+                        window.scrollTo(0, 0);
     
-
-
-        // Aquí puedes agregar la lógica para agregar una nueva fila en la tabla
-        try {
-            const response = await articulo("INSERT",  articulo,  descripcion,  clasi1,  clasi2,  bulto,  precio,  precioUnit,  fotografia,  usuario)
-            console.log("Sucursal INSERTADA:", response);
-            // Lógica para actualizar la fila correspondiente en la tabla
-           // updateTableRow(id, nombre, ubicacion); // Función para actualizar la fila
-           //cargarSuc();
-
-        } catch (error) {
-            console.error("Error al actualizar la sucursal:", error.message);
-            alert("Error al crear ");
-        }
-
-
-    closeModal();
+                } else {
+                    const errorMessage = result.data[0].ErrorMessage;
+                    if (errorMessage.includes("Violation of PRIMARY KEY")) {
+                      console.log("El mensaje contiene 'Violation of PRIMARY KEY'.");
+                      alert('Producto ya existe!!!');
+                      // Limpiar el formulario
+                     document.getElementById('formRegistrar').reset();  // 'miFormulario' es el ID del formulario
+                     document.getElementById('btn-quitar').style.display = 'none';  // Ocultar el botón
+                     IMAGEN=null;
+                         // Regresar al principio de la página
+                         window.scrollTo(0, 0);
+                         
+                    } else {
+                        console.error('Error:', text);
+                    alert('Hubo un error al registrar al PRODUCTO: ' + text);
+                    }
+                    
+                  
+                }
+            } catch (e) {
+                console.error('Error al procesar la respuesta JSON:', e);
+                alert('Hubo un error al procesar la respuesta del servidor');
+            }
+        })
+        .catch(error => {
+            console.error('Error al procesar la solicitud:', error);
+            alert('Hubo un error al procesar la solicitud');
+        });
 };
 
 // Función para leer el archivo como ArrayBuffer
