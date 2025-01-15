@@ -102,7 +102,7 @@ document.getElementById('archivo').addEventListener('change', function (event) {
     reducirYConvertirImagen(archivo)
         .then(base64 => {
             IMAGEN = base64.replace(/^data:.+;base64,/, '');
-            console.log("Imagen redimensionada y convertida:", IMAGEN);
+            //console.log("Imagen redimensionada y convertida:", IMAGEN);
             alert(IMAGEN);
         })
         .catch(error => {
