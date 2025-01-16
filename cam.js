@@ -1,7 +1,7 @@
 const startScanButton = document.getElementById("start-scan");
 const stopScanButton = document.getElementById("stop-scan");
 const inputCodigo = document.getElementById("codigo");
-import { buscarProducto } from './datos.js';
+
 
 
 let html5QrCode;

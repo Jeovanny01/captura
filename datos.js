@@ -111,6 +111,7 @@ document.getElementById('archivo').addEventListener('change', function (event) {
             console.error("Error al redimensionar o convertir la imagen:", error);
         });
 });
+
 function buscarProducto(codigo) {
     return productos.find(producto => producto.ARTICULO === codigo);
 }
@@ -326,3 +327,5 @@ async function fetchData() {
         console.error('Error al obtener los datos:', error);
     }
 }
+// Hacer la función accesible globalmente
+window.buscarProducto = buscarProducto;
