@@ -129,7 +129,7 @@ async function  saveArticulo(event) {
     const precioUnit = parseFloat(document.getElementById("precioUnit").value) || 0;
     const precioNomal = document.getElementById("precioNomal").value;
     const session = JSON.parse(localStorage.getItem("session") || "{}");
-    const item = document.getElementById("item").value ;
+    const itemInsert = document.getElementById("item").value ;
 
     const productoEncontrado = buscarProducto(articulo);
 
@@ -151,7 +151,7 @@ async function  saveArticulo(event) {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                accion:"INSERT",  articulo,  descripcion,  clasi1,  clasi2,  bulto,  precio,  precioUnit,  fotografia:IMAGEN,  usuario:session.user,precioNomal,item })
+                accion:"INSERT",  articulo,  descripcion,  clasi1,  clasi2,  bulto,  precio,  precioUnit,  fotografia:IMAGEN,  usuario:session.user,precioNomal,itemInsert })
     }) 
         .then(response => {
             // Verificar si la respuesta es exitosa
