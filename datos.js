@@ -129,6 +129,7 @@ async function  saveArticulo(event) {
     const precioUnit = parseFloat(document.getElementById("precioUnit").value) || 0;
     const precioNomal = document.getElementById("precioNomal").value;
     const session = JSON.parse(localStorage.getItem("session") || "{}");
+    const item = parseFloat(document.getElementById("item").value) || null;
 
     const productoEncontrado = buscarProducto(articulo);
 
