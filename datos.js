@@ -1,6 +1,7 @@
 const url = "https://apitest.grupocarosa.com/ApiDatos/"
 let IMAGEN = null
 let user
+let productos = [];
 
 const fetchEjecutar = async (funct) => {
     try {
@@ -10,6 +11,7 @@ const fetchEjecutar = async (funct) => {
         if (response.ok) {
             const data = await response.json();
             return data;
+            
         } else {
             throw new Error(`Error en la petición. Código de estado:  ${response.status}`);
         }
@@ -156,7 +158,7 @@ async function  saveArticulo(event) {
                     IMAGEN=null;
                         // Regresar al principio de la página
                         window.scrollTo(0, 0);
-    
+                        fetchData();
                 } else {
                     const errorMessage = result.data[0].ErrorMessage;
                     if (errorMessage.includes("Violation of PRIMARY KEY")) {
@@ -287,23 +289,23 @@ function generarTabla(datos) {
     section.appendChild(table);
 }
 
-async function fetchData(fechaInicio, fechaFin) {
+
+async function fetchData() {
     try {
         // Llama al endpoint con las fechas como parámetros
-        const response = await fetch(url + "registros2", {
+        const response = await fetch(url + "selectProductos", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                fi:fechaInicio,
-                ff:fechaFin
+                empresa:"FUNNY"
             })
         });
 
         if (!response.ok) throw new Error('Error al obtener los datos.');
         const data = await response.json();
-
+        distritos =data
         // Genera la tabla y la inserta en la sección "datos"
         generarTabla(data);
     } catch (error) {

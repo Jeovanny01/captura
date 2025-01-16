@@ -2,6 +2,10 @@ const startScanButton = document.getElementById("start-scan");
 const stopScanButton = document.getElementById("stop-scan");
 const inputCodigo = document.getElementById("codigo");
 
+function buscarProducto(codigo) {
+    return productos.find(producto => producto.codigo === codigo);
+}
+
 let html5QrCode;
    // Detectar el ancho del dispositivo
    const screenWidth = window.innerWidth;
@@ -47,7 +51,16 @@ startScanButton.addEventListener("click", () => {
                         config,
                         (decodedText, decodedResult) => {
                             // Muestra el resultado
-                           
+                            // Busca el producto en el arreglo
+                            const productoEncontrado = buscarProducto(decodedText);
+
+                            if (productoEncontrado) {
+                                // Si el producto existe, detén el escáner y muestra un mensaje
+                                detener(); // Detiene el escáner
+                                alert(`Producto encontrado: ${productoEncontrado.ARTICULO}, NOMBRE: ${productoEncontrado.DESCRIPCION}`);
+                                return; // Sale de la función para que no continúe
+                            } 
+                            
                                 emitirPitido();
                             
 
@@ -55,7 +68,7 @@ startScanButton.addEventListener("click", () => {
                             console.log("Resultado completo:", decodedResult);
                             setTimeout(() => {
                                 detener();
-                            }, 500);
+                            }, 300);
                             
                         }
                     )
