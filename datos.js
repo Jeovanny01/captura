@@ -105,7 +105,7 @@ document.getElementById('archivo').addEventListener('change', function (event) {
         .then(base64 => {
             IMAGEN = base64.replace(/^data:.+;base64,/, '');
             //console.log("Imagen redimensionada y convertida:", IMAGEN);
-            alert(IMAGEN);
+           // alert(IMAGEN);
         })
         .catch(error => {
             console.error("Error al redimensionar o convertir la imagen:", error);
