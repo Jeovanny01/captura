@@ -110,12 +110,12 @@
             const pass = document.getElementById("password").value;
 
             try {
-                const response = await fetch("https://apitest.grupocarosa.com/ApiDatos/ConsultarUsuario", {
+                const response = await fetch("https://apitest.grupocarosa.com/ApiDatos/ConsultarUsuarioWeb", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"
                     },
-                    body: JSON.stringify({ user, pass })
+                    body: JSON.stringify({ user, pass,empresa:"FUNNY" })
                 });
 
                 if (response.ok) {
