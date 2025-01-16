@@ -1,10 +1,8 @@
 const startScanButton = document.getElementById("start-scan");
 const stopScanButton = document.getElementById("stop-scan");
 const inputCodigo = document.getElementById("codigo");
+import { buscarProducto } from './datos.js';
 
-function buscarProducto(codigo) {
-    return productos.find(producto => producto.codigo === codigo);
-}
 
 let html5QrCode;
    // Detectar el ancho del dispositivo

@@ -111,10 +111,13 @@ document.getElementById('archivo').addEventListener('change', function (event) {
             console.error("Error al redimensionar o convertir la imagen:", error);
         });
 });
-
+function buscarProducto(codigo) {
+    return productos.find(producto => producto.ARTICULO === codigo);
+}
 
 // Guardar sucursal (creación o edición)
 async function  saveArticulo(event) {
+
     //event.preventDefault(); // Evitar recarga de la página
     const articulo = document.getElementById("codigo").value;
     const descripcion = document.getElementById("descripcion").value;
@@ -126,6 +129,17 @@ async function  saveArticulo(event) {
     const precioNomal = document.getElementById("precioNomal").value;
     const session = JSON.parse(localStorage.getItem("session") || "{}");
 
+    const productoEncontrado = buscarProducto(articulo);
+
+    if (productoEncontrado) {
+        // Si el producto existe, detén el escáner y muestra un mensaje
+        alert(`Producto encontrado: ${productoEncontrado.ARTICULO}, NOMBRE: ${productoEncontrado.DESCRIPCION}`);
+          // Limpiar el formulario
+          document.getElementById('formRegistrar').reset();  // 'miFormulario' es el ID del formulario
+          document.getElementById('btn-quitar').style.display = 'none';  // Ocultar el botón
+          IMAGEN=null;
+        return; // Sale de la función para que no continúe
+    } 
    // const usuario = "sa";
    
         // Envía los datos al backend mediante fetch
@@ -305,7 +319,7 @@ async function fetchData() {
 
         if (!response.ok) throw new Error('Error al obtener los datos.');
         const data = await response.json();
-        distritos =data
+        productos =data
         // Genera la tabla y la inserta en la sección "datos"
         generarTabla(data);
     } catch (error) {

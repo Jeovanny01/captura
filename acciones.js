@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     showSection('register');
     cargarCategorias();
+    fetchData();
 });
 
 
