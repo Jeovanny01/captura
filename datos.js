@@ -41,7 +41,11 @@ async function cargarCategorias() {
             option.textContent = data.DESCRIPCION;
             selectBranch.appendChild(option);
 
-            const option2 = document.createElement('option2');
+            
+        });
+
+        dat.forEach(data => {
+            const option2 = document.createElement('option');
             option2.value = data.CLASIFICACION;
             option2.textContent = data.DESCRIPCION;
             selectBranch2.appendChild(option2);
@@ -347,7 +351,7 @@ if (registroSeleccionado.length > 0) {
 }
 }
 
-const articuloEdit = async (accion, articulo, descripcion, items,empresa) => {
+const articuloEdit = async (accion, articulo, descripcion, items,empresa,cat1,cat2) => {
     try {
         const response = await fetch(url + "articuloEdit", {
             method: "POST",
@@ -355,7 +359,7 @@ const articuloEdit = async (accion, articulo, descripcion, items,empresa) => {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                accion, articulo, descripcion, items,empresa
+                accion, articulo, descripcion, items,empresa,cat1,cat2
             })
         });
 
@@ -392,11 +396,12 @@ async function  saveRegistro(event) {
     const articulo = document.getElementById("articulo").value;
     const descripcion = document.getElementById("descripcionEdit").value;
     const items = document.getElementById("items").value.trim() === "" ? null: document.getElementById("items").value.trim();
-   
+    const cat1 = document.getElementById("categoriaEdit").value.charAt(0) || null;;
+    const cat2 = document.getElementById("categoriaEdit").value;
 
     if (document.getElementById("articulo").readOnly) {
             try {
-                const response = await articuloEdit("UPDATE2", articulo,descripcion,items,"FUNNY");
+                const response = await articuloEdit("UPDATE2", articulo,descripcion,items,"FUNNY",cat1,cat2);
                 console.log("Actualizado:", response); 
                 // Lógica para actualizar la fila correspondiente en la tabla
                 //updateTableRowVend(id, nombre); // Función para actualizar la fila
@@ -423,10 +428,11 @@ function cargarFormulario(registro) {
     if (registro) {
         // Llenar los campos del formulario con los datos del registro
             document.getElementById("articulo").value = registro.ARTICULO;
-        document.getElementById("descripcion").value = registro.DESCRIPCION;
+        document.getElementById("descripcionEdit").value = registro.DESCRIPCION;
 
                // Seleccionar el estado actual del registro
         document.getElementById("items").value = registro.ITEM;
+        document.getElementById("categoriaEdit").value = registro.CODIGO;
 
 
     }
