@@ -41,10 +41,10 @@ async function cargarCategorias() {
             option.textContent = data.DESCRIPCION;
             selectBranch.appendChild(option);
 
-            const option2 = document.createElement('option');
+            const option2 = document.createElement('option2');
             option2.value = data.CLASIFICACION;
             option2.textContent = data.DESCRIPCION;
-            selectBranch2.appendChild(option);
+            selectBranch2.appendChild(option2);
             
         });
 
