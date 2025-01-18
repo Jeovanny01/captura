@@ -236,15 +236,20 @@ function generarTabla(datos) {
     const section = document.getElementById('datos');
 
     if (!datos.length) {
-        const mensaje = document.createElement('p');
-        mensaje.textContent = 'No hay datos disponibles.';
-        mensaje.id = 'mensajeNoDatos';
-        section.appendChild(mensaje);
+        // Verifica si ya existe el mensaje "No hay datos disponibles"
+        if (!document.getElementById('mensajeNoDatos')) {
+            const mensaje = document.createElement('p');
+            mensaje.textContent = 'No hay datos disponibles.';
+            mensaje.id = 'mensajeNoDatos';
+            section.appendChild(mensaje);
+        }
         return;
     } else {
+        // Elimina el mensaje si los datos están disponibles
         const mensajeNoDatos = document.getElementById('mensajeNoDatos');
-        if (mensajeNoDatos) mensajeNoDatos.remove(); // Elimina cualquier mensaje previo
+        if (mensajeNoDatos) mensajeNoDatos.remove();
     }
+    
 
     const table = document.createElement('table');
     table.id = 'tablaDatos'; // Asigna un ID único a la tabla
@@ -281,7 +286,7 @@ function generarTabla(datos) {
                 const ampm = horas >= 12 ? 'PM' : 'AM';
                 horas = horas % 12 || 12; // Convierte a formato de 12 horas
                 td.textContent = `${dia}/${mes}/${anio} ${horas}:${minutos} ${ampm}`;
-            } else if (columna === 'ID') {
+            } else if (columna === 'ARTICULO') {
                 // Convierte el ID en un enlace
                 const enlace = document.createElement('a');
                 enlace.href = `editar.html?id=${valor}`; // URL para editar
@@ -303,8 +308,120 @@ function generarTabla(datos) {
 
     // Inserta la tabla al final de la sección
     section.appendChild(table);
+    document.getElementById("filtroInput").value="";
 }
 
+
+function editarRegistro(id) {
+
+    const session = JSON.parse(localStorage.getItem("session") || "{}");
+    if (session.userRole !="1") {
+        return;
+    }
+    
+    // Obtener la tabla 'tablaDatos' desde localStorage
+//let tablaDatos = JSON.parse(localStorage.getItem("tablaDatos"));
+
+// Filtrar la tabla de datos para obtener el registro con el ID seleccionado
+let registroSeleccionado = productos.filter(item => item.ARTICULO === id);
+
+// Si encuentras el registro, puedes hacer algo con él, por ejemplo, mostrarlo en un formulario
+if (registroSeleccionado.length > 0) {
+    console.log("Registro encontrado:", registroSeleccionado[0]);
+    
+    cargarFormulario(registroSeleccionado[0])
+       // Abrir el modal
+       const modal = document.getElementById("formulario");
+       modal.style.display = "flex"; // Mostrar el modal
+} else {
+    console.log("Registro no encontrado");
+}
+}
+
+const articuloEdit = async (accion, articulo, descripcion, items,empresa) => {
+    try {
+        const response = await fetch(url + "articuloEdit", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                accion, articulo, descripcion, items,empresa
+            })
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            return data;
+        } else {
+            throw new Error(`Error en la petición. Código de estado: ${response.status}`);
+        }
+    } catch (error) {
+        console.error("Error en la petición:", error.message);
+        throw error;
+    }
+};
+ // Función para filtrar los datos
+ function filtrarDatos() {
+    const filtro = document.getElementById("filtroInput").value.toLowerCase();
+    const resultados = productos.filter(articulo => {
+        const articuloTexto = (articulo.ARTICULO || "").toLowerCase();
+        const descripcionTexto = (articulo.DESCRIPCION || "").toLowerCase();
+        const itemTexto = (articulo.ITEM || "").toLowerCase();
+
+        return articuloTexto.includes(filtro) ||
+               descripcionTexto.includes(filtro) ||
+               itemTexto.includes(filtro);
+    });
+    
+    generarTabla(resultados);
+}
+
+
+async function  saveRegistro(event) {
+    event.preventDefault(); // Evitar recarga de la página
+    const articulo = document.getElementById("articulo").value;
+    const descripcion = document.getElementById("descripcion").value;
+    const items = document.getElementById("items").value.trim() === "" ? null: document.getElementById("items").value.trim();
+   
+
+    if (document.getElementById("articulo").readOnly) {
+            try {
+                const response = await articuloEdit("UPDATE2", articulo,descripcion,items,"FUNNY");
+                console.log("Actualizado:", response); 
+                // Lógica para actualizar la fila correspondiente en la tabla
+                //updateTableRowVend(id, nombre); // Función para actualizar la fila
+                fetchData();
+                closeModal();
+                
+            } catch (error) {
+                console.error("Error al actualizar registro:", error.message);
+                alert("Error al actualizar ");
+            }
+       
+    }
+
+    
+};
+function closeModal() {
+    const modal= document.getElementById("formulario");
+    modal.style.display = "none";
+}
+
+function cargarFormulario(registro) {
+    // Obtener el registro con el ID correspondiente
+    
+    if (registro) {
+        // Llenar los campos del formulario con los datos del registro
+            document.getElementById("articulo").value = registro.ARTICULO;
+        document.getElementById("descripcion").value = registro.DESCRIPCION;
+
+               // Seleccionar el estado actual del registro
+        document.getElementById("items").value = registro.ITEM;
+
+
+    }
+}
 
 async function fetchData() {
     try {

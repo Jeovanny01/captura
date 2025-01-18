@@ -163,6 +163,8 @@
         
 
         <button onclick="fetchData()">Cargar datos</button>
+        <input type="text" id="filtroInput" placeholder="Escribe el dato filtrar...">
+        <button onclick="filtrarDatos()">Filtrar</button>
         </div>
 
             <!-- Tabla para los datos -->
@@ -171,7 +173,25 @@
         </table>
     </section>
         <!-- Sección de bienvenida -->
-             
+        <div id="formulario" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal()">&times;</span>
+                <h2 id="modal-title">Editar Registro</h2>
+                <form id="modal-form" onsubmit="saveRegistro(event)">
+                    <label for="articulo">ARTICULO:</label>
+                    <input type="text" id="articulo" readonly>
+    
+                    <label for="items">ITEMS:</label>
+                    <input type="text" id="items" >
+    
+                    <label for="descripcion">DESCRIPCION:</label>
+                    <input type="text" id="descripcion">
+                    <br>
+                    <button type="submit">Guardar</button>
+                </form>
+            </div>
+        </div>
+     
     
         <!-- Sección del formulario de registro de alumnos -->
     <section id="register" class="form-">
