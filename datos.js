@@ -27,6 +27,7 @@ async function cargarCategorias() {
     try {
       
         const selectBranch = document.getElementById('categoria');
+        const selectBranch2 = document.getElementById('categoriaEdit');
         if (!selectBranch) return;
          // Verificar si ya hay datos cargados
          if (selectBranch.children.length > 1) {
@@ -39,7 +40,15 @@ async function cargarCategorias() {
             option.value = data.CLASIFICACION;
             option.textContent = data.DESCRIPCION;
             selectBranch.appendChild(option);
+
+            const option2 = document.createElement('option');
+            option2.value = data.CLASIFICACION;
+            option2.textContent = data.DESCRIPCION;
+            selectBranch2.appendChild(option);
+            
         });
+
+
     } catch (error) {
         console.error('Error al cargar los categoria:', error.message);
         const selectBranch = document.getElementById('categoria');
@@ -381,7 +390,7 @@ const articuloEdit = async (accion, articulo, descripcion, items,empresa) => {
 async function  saveRegistro(event) {
     event.preventDefault(); // Evitar recarga de la página
     const articulo = document.getElementById("articulo").value;
-    const descripcion = document.getElementById("descripcion").value;
+    const descripcion = document.getElementById("descripcionEdit").value;
     const items = document.getElementById("items").value.trim() === "" ? null: document.getElementById("items").value.trim();
    
 
