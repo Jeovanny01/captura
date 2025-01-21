@@ -180,7 +180,7 @@ async function  saveArticulo(event) {
                 const result = JSON.parse(text);
                 console.log(result);  // Ver el contenido del objeto JSON
                 if (result.success) {
-                    alert('Producto registrado con éxito');
+                    //alert('Producto registrado con éxito');
                     alert('Producto registrado con éxito codigo: ' + result.data[0].ARTICULO);
                     // Limpiar el formulario
                     document.getElementById('interno').checked =false;
@@ -224,6 +224,34 @@ async function  saveArticulo(event) {
             alert('Hubo un error al procesar la solicitud');
         });
 };
+
+async function  deleteArticulo(event) {
+    //event.preventDefault(); // Evitar recarga de la página
+    const articulo = document.getElementById("articulo").value;
+    const descripcion = document.getElementById("descripcionEdit").value;
+    const items = document.getElementById("items").value.trim() === "" ? null: document.getElementById("items").value.trim();
+    const cat1 = document.getElementById("categoriaEdit").value.charAt(0) || null;;
+    const cat2 = document.getElementById("categoriaEdit").value;
+
+    if (document.getElementById("articulo").readOnly) {
+            try {
+                const response = await articuloEdit("DELETE", articulo,descripcion,items,"FUNNY",cat1,cat2);
+                console.log("DELETED ARTICULO:", response); 
+                // Lógica para actualizar la fila correspondiente en la tabla
+                //updateTableRowVend(id, nombre); // Función para actualizar la fila
+                fetchData();
+                closeModal();
+                
+            } catch (error) {
+                console.error("Error al actualizar DELETED:", error.message);
+                alert("Error al ELIMINAR ");
+            }
+       
+    }
+
+    
+};
+
 
 
 
