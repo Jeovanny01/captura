@@ -5,6 +5,28 @@ function showSection(sectionId) {
 }
 
 
+const codigoInput = document.getElementById('codigo');
+const internoCheckbox = document.getElementById('interno');
+const boton1 = document.getElementById('start-scan');
+const boton2 = document.getElementById('stop-scan');
+internoCheckbox.addEventListener('change', () => {
+    
+
+    if (internoCheckbox.checked) {
+        codigoInput.required = false; // Desactiva el atributo 'required'
+        codigoInput.value = ''; // Limpia el valor del campo
+        codigoInput.disabled = true; // Opcional: Desactiva el campo
+        boton1.disabled = true; 
+        boton2.disabled = true; 
+    } else {
+        codigoInput.required = true; // Activa el atributo 'required'
+        codigoInput.disabled = false; // Habilita el campo nuevamente
+        boton1.disabled = false; 
+        boton2.disabled = false; 
+    }
+});
+
+
 // Mostrar la sección de bienvenida por defecto cuando se carga la página
 document.addEventListener('DOMContentLoaded', () => {
     const session = JSON.parse(localStorage.getItem("session") || "{}");

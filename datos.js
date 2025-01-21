@@ -181,6 +181,13 @@ async function  saveArticulo(event) {
                 console.log(result);  // Ver el contenido del objeto JSON
                 if (result.success) {
                     alert('Producto registrado con éxito');
+                    alert('Producto registrado con éxito codigo: ' + result.data[0].ARTICULO);
+                    // Limpiar el formulario
+                    document.getElementById('interno').checked =false;
+                    document.getElementById('interno').required = true; // Activa el atributo 'required'
+                    document.getElementById('interno').disabled = false; // Habilita el campo nuevamente
+                    document.getElementById('start-scan').disabled = false;
+                    document.getElementById('stop-scan').disabled = false;
                      // Limpiar el formulario
                     document.getElementById('formRegistrar').reset();  // 'miFormulario' es el ID del formulario
                     document.getElementById('btn-quitar').style.display = 'none';  // Ocultar el botón
