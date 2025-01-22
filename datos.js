@@ -252,9 +252,6 @@ async function  deleteArticulo(event) {
     
 };
 
-
-
-
 // Función para leer el archivo como ArrayBuffer
 function convertirArchivoABase64(archivo) {
     return new Promise((resolve, reject) => {
