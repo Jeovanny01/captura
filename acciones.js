@@ -19,7 +19,7 @@ internoCheckbox.addEventListener('change', () => {
         boton1.disabled = true; 
         boton2.disabled = true; 
     } else {
-        codigoInput.required = true; // Activa el atributo 'required'
+       // codigoInput.required = true; // Activa el atributo 'required'
         codigoInput.disabled = false; // Habilita el campo nuevamente
         boton1.disabled = false; 
         boton2.disabled = false; 

@@ -184,8 +184,8 @@ async function  saveArticulo(event) {
                     alert('Producto registrado con éxito codigo: ' + result.data[0].ARTICULO);
                     // Limpiar el formulario
                     document.getElementById('interno').checked =false;
-                    document.getElementById('interno').required = true; // Activa el atributo 'required'
-                    document.getElementById('interno').disabled = false; // Habilita el campo nuevamente
+                    document.getElementById('codigo').required = true; // Activa el atributo 'required'
+                    document.getElementById('codigo').disabled = false; // Habilita el campo nuevamente
                     document.getElementById('start-scan').disabled = false;
                     document.getElementById('stop-scan').disabled = false;
                      // Limpiar el formulario
