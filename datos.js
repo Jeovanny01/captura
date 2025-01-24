@@ -188,6 +188,7 @@ async function  saveArticulo(event) {
                     document.getElementById('codigo').disabled = false; // Habilita el campo nuevamente
                     document.getElementById('start-scan').disabled = false;
                     document.getElementById('stop-scan').disabled = false;
+                    
                      // Limpiar el formulario
                     document.getElementById('formRegistrar').reset();  // 'miFormulario' es el ID del formulario
                     document.getElementById('btn-quitar').style.display = 'none';  // Ocultar el botón
