@@ -272,6 +272,7 @@ function convertirArchivoABase64(archivo) {
 
 
 function generarTabla(datos) {
+    const contenedorTabla = document.getElementById('contenedorTabla'); // Obtiene el contenedor de la tabla
     const tablaExistente = document.getElementById('tablaDatos'); // Identifica la tabla existente
 
     // Elimina la tabla anterior, si existe
@@ -353,7 +354,8 @@ function generarTabla(datos) {
     table.appendChild(tbody);
 
     // Inserta la tabla al final de la sección
-    section.appendChild(table);
+    //section.appendChild(table);
+    contenedorTabla.appendChild(table);
     document.getElementById("filtroInput").value="";
 }
 

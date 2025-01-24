@@ -140,6 +140,8 @@
               <!-- <li><a onclick="showSection('welcome')">Inicio</a></li> -->
                 <li><a onclick="showSection('register')">Crear productos</a></li>
                 <li><a onclick="showSection('datos')"> Registros</a></li>
+                <li><a onclick="showSection('inventario')"> Inventario</a></li>
+                <li><a onclick="showSection('ventas')"> Ventas</a></li>
                            </ul>
             <div id="logout" onclick="logout()">
                 <i class="fas fa-sign-out-alt" title="Cerrar sesión"></i>
@@ -155,7 +157,7 @@
         </section>  -->
         
      <!-- Sección de bienvenida -->
-     <section id="datos">
+     <section id="datos" class="secciones">
         <h2>Listado de datos</h2>
 
         <!-- Contenedor para los filtros, organizado en una línea -->
@@ -166,11 +168,13 @@
         <input type="text" id="filtroInput" placeholder="Escribe el dato filtrar...">
         <button onclick="filtrarDatos()">Filtrar</button>
         </div>
-
-            <!-- Tabla para los datos -->
-        <table id="tablaDatos">
+       
+        <div id="contenedorTabla" class="tabla-contenedor">
+            <table id="tablaDatos">
                 <!-- La tabla se llenará dinámicamente -->
-        </table>
+            </table>
+        </div>
+        
     </section>
         <!-- Sección de bienvenida -->
         <div id="formulario" class="modal">
@@ -204,7 +208,7 @@
      
     
         <!-- Sección del formulario de registro de alumnos -->
-    <section id="register" class="form-">
+    <section id="register" class="secciones">
             <h2>Registro de productos</h2>
             <form id="formRegistrar">
                 
@@ -286,7 +290,51 @@
                 </div>
             </form>
         </section>
-      
+    
+        <section id="inventario" class="secciones">
+            <h2>Captura de inventario</h2>
+            <form id="formInventario">
+                
+                <div class="form-group">
+                    
+                    <label for="ubicacion">UBICACION</label>
+                    <input type="text" id="ubicacion" name="ubicacion" required>
+
+                    <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+                        <div style="display: flex; align-items: center;">
+                            <label for="codigo2" style="margin-right: 10px;">Código de barra</label>
+                            <input type="text" id="codigo2" name="codigo2" required style="margin-right: 10px;">
+                        </div>
+                        
+                    </div>
+                  
+                    <div id="reader" style="width: 100%; "></div>
+
+                    <button id="start-scan2" type="button"> Iniciar Escaneo</button>
+                    <button id="stop-scan2" type="button" disabled>Detener Escaneo</button>
+
+                 
+                    
+            
+                    <label for="item2">ITEM No.</label>
+                    <input type="text" id="item2" name="item2" required>
+                                                 
+                    <label for="descripcion2">Descripcion</label>
+                    <input type="text" id="descripcion2" name="descripcion2" required>
+           
+
+                    <label for="cantidad2">Cantidad</label>
+                    <input type="number" id="cantidad2" name="cantidad2"  step="1"  min="0" max="10000"  placeholder="">
+               
+           
+                    <br>
+                    <br>
+                    <input type="submit" value="Guardar">
+                </div>
+            </form>
+        </section>
+    
+
     </main>
 
 
