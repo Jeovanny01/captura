@@ -206,6 +206,44 @@ btnEliminar.addEventListener('click', function () {
 
 });
 
+const txtcodigo2 = document.getElementById('codigo2');
+txtcodigo2.addEventListener('keydown', function (event) {
+if (event.key === 'Enter') { // Verifica si la tecla presionada es "Enter"
+const inputCodigo = document.getElementById("codigo2");
+const inputDescripcion = document.getElementById("descripcion2");
+const inputItem = document.getElementById("item2");
 
+    const productoEncontrado = buscarProducto(txtcodigo2.value);
+
+    if (productoEncontrado) {
+        inputCodigo.value=productoEncontrado.ARTICULO
+        inputDescripcion.value=productoEncontrado.DESCRIPCION
+        inputItem.value=productoEncontrado.ITEM
+        return; // Sale de la función para que no continúe
+    }  else {
+        alert('Producto no encontrado');
+    }
+}
+ });
+
+const txtitem2 = document.getElementById('item2');
+txtitem2.addEventListener('keydown', function (event) {
+if (event.key === 'Enter') { // Verifica si la tecla presionada es "Enter"
+const inputCodigo = document.getElementById("codigo2");
+const inputDescripcion = document.getElementById("descripcion2");
+const inputItem = document.getElementById("item2");
+
+    const productoEncontrado = buscarItems(txtitem2.value);
+
+    if (productoEncontrado) {
+        inputCodigo.value=productoEncontrado.ARTICULO
+        inputDescripcion.value=productoEncontrado.DESCRIPCION
+        inputItem.value=productoEncontrado.ITEM
+        return; // Sale de la función para que no continúe
+    }  else {
+        alert('Producto no encontrado');
+    }
+}
+ });
 
 

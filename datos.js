@@ -129,6 +129,11 @@ function buscarProducto(codigo) {
     return productos.find(producto => producto.ARTICULO === codigo);
 }
 
+function buscarItems(codigo) {
+    return productos.find(producto => producto.ITEM === codigo);
+}
+
+
 // Guardar sucursal (creación o edición)
 async function  saveArticulo(event) {
 
