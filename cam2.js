@@ -58,7 +58,7 @@ startScanButton.addEventListener("click", () => {
                                 detener(); // Detiene el escáner
                                 inputCodigo.value = decodedText;
                                 inputDescripcion.value = productoEncontrado.DESCRIPCION
-                                //inputItem.value = productoEncontrado.ITEM
+                                inputItem.value = productoEncontrado.ITEM
 
                                // alert(`Producto encontrado: ${productoEncontrado.ARTICULO}, NOMBRE: ${productoEncontrado.DESCRIPCION}`);
                                 return; // Sale de la función para que no continúe
