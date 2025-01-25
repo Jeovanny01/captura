@@ -195,6 +195,11 @@ document.getElementById('formRegistrar').addEventListener('submit', function(eve
     saveArticulo(); // Llama a la función para registrar al alumno
 });
 
+document.getElementById('formInventario').addEventListener('submit', function(event) {
+    event.preventDefault(); // Evita el envío tradicional del formulario
+    saveInventario(); // Llama a la función para registrar al alumno
+});
+
 const btnEliminar = document.getElementById('btnEliminar');
 btnEliminar.addEventListener('click', function () {
        deleteArticulo();

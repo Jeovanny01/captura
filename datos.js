@@ -226,6 +226,89 @@ async function  saveArticulo(event) {
         });
 };
 
+async function  saveInventario(event) {
+    const session = JSON.parse(localStorage.getItem("session") || "{}");
+    //event.preventDefault(); // Evitar recarga de la página
+    const articulo = document.getElementById("codigo2").value;
+    const cantidad = document.getElementById("cantidad2").value;
+    const ubicacion = document.getElementById("ubicacion").value;
+
+    const descripcion = document.getElementById("descripcion2").value;
+    
+    // Verificar si es nulo o está vacío
+if (!descripcion || descripcion.trim() === "") {
+    alert("Por favor, cree producto, antes de guardar inventario");
+    return; // Salir de la función o evitar continuar
+  }
+
+    
+        // Envía los datos al backend mediante fetch
+        fetch(url+"inventario", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                accion:"INSERT",  articulo,  cantidad, usuario:session.user,ubicacion })
+    }) 
+        .then(response => {
+            // Verificar si la respuesta es exitosa
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.text();  // Leer la respuesta como texto
+        })
+        .then(text => {
+            console.log('Raw response:', text);  // Verifica lo que devuelve el servidor
+            try {
+                // Intentar convertir el texto a JSON
+                const result = JSON.parse(text);
+                console.log(result);  // Ver el contenido del objeto JSON
+                if (result.success) {
+                    //alert('Producto registrado con éxito');
+                    alert('Inventario registrado con éxito codigo: ' + result.data[0].ARTICULO);
+                    // Limpiar el formulario
+                  
+                    document.getElementById('codigo2').required = true; // Activa el atributo 'required'
+                    document.getElementById('codigo2').disabled = false; // Habilita el campo nuevamente
+                    document.getElementById('start-scan2').disabled = false;
+                    document.getElementById('stop-scan2').disabled = false;
+                    
+                     // Limpiar el formulario
+                    document.getElementById('formInventario').reset();  // 'miFormulario' es el ID del formulario
+                  
+                        // Regresar al principio de la página
+                        window.scrollTo(0, 0);
+                        fetchData();
+                } else {
+                    const errorMessage = result.data[0].ErrorMessage;
+                    if (errorMessage.includes("Violation of PRIMARY KEY")) {
+                      console.log("El mensaje contiene 'Violation of PRIMARY KEY'.");
+                      alert('Producto ya existe!!!');
+                      // Limpiar el formulario
+                     document.getElementById('formInventario').reset();  // 'miFormulario' es el ID del formulario
+                    
+                         // Regresar al principio de la página
+                         window.scrollTo(0, 0);
+                         
+                    } else {
+                        console.error('Error:', text);
+                    alert('Hubo un error al registrar el inventario: ' + text);
+                    }
+                    
+                  
+                }
+            } catch (e) {
+                console.error('Error al procesar la respuesta JSON:', e);
+                alert('Hubo un error al procesar la respuesta del servidor',e);
+            }
+        })
+        .catch(error => {
+            console.error('Error al procesar la solicitud:', error);
+            alert('Hubo un error al procesar la solicitud');
+        });
+};
+
 async function  deleteArticulo(event) {
     //event.preventDefault(); // Evitar recarga de la página
     const articulo = document.getElementById("articulo").value;
