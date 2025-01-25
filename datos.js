@@ -2,6 +2,7 @@ const url = "https://apitest.grupocarosa.com/ApiDatos/"
 let IMAGEN = null
 let user
 let productos = [];
+let inventarioTabla = [];
 
 const fetchEjecutar = async (funct) => {
     try {
@@ -287,7 +288,7 @@ if (!descripcion || descripcion.trim() === "") {
                   document.getElementById("ubicacion").value =  localStorage.getItem("ubicacion")
                         // Regresar al principio de la página
                         window.scrollTo(0, 0);
-                        fetchData();
+                        fetchData2();
                 } else {
                     const errorMessage = result.data[0].ErrorMessage;
                     if (errorMessage.includes("Violation of PRIMARY KEY")) {
@@ -450,6 +451,94 @@ function generarTabla(datos) {
     document.getElementById("filtroInput").value="";
 }
 
+function generarTabla2(datos) {
+    const contenedorTabla = document.getElementById('contenedorTabla2'); // Obtiene el contenedor de la tabla
+    const tablaExistente = document.getElementById('tablaDatos2'); // Identifica la tabla existente
+
+    // Elimina la tabla anterior, si existe
+    if (tablaExistente) {
+        tablaExistente.remove();
+    }
+
+    const section = document.getElementById('registrosInv');
+
+    if (!datos.length) {
+        // Verifica si ya existe el mensaje "No hay datos disponibles"
+        if (!document.getElementById('mensajeNoDatos')) {
+            const mensaje = document.createElement('p');
+            mensaje.textContent = 'No hay datos disponibles.';
+            mensaje.id = 'mensajeNoDatos';
+            section.appendChild(mensaje);
+        }
+        return;
+    } else {
+        // Elimina el mensaje si los datos están disponibles
+        const mensajeNoDatos = document.getElementById('mensajeNoDatos');
+        if (mensajeNoDatos) mensajeNoDatos.remove();
+    }
+    
+
+    const table = document.createElement('table');
+    table.id = 'tablaDatos2'; // Asigna un ID único a la tabla
+    table.border = '1';
+
+    // Genera el encabezado de la tabla dinámicamente
+    const thead = document.createElement('thead');
+    const headerRow = document.createElement('tr');
+    Object.keys(datos[0]).forEach((columna) => {
+        const th = document.createElement('th');
+        th.textContent = columna;
+        headerRow.appendChild(th);
+    });
+    thead.appendChild(headerRow);
+    table.appendChild(thead);
+
+    // Genera el cuerpo de la tabla
+    const tbody = document.createElement('tbody');
+    datos.forEach((fila) => {
+        const tr = document.createElement('tr');
+        Object.entries(fila).forEach(([columna, valor]) => {
+            const td = document.createElement('td');
+            // Si la columna es una fecha en formato /Date(...)/, la convertimos
+            if (typeof valor === 'string' && valor.includes('/Date(') && valor.includes(')/')) {
+                const timestamp = valor.match(/\/Date\((\d+)\)\//)[1];
+                const fecha = new Date(parseInt(timestamp)); // Convierte el timestamp a una fecha
+                
+                // Formatea la fecha y hora en el formato dd/MM/yyyy hh:mm AM/PM
+                const dia = fecha.getDate().toString().padStart(2, '0');
+                const mes = (fecha.getMonth() + 1).toString().padStart(2, '0');
+                const anio = fecha.getFullYear();
+                let horas = fecha.getHours();
+                const minutos = fecha.getMinutes().toString().padStart(2, '0');
+                const ampm = horas >= 12 ? 'PM' : 'AM';
+                horas = horas % 12 || 12; // Convierte a formato de 12 horas
+                td.textContent = `${dia}/${mes}/${anio} ${horas}:${minutos} ${ampm}`;
+            } else if (columna === 'ARTICULO') {
+                // Convierte el ID en un enlace
+                const enlace = document.createElement('a');
+                enlace.href = `editar.html?id=${valor}`; // URL para editar
+                enlace.textContent = valor;
+                enlace.onclick = (event) => {
+                    event.preventDefault(); // Evita el comportamiento por defecto
+                   // editarRegistro(valor); // Llama a la función de edición
+                };
+                td.appendChild(enlace);
+            } else {
+                td.textContent = valor;
+            }
+
+            tr.appendChild(td);
+        });
+        tbody.appendChild(tr);
+    });
+    table.appendChild(tbody);
+
+    // Inserta la tabla al final de la sección
+    //section.appendChild(table);
+    contenedorTabla.appendChild(table);
+    document.getElementById("filtroInput2").value="";
+}
+
 
 function editarRegistro(id) {
 
@@ -515,6 +604,22 @@ const articuloEdit = async (accion, articulo, descripcion, items,empresa,cat1,ca
     
     generarTabla(resultados);
 }
+// Función para filtrar los datos
+function filtrarDatos2() {
+    const filtro = document.getElementById("filtroInput2").value.toLowerCase();
+    const resultados = inventarioTabla.filter(articulo => {
+        const articuloTexto = (articulo.ARTICULO || "").toLowerCase();
+        const descripcionTexto = (articulo.DESCRIPCION || "").toLowerCase();
+        const itemTexto = (articulo.ITEM || "").toLowerCase();
+
+        return articuloTexto.includes(filtro) ||
+               descripcionTexto.includes(filtro) ||
+               itemTexto.includes(filtro);
+    });
+    
+    generarTabla2(resultados);
+}
+
 
 
 async function  saveRegistro(event) {
@@ -582,6 +687,28 @@ async function fetchData() {
         productos =data
         // Genera la tabla y la inserta en la sección "datos"
         generarTabla(data);
+    } catch (error) {
+        console.error('Error al obtener los datos:', error);
+    }
+}
+async function fetchData2() {
+    try {
+        // Llama al endpoint con las fechas como parámetros
+        const response = await fetch(url + "selectInventario", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                empresa:"FUNNY"
+            })
+        });
+
+        if (!response.ok) throw new Error('Error al obtener los datos.');
+        const data = await response.json();
+        inventarioTabla =data
+        // Genera la tabla y la inserta en la sección "datos"
+        generarTabla2(data);
     } catch (error) {
         console.error('Error al obtener los datos:', error);
     }
