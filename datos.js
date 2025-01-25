@@ -126,11 +126,12 @@ document.getElementById('archivo').addEventListener('change', function (event) {
 });
 
 function buscarProducto(codigo) {
-    return productos.find(producto => producto.ARTICULO === codigo);
+    return productos.find(producto => producto.ARTICULO.toUpperCase() === codigo.toUpperCase());
+
 }
 
 function buscarItems(codigo) {
-    return productos.find(producto => producto.ITEM === codigo);
+    return productos.find(producto => producto.ITEM.toUpperCase()  === codigo.toUpperCase() );
 }
 
 

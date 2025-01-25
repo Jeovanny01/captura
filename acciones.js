@@ -38,6 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
     showSection('inventario');
     cargarCategorias();
     fetchData();
+    document.getElementById("ubicacion").value =  localStorage.getItem("ubicacion")
 });
 
 
