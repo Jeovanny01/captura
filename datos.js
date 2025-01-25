@@ -233,6 +233,7 @@ async function  saveInventario(event) {
     const cantidad = document.getElementById("cantidad2").value;
     const ubicacion = document.getElementById("ubicacion").value;
 
+    localStorage.setItem("ubicacion", ubicacion);
     const descripcion = document.getElementById("descripcion2").value;
     
     // Verificar si es nulo o está vacío
@@ -276,7 +277,7 @@ if (!descripcion || descripcion.trim() === "") {
                     
                      // Limpiar el formulario
                     document.getElementById('formInventario').reset();  // 'miFormulario' es el ID del formulario
-                  
+                  document.getElementById("ubicacion").value =  localStorage.getItem("ubicacion")
                         // Regresar al principio de la página
                         window.scrollTo(0, 0);
                         fetchData();
