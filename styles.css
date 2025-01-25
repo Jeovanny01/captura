@@ -119,6 +119,17 @@ h1 {
         overflow: hidden;
     }
 
+    #reader2 {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0 auto;
+        max-width: 100%;
+        max-height: 20%;
+        background: #f5f5f5; /* Fondo claro para mejor contraste */
+        border-radius: 8px;
+        overflow: hidden;
+    }
     
 }
 .tabla-contenedor {
