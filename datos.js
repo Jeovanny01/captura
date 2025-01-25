@@ -232,6 +232,7 @@ async function  saveInventario(event) {
     const articulo = document.getElementById("codigo2").value;
     const cantidad = document.getElementById("cantidad2").value;
     const ubicacion = document.getElementById("ubicacion").value;
+    const factor = document.getElementById("unidadCon").value;
 
     localStorage.setItem("ubicacion", ubicacion);
     const descripcion = document.getElementById("descripcion2").value;
@@ -250,7 +251,7 @@ if (!descripcion || descripcion.trim() === "") {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                accion:"INSERT",  articulo,  cantidad, usuario:session.user,ubicacion })
+                accion:"INSERT",  articulo,  cantidad, usuario:session.user,ubicacion,factor })
     }) 
         .then(response => {
             // Verificar si la respuesta es exitosa
