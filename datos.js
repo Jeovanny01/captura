@@ -268,7 +268,7 @@ if (!descripcion || descripcion.trim() === "") {
                 console.log(result);  // Ver el contenido del objeto JSON
                 if (result.success) {
                     //alert('Producto registrado con éxito');
-                    alert('Inventario registrado con éxito codigo: ' + articulo + "Cantidad: " + cantidad);
+                    alert('Inventario registrado con éxito codigo: ' + articulo + "  Cantidad: " + cantidad);
                     // Limpiar el formulario
                   
                     document.getElementById('codigo2').required = true; // Activa el atributo 'required'
