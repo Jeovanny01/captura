@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
     
-    showSection('register');
+   // showSection('register');
     cargarCategorias();
     fetchData();
 });
