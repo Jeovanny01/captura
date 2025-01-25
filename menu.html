@@ -139,8 +139,9 @@
             <ul id="menu">
               <!-- <li><a onclick="showSection('welcome')">Inicio</a></li> -->
                 <li><a onclick="showSection('register')">Crear productos</a></li>
-                <li><a onclick="showSection('datos')"> Registros</a></li>
+                <li><a onclick="showSection('datos')"> Productos</a></li>
                 <li><a onclick="showSection('inventario')"> Inventario</a></li>
+                <li><a onclick="showSection('registrosInv')"> Registros Inv.</a></li>
                 <li><a onclick="showSection('ventas')"> Ventas</a></li>
                            </ul>
             <div id="logout" onclick="logout()">
@@ -158,13 +159,9 @@
         
      <!-- Sección de bienvenida -->
      <section id="datos" class="secciones">
-        <h2>Listado de datos</h2>
-
+        <h2>Listado de productos</h2>
         <!-- Contenedor para los filtros, organizado en una línea -->
          <div id="filtros">
-        
-
-        <button onclick="fetchData()">Cargar datos</button>
         <input type="text" id="filtroInput" placeholder="Escribe el dato filtrar...">
         <button onclick="filtrarDatos()">Filtrar</button>
         </div>
@@ -174,8 +171,25 @@
                 <!-- La tabla se llenará dinámicamente -->
             </table>
         </div>
-        
     </section>
+
+      <!-- Sección de bienvenida -->
+      <section id="registrosInv" class="secciones">
+        <h2>Listado de inventario capturado</h2>
+        <!-- Contenedor para los filtros, organizado en una línea -->
+         <div id="filtros">
+        <input type="text" id="filtroInput" placeholder="Escribe el dato filtrar...">
+        <button onclick="filtrarDatos2()">Filtrar</button>
+        </div>
+       
+        <div id="contenedorTabla2" class="tabla-contenedor">
+            <table id="tablaDatos2">
+                <!-- La tabla se llenará dinámicamente -->
+            </table>
+        </div>
+    </section>
+
+
         <!-- Sección de bienvenida -->
         <div id="formulario" class="modal">
             <div class="modal-content">
