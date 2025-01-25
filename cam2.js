@@ -1,6 +1,6 @@
 const startScanButton = document.getElementById("start-scan2");
 const stopScanButton = document.getElementById("stop-scan2");
-const inputCodigo = document.getElementById("articulo");
+const inputCodigo = document.getElementById("codigo2");
 
 
 
@@ -11,7 +11,7 @@ let html5QrCode;
    const qrboxSize = Math.min(screenWidth * 0.6, screenHeight * 0.6);
 
 startScanButton.addEventListener("click", () => {
-    const qrCodeRegionId = "reader";
+    const qrCodeRegionId = "reader2";
     html5QrCode = new Html5Qrcode(qrCodeRegionId);
 
     // Configuración para leer códigos de barras y QR

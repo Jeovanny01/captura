@@ -11,7 +11,6 @@ const boton1 = document.getElementById('start-scan');
 const boton2 = document.getElementById('stop-scan');
 internoCheckbox.addEventListener('change', () => {
     
-
     if (internoCheckbox.checked) {
         codigoInput.required = false; // Desactiva el atributo 'required'
         codigoInput.value = ''; // Limpia el valor del campo
