@@ -1,7 +1,8 @@
 const startScanButton = document.getElementById("start-scan2");
 const stopScanButton = document.getElementById("stop-scan2");
 const inputCodigo = document.getElementById("codigo2");
-
+const inputDescripcion = document.getElementById("descripcion2");
+const inputItem = document.getElementById("item2");
 
 
 let html5QrCode;
@@ -55,7 +56,11 @@ startScanButton.addEventListener("click", () => {
                             if (productoEncontrado) {
                                 // Si el producto existe, detén el escáner y muestra un mensaje
                                 detener(); // Detiene el escáner
-                                alert(`Producto encontrado: ${productoEncontrado.ARTICULO}, NOMBRE: ${productoEncontrado.DESCRIPCION}`);
+                                inputCodigo.value = decodedText;
+                                inputDescripcion.value = productoEncontrado.DESCRIPCION
+                                inputItem.value = productoEncontrado.ITEM
+
+                               // alert(`Producto encontrado: ${productoEncontrado.ARTICULO}, NOMBRE: ${productoEncontrado.DESCRIPCION}`);
                                 return; // Sale de la función para que no continúe
                             } 
                             
