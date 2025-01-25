@@ -531,7 +531,24 @@ body {
     white-space: nowrap; /* Evita que el texto se corte en varias líneas */
 }
 
-#tablaDatos th {
+#tablaDato2 th {
+    background-color: #f4f4f4;
+}
+/* Estilos de la tabla */
+#tablaDatos1 {
+    width: 100%; /* O ajusta este valor según lo necesario */
+    border-collapse: collapse;
+    table-layout: auto; /* Ajusta el ancho de las columnas automáticamente */
+}
+
+#tablaDatos2 th, #tablaDatos td {
+    padding: 8px;
+    text-align: left;
+    border: 1px solid #ddd;
+    white-space: nowrap; /* Evita que el texto se corte en varias líneas */
+}
+
+#tablaDatos2 th {
     background-color: #f4f4f4;
 }
 .category-list {
