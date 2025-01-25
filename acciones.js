@@ -205,45 +205,44 @@ btnEliminar.addEventListener('click', function () {
        deleteArticulo();
 
 });
+const buscar = document.getElementById('btnbuscar');
 
-const txtcodigo2 = document.getElementById('codigo2');
-txtcodigo2.addEventListener('keydown', function (event) {
-if (event.key === 'Enter') { // Verifica si la tecla presionada es "Enter"
-const inputCodigo = document.getElementById("codigo2");
-const inputDescripcion = document.getElementById("descripcion2");
-const inputItem = document.getElementById("item2");
+buscar.addEventListener('click', function () {
+    const inputCodigo = document.getElementById("codigo2");
+    //const inputDescripcion = document.getElementById("descripcion2");
+    const inputItem = document.getElementById("item2");
 
-    const productoEncontrado = buscarProducto(txtcodigo2.value);
+    // Intentar buscar con el valor de `txtcodigo2`
+    const productoCodigo = buscarProducto(inputCodigo.value);
 
-    if (productoEncontrado) {
-        inputCodigo.value=productoEncontrado.ARTICULO
-        inputDescripcion.value=productoEncontrado.DESCRIPCION
-        inputItem.value=productoEncontrado.ITEM
-        return; // Sale de la función para que no continúe
-    }  else {
-        alert('Producto no encontrado');
+    if (productoCodigo) {
+        // Si encuentra el producto por código
+        actualizarCampos(productoCodigo);
+        return; // Salir de la función
     }
-}
- });
 
-const txtitem2 = document.getElementById('item2');
-txtitem2.addEventListener('keydown', function (event) {
-if (event.key === 'Enter') { // Verifica si la tecla presionada es "Enter"
-const inputCodigo = document.getElementById("codigo2");
-const inputDescripcion = document.getElementById("descripcion2");
-const inputItem = document.getElementById("item2");
+    // Si no lo encuentra por código, intenta con el valor de `txtitem2`
+    const productoItem = buscarItems(inputItem.value);
 
-    const productoEncontrado = buscarItems(txtitem2.value);
-
-    if (productoEncontrado) {
-        inputCodigo.value=productoEncontrado.ARTICULO
-        inputDescripcion.value=productoEncontrado.DESCRIPCION
-        inputItem.value=productoEncontrado.ITEM
-        return; // Sale de la función para que no continúe
-    }  else {
-        alert('Producto no encontrado');
+    if (productoItem) {
+        // Si encuentra el producto por ítem
+        actualizarCampos(productoItem);
+        return; // Salir de la función
     }
+
+    // Si no encuentra nada
+    alert('Producto no encontrado');
+});
+
+// Función para actualizar los campos del formulario
+function actualizarCampos(producto) {
+    document.getElementById("codigo2").value = producto.ARTICULO;
+    document.getElementById("descripcion2").value = producto.DESCRIPCION;
+    document.getElementById("item2").value = producto.ITEM;
 }
- });
+
+
+
+    
 
 
