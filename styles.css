@@ -164,6 +164,18 @@ h1 {
     max-height: 80%; /* Evita que sea demasiado alto */
     overflow-y: auto; /* Habilita desplazamiento interno si es necesario */
 }
+/* Estilo del contenido de la modal */
+.modal-content2 {
+    background-color: #fefefe;
+    margin: auto; /* Centra horizontalmente */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 100%; /* Ancho fijo */
+    border-radius: 5px;
+    height: auto; /* Permite ajustar automáticamente */
+    max-height: 80%; /* Evita que sea demasiado alto */
+    overflow-y: auto; /* Habilita desplazamiento interno si es necesario */
+}
 
 /* Estilo del botón de cerrar */
 .close {
@@ -180,6 +192,19 @@ h1 {
     cursor: pointer;
 }
 
+.input-group {
+    display: flex;        /* Activa el uso de flexbox */
+    align-items: center;  /* Alinea los elementos verticalmente en el centro */
+    gap: 10px;            /* Espacio entre los elementos */
+}
+
+.input-group label {
+    margin-right: 10px;   /* Espacio entre el label y el input */
+}
+
+.input-group input {
+    width: 150px;         /* Ancho del input (ajústalo según lo que necesites) */
+}
 /* Estilos para los campos del formulario */
 form {
     display: flex;
@@ -187,12 +212,13 @@ form {
 }
 
 form label {
-    margin-top: 10px; /* Espacio arriba */
+    margin-top: 5px; /* Espacio arriba */
+
 }
 
 form input {
     padding: 10px;
-    margin-top: 5px;
+    margin-top: 0px;
     border: 1px solid #ccc;
     border-radius: 4px; /* Bordes redondeados */
 }

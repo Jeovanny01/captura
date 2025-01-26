@@ -249,7 +249,26 @@
             </div>
         </div>
      
-    
+ 
+                <!-- Sección de bienvenida -->
+                <div id="formulario3" class="modal">
+                    <div class="modal-content2">
+                        <span class="close" onclick="closeModal()">&times;</span>
+                        <h2>Listado de productos</h2>
+                        <!-- Contenedor para los filtros, organizado en una línea -->
+                         <div id="filtros">
+                        <input type="text" id="filtroInput5" placeholder="Escribe el dato filtrar...">
+                        <button onclick="filtrarDatos5()">Filtrar</button>
+                        </div>
+                       
+                        <div id="contenedorTabla5" class="tabla-contenedor5">
+                            <table id="tablaDato5">
+                                <!-- La tabla se llenará dinámicamente -->
+                            </table>
+                        </div>
+                    </div>
+                </div>
+         
         <!-- Sección del formulario de registro de alumnos -->
     <section id="register" class="secciones">
             <h2>Registro de productos</h2>
@@ -370,46 +389,60 @@
     
         <section id="ventas" class="secciones">
             <h2>Pedido de Cliente</h2>
+            <button id="btnGuardarPedido" type="button" onclick="savePedido()" >Guardar Pedido</button>
+            <br>
+            <label for="nombreCliente">NOMBRE DEL CLIENTE</label>
+            <label id="totalGeneral" style="font-size: 20px; font-weight: bold;"></label>
+            <input type="text" id="nombreCliente" name="nombreCliente" >
+      
             <form id="formVentas">
                 
                 <div class="form-group">
                     
-                    <div id="reader3" style="width: 100%; "></div>
-
-                    <label for="nombreCliente">NOMBRE DEL CLIENTE</label>
-                    <input type="text" id="nombreCliente" name="nombreCliente" required>
+                    <div id="reader4" style="width: 100%; "></div>
 
                     <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
-                        <div style="display: flex; align-items: center;">
-                            <label for="codigo3" style="margin-right: 10px;">Código de barra</label>
-                            <input type="text" id="codigo3" name="codigo3"  inputmode="text"  required style="margin-right: 10px;">
+                        <div style="display: flex; align-items: center; margin-right: auto;">
+                            <label for="codigo4" style="margin-right: 10px;">Código de barra</label>
+                            <input type="text" id="codigo4" name="codigo4" inputmode="text" required>
+                        </div>
+                        <div style="display: flex; align-items: center; margin-left: 10px;">
+                            <label id ="lupa" for="lupa" style="cursor: pointer;">🔍</label>
+                            <!-- <input type="text" id="buscar4" name="buscar4" inputmode="text" required> -->
                         </div>
                     </div>
-                    <label for="item3">ITEM No.</label>
-                    <input type="text" id="item3" name="item3"  inputmode="text" >
+                    <label for="item4">ITEM No.</label>
+                    <input type="text" id="item4" name="item4"  inputmode="text" >
                   
 
-                    <button id="start-scan3" type="button"> Escaneo</button>
-                    <button id="stop-scan3" type="button" disabled>Detener</button>
-                    <button id="btnbuscar3" type="button">🔍Buscar</button>
+                    <button id="start-scan4" type="button"> Escaneo</button>
+                    <button id="stop-scan4" type="button" disabled>Detener</button>
+                    <button id="btnbuscar4" type="button">🔍Buscar</button>
                  
                                
                                                  
-                    <label for="descripcion3">Descripcion</label>
-                    <input type="text" id="descripcion3" name="descripcion3" >
+                    <label for="descripcion4">Descripcion</label>
+                    <input type="text" id="descripcion4" name="descripcion4" >
            
 
 
-                    <label for="cantidad3">Cantidad</label>
-                    <input type="number" id="cantidad3" name="cantidad3"  step="0.001"  min="0" max="100000"  placeholder="" required>
-
-                    <label for="precio3">Precio</label>
-                    <input type="number" id="precio3" name="cantidad3"  step="0.001"  min="0" max="100000"  placeholder="" required>
-                    
-                    <label for="total3">Total</label>
-                    <input type="number" id="total3" name="total3"  step="0.001"  min="0" max="100000"  placeholder="" required>
-
+                    <label for="cantidad4">Cantidad</label>
+                    <input type="number" id="cantidad4" name="cantidad4"  step="0.001"  min="0" max="100000"  placeholder="" required>
+                    <div class="input-group">
+                        <label for="precio4">Precio</label>
+                        <input type="number" id="precio4" name="precio4"  step="0.001"  min="0" max="100000"  placeholder="" required>
+                        
+                        <label for="total4">Total</label>
+                        <input type="number" id="total4" name="total4"  step="0.001"  min="0" max="100000"  placeholder="" disabled required>
+                  </div>
                     <input type="submit" value="Agragar Producto">
+                    <br>
+                    <label for="total4">Productos del pedido</label>
+                    <div id="contenedorTabla4" class="tabla-contenedor">
+                        <table id="tablaDatos4">
+                            <!-- La tabla se llenará dinámicamente -->
+                        </table>
+                    </div>
                 </div>
             </form>
         </section>
@@ -426,6 +459,6 @@
 <script src="./lib/html5-qrcode/html5-qrcode.min.js"></script>
 <script type="module" src="cam.js"></script>
 <script type="module" src="cam2.js"></script>
-
+<script type="module" src="cam3.js"></script>
 </body>
 </html>

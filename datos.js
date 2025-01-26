@@ -3,6 +3,7 @@ let IMAGEN = null
 let user
 let productos = [];
 let inventarioTabla = [];
+let pedidoTabla = [];
 
 const fetchEjecutar = async (funct) => {
     try {
@@ -127,12 +128,12 @@ document.getElementById('archivo').addEventListener('change', function (event) {
 });
 
 function buscarProducto(codigo) {
-    return productos.find(producto => producto.ARTICULO.toUpperCase() === codigo.toUpperCase());
+    return productos.find(producto => producto.ARTICULO.toUpperCase() === codigo.trim().toUpperCase());
 
 }
 
 function buscarItems(codigo) {
-    return productos.find(producto => producto.ITEM.toUpperCase()  === codigo.toUpperCase() );
+    return productos.find(producto => producto.ITEM.toUpperCase()  === codigo.trim().toUpperCase() );
 }
 
 
@@ -232,6 +233,51 @@ async function  saveArticulo(event) {
             alert('Hubo un error al procesar la solicitud');
         });
 };
+
+function guardarTabla(){
+
+   let nuevoPedido = {
+    ARTICULO: document.getElementById("codigo4").value,        
+    DESCRIPCION: document.getElementById("descripcion4").value, 
+    CANTIDAD: document.getElementById("cantidad4").value, 
+    PRECIO: parseFloat(document.getElementById("precio4").value), 
+    TOTAL: parseFloat(document.getElementById("total4").value), 
+    ACCION: "Eliminar"
+    };
+// Agregar el nuevo pedido al arreglo
+pedidoTabla.push(nuevoPedido);
+localStorage.setItem('pedidoTabla', JSON.stringify(pedidoTabla));
+
+let sumaTotal = 0;
+
+for (let fila of pedidoTabla) {
+    sumaTotal += fila.TOTAL;
+}
+let sumaFormateada = sumaTotal.toFixed(2)
+// Función para sumar la columna total
+
+document.getElementById("totalGeneral").textContent  = " Total $ " + sumaFormateada.toString();
+//document.getElementById("totalGeneral").value = formatear("totalGeneral",document.getElementById("totalGeneral").value)
+generarTabla4(pedidoTabla);
+document.getElementById('formVentas').reset();  // 'miFormulario' es el ID del formulario
+window.scrollTo(0, 0);
+};
+
+function recuperarTabla(nuevoPedido){
+ 
+ let sumaTotal = 0; 
+ for (let fila of nuevoPedido) {
+     sumaTotal += fila.TOTAL;
+ }
+ let sumaFormateada = sumaTotal.toFixed(2)
+ // Función para sumar la columna total
+ 
+ document.getElementById("totalGeneral").textContent  = " Total $ " + sumaFormateada.toString();
+ //document.getElementById("totalGeneral").value = formatear("totalGeneral",document.getElementById("totalGeneral").value)
+ generarTabla4(nuevoPedido);
+ document.getElementById('formVentas').reset();  // 'miFormulario' es el ID del formulario
+ window.scrollTo(0, 0);
+ };
 
 async function  saveInventario(event) {
     const session = JSON.parse(localStorage.getItem("session") || "{}");
@@ -344,6 +390,42 @@ async function  deleteArticulo(event) {
 
     
 };
+
+
+async function  savePedido(event) {
+      localStorage.removeItem("pedidoTabla"); 
+    alert("Pedido guardado con exito No. " + 5);
+    document.getElementById("btnGuardarPedido").style.display = "none";
+    document.getElementById("totalGeneral").textContent  =""
+    document.getElementById("tablaDatos4").innerHTML = "";
+    document.getElementById("nombreCliente").value=""
+    agregarTitulosTabla();
+    //event.preventDefault(); // Evitar recarga de la página
+    // const articulo = document.getElementById("articulo").value;
+    // const descripcion = document.getElementById("descripcionEdit").value;
+    // const items = document.getElementById("items").value.trim() === "" ? null: document.getElementById("items").value.trim();
+    // const cat1 = document.getElementById("categoriaEdit").value.charAt(0) || null;;
+    // const cat2 = document.getElementById("categoriaEdit").value;
+
+    // if (document.getElementById("articulo").readOnly) {
+    //         try {
+    //             const response = await articuloEdit("DELETE", articulo,descripcion,items,"FUNNY",cat1,cat2);
+    //             console.log("DELETED ARTICULO:", response); 
+    //             // Lógica para actualizar la fila correspondiente en la tabla
+    //             //updateTableRowVend(id, nombre); // Función para actualizar la fila
+    //             fetchData();
+    //             closeModal();
+                
+    //         } catch (error) {
+    //             console.error("Error al actualizar DELETED:", error.message);
+    //             alert("Error al ELIMINAR ");
+    //         }
+       
+    // }
+
+    
+};
+
 
 // Función para leer el archivo como ArrayBuffer
 function convertirArchivoABase64(archivo) {
@@ -539,6 +621,166 @@ function generarTabla2(datos) {
     document.getElementById("filtroInput2").value="";
 }
 
+function generarTabla4(datos) {
+    const contenedorTabla = document.getElementById('contenedorTabla4'); // Obtiene el contenedor de la tabla
+    const tablaExistente = document.getElementById('tablaDatos4'); // Identifica la tabla existente
+
+    // Elimina la tabla anterior, si existe
+    if (tablaExistente) {
+        tablaExistente.remove();
+    }
+
+    const section = document.getElementById('ventas');
+
+    if (!datos.length) {
+        // Verifica si ya existe el mensaje "No hay datos disponibles"
+        if (!document.getElementById('mensajeNoDatos')) {
+            const mensaje = document.createElement('p');
+            mensaje.textContent = 'No hay datos disponibles.';
+            mensaje.id = 'mensajeNoDatos';
+            section.appendChild(mensaje);
+        }
+        return;
+    } else {
+        // Elimina el mensaje si los datos están disponibles
+        const mensajeNoDatos = document.getElementById('mensajeNoDatos');
+        if (mensajeNoDatos) mensajeNoDatos.remove();
+    }
+    
+
+    const table = document.createElement('table');
+    table.id = 'tablaDatos4'; // Asigna un ID único a la tabla
+    table.border = '1';
+
+    // Genera el encabezado de la tabla dinámicamente
+    const thead = document.createElement('thead');
+    const headerRow = document.createElement('tr');
+    Object.keys(datos[0]).forEach((columna) => {
+        const th = document.createElement('th');
+        th.textContent = columna;
+        headerRow.appendChild(th);
+    });
+    thead.appendChild(headerRow);
+    table.appendChild(thead);
+
+    // Genera el cuerpo de la tabla
+    const tbody = document.createElement('tbody');
+    datos.forEach((fila) => {
+        const tr = document.createElement('tr');
+        Object.entries(fila).forEach(([columna, valor]) => {
+            const td = document.createElement('td');
+            // Si la columna es una fecha en formato /Date(...)/, la convertimos
+            if (typeof valor === 'string' && valor.includes('/Date(') && valor.includes(')/')) {
+                const timestamp = valor.match(/\/Date\((\d+)\)\//)[1];
+                const fecha = new Date(parseInt(timestamp)); // Convierte el timestamp a una fecha
+                
+                // Formatea la fecha y hora en el formato dd/MM/yyyy hh:mm AM/PM
+                const dia = fecha.getDate().toString().padStart(2, '0');
+                const mes = (fecha.getMonth() + 1).toString().padStart(2, '0');
+                const anio = fecha.getFullYear();
+                let horas = fecha.getHours();
+                const minutos = fecha.getMinutes().toString().padStart(2, '0');
+                const ampm = horas >= 12 ? 'PM' : 'AM';
+                horas = horas % 12 || 12; // Convierte a formato de 12 horas
+                td.textContent = `${dia}/${mes}/${anio} ${horas}:${minutos} ${ampm}`;
+            } else if (columna === 'ACCION') {
+                // Convierte el ID en un enlace
+                const enlace = document.createElement('a');
+                enlace.href = `editar.html?id=${valor}`; // URL para editar
+                enlace.textContent = valor;
+                enlace.onclick = (event) => {
+                    event.preventDefault(); // Evita el comportamiento por defecto
+                   // editarRegistro2(valor); // Llama a la función de edición
+                };
+                td.appendChild(enlace);
+            } else {
+                td.textContent = valor;
+            }
+
+            tr.appendChild(td);
+        });
+        tbody.appendChild(tr);
+    });
+    table.appendChild(tbody);
+
+    // Inserta la tabla al final de la sección
+    //section.appendChild(table);
+    contenedorTabla.appendChild(table);
+    document.getElementById("filtroInput2").value="";
+}
+
+function generarTabla5(datos) {
+    const contenedorTabla = document.getElementById('contenedorTabla5'); // Obtiene el contenedor de la tabla
+    const tablaExistente = document.getElementById('tablaDatos5'); // Identifica la tabla existente
+
+    // Elimina la tabla anterior, si existe
+    if (tablaExistente) {
+        tablaExistente.remove();
+    }
+
+    
+
+    const table = document.createElement('table');
+    table.id = 'tablaDatos5'; // Asigna un ID único a la tabla
+    table.border = '1';
+
+    // Genera el encabezado de la tabla dinámicamente
+    const thead = document.createElement('thead');
+    const headerRow = document.createElement('tr');
+    Object.keys(datos[0]).forEach((columna) => {
+        const th = document.createElement('th');
+        th.textContent = columna;
+        headerRow.appendChild(th);
+    });
+    thead.appendChild(headerRow);
+    table.appendChild(thead);
+
+    // Genera el cuerpo de la tabla
+    const tbody = document.createElement('tbody');
+    datos.forEach((fila) => {
+        const tr = document.createElement('tr');
+        Object.entries(fila).forEach(([columna, valor]) => {
+            const td = document.createElement('td');
+            // Si la columna es una fecha en formato /Date(...)/, la convertimos
+            if (typeof valor === 'string' && valor.includes('/Date(') && valor.includes(')/')) {
+                const timestamp = valor.match(/\/Date\((\d+)\)\//)[1];
+                const fecha = new Date(parseInt(timestamp)); // Convierte el timestamp a una fecha
+                
+                // Formatea la fecha y hora en el formato dd/MM/yyyy hh:mm AM/PM
+                const dia = fecha.getDate().toString().padStart(2, '0');
+                const mes = (fecha.getMonth() + 1).toString().padStart(2, '0');
+                const anio = fecha.getFullYear();
+                let horas = fecha.getHours();
+                const minutos = fecha.getMinutes().toString().padStart(2, '0');
+                const ampm = horas >= 12 ? 'PM' : 'AM';
+                horas = horas % 12 || 12; // Convierte a formato de 12 horas
+                td.textContent = `${dia}/${mes}/${anio} ${horas}:${minutos} ${ampm}`;
+            } else if (columna === 'ARTICULO') {
+                // Convierte el ID en un enlace
+                const enlace = document.createElement('a');
+                enlace.href = `editar.html?id=${valor}`; // URL para editar
+                enlace.textContent = valor;
+                enlace.onclick = (event) => {
+                    event.preventDefault(); // Evita el comportamiento por defecto
+                    selccionarDato4(valor); // Llama a la función de edición
+                };
+                td.appendChild(enlace);
+            } else {
+                td.textContent = valor;
+            }
+
+            tr.appendChild(td);
+        });
+        tbody.appendChild(tr);
+    });
+    table.appendChild(tbody);
+
+    // Inserta la tabla al final de la sección
+    //section.appendChild(table);
+    contenedorTabla.appendChild(table);
+    document.getElementById("filtroInput5").value="";
+}
+
 
 function editarRegistro(id) {
     const session = JSON.parse(localStorage.getItem("session") || "{}");
@@ -581,6 +823,7 @@ if (registroSeleccionado.length > 0) {
     console.log("Registro no encontrado");
 }
 }
+
 
 const articuloEdit = async (accion, articulo, descripcion, items,empresa,cat1,cat2) => {
     try {
@@ -664,6 +907,20 @@ function filtrarDatos2() {
 }
 
 
+function filtrarDatos5() {
+    const filtro = document.getElementById("filtroInput5").value.toLowerCase();
+    const resultados = productos.filter(articulo => {
+        const articuloTexto = (articulo.ARTICULO || "").toLowerCase();
+        const descripcionTexto = (articulo.DESCRIPCION || "").toLowerCase();
+        const itemTexto = (articulo.ITEM || "").toLowerCase();
+
+        return articuloTexto.includes(filtro) ||
+               descripcionTexto.includes(filtro) ||
+               itemTexto.includes(filtro);
+    });
+    
+    generarTabla5(resultados);
+}
 
 async function  saveRegistro(event) {
     event.preventDefault(); // Evitar recarga de la página
@@ -725,6 +982,8 @@ function closeModal() {
     modal.style.display = "none";
     const modal2= document.getElementById("formulario2");
     modal2.style.display = "none";
+    const modal3= document.getElementById("formulario3");
+    modal3.style.display = "none";
 }
 
 function cargarFormulario(registro) {
@@ -750,6 +1009,21 @@ function cargarFormulario2(registro) {
         document.getElementById("cantidad3").value = registro.CANTIDAD;
     }
 }
+function cargarFormulario3(registro) {
+    const modal = document.getElementById("formulario3");
+    modal.style.display = "flex"; // Mostrar el modal
+    document.getElementById("filtroInput").value = "";
+    // // Obtener el registro con el ID correspondiente
+    //     if (registro) {
+    //     // Llenar los campos del formulario con los datos del registro
+    //     document.getElementById("id3").value = registro.ID;
+    //         document.getElementById("articulo3").value = registro.ARTICULO;
+    //     document.getElementById("descripcion3").value = registro.DESCRIPCION;
+    //            // Seleccionar el estado actual del registro
+    //     document.getElementById("items3").value = registro.ITEM;
+    //     document.getElementById("cantidad3").value = registro.CANTIDAD;
+    // }
+}
 
 async function fetchData() {
     try {
@@ -769,6 +1043,7 @@ async function fetchData() {
         productos =data
         // Genera la tabla y la inserta en la sección "datos"
         generarTabla(data);
+        generarTabla5(data)
     } catch (error) {
         console.error('Error al obtener los datos:', error);
     }

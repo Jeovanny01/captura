@@ -1,8 +1,8 @@
-const startScanButton = document.getElementById("start-scan3");
-const stopScanButton = document.getElementById("stop-scan3");
-const inputCodigo = document.getElementById("codigo3");
-const inputDescripcion = document.getElementById("descripcion3");
-const inputItem = document.getElementById("item3");
+const startScanButton = document.getElementById("start-scan2");
+const stopScanButton = document.getElementById("stop-scan2");
+const inputCodigo = document.getElementById("codigo2");
+const inputDescripcion = document.getElementById("descripcion2");
+const inputItem = document.getElementById("item2");
 
 
 let html5QrCode;
@@ -12,7 +12,7 @@ let html5QrCode;
    const qrboxSize = Math.min(screenWidth * 0.6, screenHeight * 0.6);
 
 startScanButton.addEventListener("click", () => {
-    const qrCodeRegionId = "reader3";
+    const qrCodeRegionId = "reader2";
     html5QrCode = new Html5Qrcode(qrCodeRegionId);
 
     // Configuración para leer códigos de barras y QR

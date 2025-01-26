@@ -3,8 +3,6 @@ function showSection(sectionId) {
     document.querySelectorAll('section').forEach(section => section.style.display = 'none');
     document.getElementById(sectionId).style.display = 'block';
 }
-
-
 const codigoInput = document.getElementById('codigo');
 const internoCheckbox = document.getElementById('interno');
 const boton1 = document.getElementById('start-scan');
@@ -35,11 +33,23 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
     
-    showSection('inventario');
+    showSection('ventas');
+    agregarTitulosTabla();
+    pedidoTabla =  JSON.parse(localStorage.getItem("pedidoTabla") || "{}");
+
+    if (pedidoTabla.length > 0) {
+        // Si hay datos, recuperar y procesar la tabla
+        recuperarTabla(pedidoTabla);
+    } else {
+        // Si no hay datos, inicializar pedidoTabla como un arreglo vacío
+        pedidoTabla = [];
+    }
     cargarCategorias();
     fetchData();
     fetchData2();
     document.getElementById("ubicacion").value =  localStorage.getItem("ubicacion")
+
+  
 });
 
 
@@ -203,30 +213,37 @@ document.getElementById('formInventario').addEventListener('submit', function(ev
     saveInventario(); // Llama a la función para registrar al alumno
 });
 
+document.getElementById('formVentas').addEventListener('submit', function(event) {
+    event.preventDefault(); // Evita el envío tradicional del formulario
+    guardarTabla(); // Llama a la función para registrar al alumno
+});
+
 const btnEliminar = document.getElementById('btnEliminar');
 btnEliminar.addEventListener('click', function () {
        deleteArticulo();
 
 });
-const buscar = document.getElementById('btnbuscar');
 
+const lupa = document.getElementById('lupa');
+lupa.addEventListener('click', function () {
+       cargarFormulario3();
+
+});
+
+const buscar = document.getElementById('btnbuscar');
 buscar.addEventListener('click', function () {
     const inputCodigo = document.getElementById("codigo2");
     //const inputDescripcion = document.getElementById("descripcion2");
     const inputItem = document.getElementById("item2");
-
     // Intentar buscar con el valor de `txtcodigo2`
     const productoCodigo = buscarProducto(inputCodigo.value);
-
     if (productoCodigo) {
         // Si encuentra el producto por código
         actualizarCampos(productoCodigo);
         return; // Salir de la función
     }
-
     // Si no lo encuentra por código, intenta con el valor de `txtitem2`
     const productoItem = buscarItems(inputItem.value);
-
     if (productoItem) {
         // Si encuentra el producto por ítem
         actualizarCampos(productoItem);
@@ -246,6 +263,130 @@ function actualizarCampos(producto) {
 
 
 
+const buscar4 = document.getElementById('btnbuscar4');
+buscar4.addEventListener('click', function () {
+    const inputCodigo = document.getElementById("codigo4");
+    //const inputDescripcion = document.getElementById("descripcion2");
+    const inputItem = document.getElementById("item4");
+    // Intentar buscar con el valor de `txtcodigo2`
+    const productoCodigo = buscarProducto(inputCodigo.value);
+    if (productoCodigo) {
+        // Si encuentra el producto por código
+        actualizarCampos4(productoCodigo);
+        closeModal()
+        return; // Salir de la función
+    }
+    // Si no lo encuentra por código, intenta con el valor de `txtitem2`
+    const productoItem = buscarItems(inputItem.value);
+    if (productoItem) {
+        // Si encuentra el producto por ítem
+        actualizarCampos4(productoItem);
+        return; // Salir de la función
+    }
+
+    // Si no encuentra nada
+    alert('Producto no encontrado');
+});
+
+// Función para actualizar los campos del formulario
+function actualizarCampos4(prod) {
+    document.getElementById("codigo4").value = prod.ARTICULO || '';
+    document.getElementById("descripcion4").value = prod.DESCRIPCION || '';
+    document.getElementById("item4").value = prod.ITEM || '';
+    document.getElementById("precio4").value = prod.PRECIO || 0;
+    document.getElementById("cantidad4").value = 1
+    // Obtén los valores de los campos
+let precio = parseFloat(document.getElementById("precio4").value) || 0;
+let cantidad = parseFloat(document.getElementById("cantidad4").value) || 0;
+
+// Calcula el total
+let total = precio * cantidad;
+
+formatear("precio4",precio)
+formatear("total4",total)
+
+}
+function formatear(control,valor) {
+    document.getElementById(control).value = valor.toLocaleString('en-US', {
+        minimumFractionDigits: 2,  // Número mínimo de decimales
+        maximumFractionDigits: 6   // Número máximo de decimales
+    });
+}
+function formatoNumero(valor) {
+     valor.toLocaleString('en-US', {
+        minimumFractionDigits: 2,  // Número mínimo de decimales
+        maximumFractionDigits: 6   // Número máximo de decimales
+    })
+}
+function selccionarDato4(id) {
+
+    // Si encuentras el registro, puedes hacer algo con él, por ejemplo, mostrarlo en un formulario
+    const productoCodigo = buscarProducto(id);
+    if (productoCodigo) {
+        // Si encuentra el producto por código
+        actualizarCampos4(productoCodigo);
+        closeModal()
+        return; // Salir de la función
+    }
+}
+
     
+const cant = document.getElementById('cantidad4');
+cant.addEventListener('input', () => {
+    let codigo = document.getElementById("codigo4").value
+    let cantidad = parseFloat(document.getElementById("cantidad4").value.trim()) || 0;
+    let precio = parseFloat(document.getElementById("precio4").value) || 0;
+    if (cantidad > 1){   
+        let valorbusado = buscarProducto(codigo)
+        precio =  valorbusado.PRECIO_MAYOREO
+        document.getElementById("precio4").value = precio
+        formatear("precio4",precio)
+    }  else 
+    {
+        let valorbusado = buscarProducto(codigo)
+        precio =  valorbusado.PRECIO
+        document.getElementById("precio4").value = precio
+        formatear("precio4",precio)
+    }
+
+    formatear("total4",precio*cantidad)
+
+});
+const prec = document.getElementById('precio4');
+prec.addEventListener('input', () => {
+    let cantidad = parseFloat(document.getElementById("cantidad4").value.trim()) || 0;
+    let precio = parseFloat(document.getElementById("precio4").value) || 0;
+
+
+    formatear("total4",precio*cantidad)
+
+});
+
+
+// Función para agregar los títulos a la tabla existente
+function agregarTitulosTabla() {
+    const tabla = document.getElementById("tablaDatos4"); // Selecciona la tabla existente
+
+    // Crea una fila para los encabezados
+    const filaEncabezado = document.createElement("tr");
+
+    // Define los títulos de los encabezados
+    const encabezados = ["ARTICULO", "DESCRIPCIÓN", "CANTIDAD","PRECIO", "TOTAL", "ACCION"];
+
+    encabezados.forEach(titulo => {
+        const th = document.createElement("th");
+        th.textContent = titulo; // Asigna el texto del encabezado
+        th.style.border = "1px solid #ddd";
+        th.style.padding = "8px";
+        th.style.textAlign = "center";
+        th.style.backgroundColor = "#f4f4f4";
+        th.style.fontWeight = "bold";
+        filaEncabezado.appendChild(th);
+    });
+
+    // Agrega la fila de encabezados a la tabla
+    tabla.appendChild(filaEncabezado);
+}
+
 
 
