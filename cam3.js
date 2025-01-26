@@ -3,6 +3,7 @@ const stopScanButton = document.getElementById("stop-scan3");
 const inputCodigo = document.getElementById("codigo3");
 const inputDescripcion = document.getElementById("descripcion3");
 const inputItem = document.getElementById("item3");
+const precio = document.getElementById("precio3");
 
 
 let html5QrCode;
@@ -59,7 +60,7 @@ startScanButton.addEventListener("click", () => {
                                 inputCodigo.value = decodedText;
                                 inputDescripcion.value = productoEncontrado.DESCRIPCION
                                 inputItem.value = productoEncontrado.ITEM
-
+                                precio=productoEncontrado.PRECIO
                                // alert(`Producto encontrado: ${productoEncontrado.ARTICULO}, NOMBRE: ${productoEncontrado.DESCRIPCION}`);
                                 return; // Sale de la función para que no continúe
                             } 
