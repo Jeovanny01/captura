@@ -513,14 +513,14 @@ function generarTabla2(datos) {
                 const ampm = horas >= 12 ? 'PM' : 'AM';
                 horas = horas % 12 || 12; // Convierte a formato de 12 horas
                 td.textContent = `${dia}/${mes}/${anio} ${horas}:${minutos} ${ampm}`;
-            } else if (columna === 'ARTICULO') {
+            } else if (columna === 'ID') {
                 // Convierte el ID en un enlace
                 const enlace = document.createElement('a');
                 enlace.href = `editar.html?id=${valor}`; // URL para editar
                 enlace.textContent = valor;
                 enlace.onclick = (event) => {
                     event.preventDefault(); // Evita el comportamiento por defecto
-                   // editarRegistro(valor); // Llama a la función de edición
+                    editarRegistro2(valor); // Llama a la función de edición
                 };
                 td.appendChild(enlace);
             } else {
@@ -541,15 +541,10 @@ function generarTabla2(datos) {
 
 
 function editarRegistro(id) {
-
     const session = JSON.parse(localStorage.getItem("session") || "{}");
     if (session.userRole !="1") {
         return;
     }
-    
-    // Obtener la tabla 'tablaDatos' desde localStorage
-//let tablaDatos = JSON.parse(localStorage.getItem("tablaDatos"));
-
 // Filtrar la tabla de datos para obtener el registro con el ID seleccionado
 let registroSeleccionado = productos.filter(item => item.ARTICULO === id);
 
@@ -560,6 +555,27 @@ if (registroSeleccionado.length > 0) {
     cargarFormulario(registroSeleccionado[0])
        // Abrir el modal
        const modal = document.getElementById("formulario");
+       modal.style.display = "flex"; // Mostrar el modal
+} else {
+    console.log("Registro no encontrado");
+}
+}
+function editarRegistro2(id) {
+    const session = JSON.parse(localStorage.getItem("session") || "{}");
+    if (session.userRole !="1") {
+        return;
+    }
+    
+   
+// Filtrar la tabla de datos para obtener el registro con el ID seleccionado
+let registroSeleccionado = inventarioTabla.filter(item => item.ID === id);
+// Si encuentras el registro, puedes hacer algo con él, por ejemplo, mostrarlo en un formulario
+if (registroSeleccionado.length > 0) {
+    console.log("Registro encontrado:", registroSeleccionado[0]);
+    
+    cargarFormulario2(registroSeleccionado[0])
+       // Abrir el modal
+       const modal = document.getElementById("formulario2");
        modal.style.display = "flex"; // Mostrar el modal
 } else {
     console.log("Registro no encontrado");
@@ -589,6 +605,32 @@ const articuloEdit = async (accion, articulo, descripcion, items,empresa,cat1,ca
         throw error;
     }
 };
+
+const inventarioEdit = async (accion, id, cantidad) => {
+    try {
+        const response = await fetch(url + "inventarioEdit", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                accion, id, cantidad,empresa:"FUNNY"
+            })
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            alert("Actualizado con exito a :" + cantidad);
+            return data;
+      
+        } else {
+            throw new Error(`Error en la petición. Código de estado: ${response.status}`);
+        }
+    } catch (error) {
+        console.error("Error en la petición:", error.message);
+        throw error;
+    }
+};
  // Función para filtrar los datos
  function filtrarDatos() {
     const filtro = document.getElementById("filtroInput").value.toLowerCase();
@@ -604,6 +646,7 @@ const articuloEdit = async (accion, articulo, descripcion, items,empresa,cat1,ca
     
     generarTabla(resultados);
 }
+
 // Función para filtrar los datos
 function filtrarDatos2() {
     const filtro = document.getElementById("filtroInput2").value.toLowerCase();
@@ -648,24 +691,63 @@ async function  saveRegistro(event) {
 
     
 };
+
+async function  saveRegistro3(event) {
+    event.preventDefault(); // Evitar recarga de la página
+    const id = document.getElementById("id3").value;
+   // const articulo = document.getElementById("articulo2").value;
+    //const descripcion = document.getElementById("descripcionEdit").value;
+    //const items = document.getElementById("items").value.trim() === "" ? null: document.getElementById("items").value.trim();
+    //const cantidad = document.getElementById("categoriaEdit").value.charAt(0) || null;;
+    const cantidad = document.getElementById("cantidad3").value;
+
+    if (document.getElementById("articulo").readOnly) {
+            try {
+                const response = await inventarioEdit("UPDATE", id,cantidad);
+                console.log("Actualizado:", response); 
+                
+                fetchData2();
+                closeModal();
+                
+            } catch (error) {
+                console.error("Error al actualizar registro:", error.message);
+                alert("Error al actualizar ");
+            }
+       
+    }
+
+    
+};
+
+
 function closeModal() {
     const modal= document.getElementById("formulario");
     modal.style.display = "none";
+    const modal2= document.getElementById("formulario2");
+    modal2.style.display = "none";
 }
 
 function cargarFormulario(registro) {
     // Obtener el registro con el ID correspondiente
-    
-    if (registro) {
+        if (registro) {
         // Llenar los campos del formulario con los datos del registro
             document.getElementById("articulo").value = registro.ARTICULO;
         document.getElementById("descripcionEdit").value = registro.DESCRIPCION;
-
                // Seleccionar el estado actual del registro
         document.getElementById("items").value = registro.ITEM;
         document.getElementById("categoriaEdit").value = registro.CODIGO;
-
-
+    }
+}
+function cargarFormulario2(registro) {
+    // Obtener el registro con el ID correspondiente
+        if (registro) {
+        // Llenar los campos del formulario con los datos del registro
+        document.getElementById("id3").value = registro.ID;
+            document.getElementById("articulo3").value = registro.ARTICULO;
+        document.getElementById("descripcion3").value = registro.DESCRIPCION;
+               // Seleccionar el estado actual del registro
+        document.getElementById("items3").value = registro.ITEM;
+        document.getElementById("cantidad3").value = registro.CANTIDAD;
     }
 }
 

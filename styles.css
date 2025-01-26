@@ -207,7 +207,7 @@ form button {
     cursor: pointer;
 }
 
-#btnEliminar {
+#btnEliminar,#btnEliminar3 {
     background-color: red; /* Color de fondo inicial */
     color: white; /* Texto blanco */
     border: none; /* Sin borde */
@@ -218,7 +218,7 @@ form button {
     transition: background-color 0.3s ease; /* Transición suave para el cambio de color */
   }
   
-  #btnEliminar:hover {
+  #btnEliminar:hover,#btnEliminar3:hover {
     background-color: darkred; /* Cambia a un tono más oscuro de rojo al pasar el mouse */
   }
 body {
