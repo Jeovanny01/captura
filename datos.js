@@ -435,7 +435,8 @@ async function  deleteArticulo(event) {
 };
 
 
-async function  savePedido() {
+async function  savePedido(button) {
+    button.disabled = true;
     let cot = 0
     const session = JSON.parse(localStorage.getItem("session") || "{}");
     let nom = document.getElementById("nombreCliente4").value || ""
@@ -488,16 +489,17 @@ for (let fila of pedidoTabla) {
             localStorage.removeItem("pedidoTabla"); 
             pedidoTabla =  [];
             alert('Cotizacion registrada con éxito No. ' + cot);
-        
+            button.disabled = false;
         } else {
             const errorMessage = result.data[0].ErrorMessage;
-           
+            button.disabled = false;
             console.error('Error:', errorMessage);
             alert('Hubo un error al registrar: ' + errorMessage);
                   
           
         }
     } catch (e) {
+        button.disabled = false;
         console.error('Error al procesar la respuesta JSON:', e);
         alert('Hubo un error al procesar la respuesta del servidor',e);
     }
@@ -506,6 +508,7 @@ for (let fila of pedidoTabla) {
 
 )
 .catch(error => {
+    button.disabled = false;
     console.error('Error al procesar la solicitud:', error);
     alert('Hubo un error al procesar la solicitud');
 });
