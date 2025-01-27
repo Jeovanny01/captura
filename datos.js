@@ -809,14 +809,22 @@ function generarTabla4(datos) {
                             eliminarFila(enlace,"tablaDatos4"); // Llama a la función con el elemento enlace
                         };
                         td.appendChild(enlace);
-            } else if (columna === 'CANTIDAD') {
+            } else if (columna === 'ARTICULO') {
                  // Convierte el ID en un enlace
                  const enlace = document.createElement('a');
                  enlace.href = `editar.html?id=${valor}`; // URL para editar
                  enlace.textContent = valor;
                  enlace.onclick = (event) => {
-                     event.preventDefault(); // Evita el comportamiento por defecto
-                    // editarRegistro2(valor); // Llama a la función de edición
+                                            event.preventDefault(); // Evita el comportamiento por defecto
+    
+                        // Capturar el índice de la fila
+                        const fila = event.target.closest('tr'); // Encuentra la fila (<tr>) más cercana al enlace
+                        const indice = fila.rowIndex; // Obtén el índice de la fila
+                                            console.log("Índice de la fila:", indice); // Muestra el índice en la consola
+                    
+                        editarRegistroPe(indice); // Llama a la función de edición con el índice
+                        
+                
                  };
                  td.appendChild(enlace);
             } else {
@@ -1078,14 +1086,22 @@ function generarTabla7(datos) {
                    // editarRegistro2(valor); // Llama a la función de edición
                 }
                 td.appendChild(enlace);
-            } else if (columna === 'CANTIDAD') {
+            } else if (columna === 'ARTICULO') {
                 // Convierte el ID en un enlace
                 const enlace = document.createElement('a');
                 enlace.href = `editar.html?id=${valor}`; // URL para editar
                 enlace.textContent = valor;
                 enlace.onclick = (event) => {
                     event.preventDefault(); // Evita el comportamiento por defecto
-                   // editarRegistro2(valor); // Llama a la función de edición
+
+                    // Capturar el índice de la fila
+                    const fila = event.target.closest('tr'); // Encuentra la fila (<tr>) más cercana al enlace
+                    const indice = fila.rowIndex; // Obtén el índice de la fila
+                
+                    console.log("Índice de la fila:", indice); // Muestra el índice en la consola
+                
+                    editarRegistroPe(indice); // Llama a la función de edición con el índice
+
                 }
                 td.appendChild(enlace);
             } else {
@@ -1125,6 +1141,18 @@ if (registroSeleccionado.length > 0) {
     console.log("Registro no encontrado");
 }
 }
+
+function editarRegistroPe(id) {
+
+// Filtrar la tabla de datos para obtener el registro con el ID seleccionado
+let filaSeleccionada = pedidoTabla[id-1]
+
+
+    cargarFormulario4(filaSeleccionada,id-1)
+
+
+}
+
 function editarRegistro2(id) {
     const session = JSON.parse(localStorage.getItem("session") || "{}");
     if (session.userRole !="1") {
@@ -1321,6 +1349,26 @@ async function  saveRegistro3(event) {
 
     
 };
+async function  saveRegistroPed(event) {
+    event.preventDefault(); // Evitar recarga de la página
+    const id = document.getElementById("idPe").value;
+    const cantidad = parseFloat(document.getElementById("cantidadPe").value);
+    const precio = parseFloat(document.getElementById("precioPe").value);
+    const total = parseFloat(document.getElementById("totalPe").value);
+pedidoTabla[id].CANTIDAD=cantidad;
+pedidoTabla[id].PRECIO=precio;
+pedidoTabla[id].TOTAL=total;
+recuperarTabla(pedidoTabla);
+closeModal();
+
+   // const articulo = document.getElementById("articulo2").value;
+    //const descripcion = document.getElementById("descripcionEdit").value;
+    //const items = document.getElementById("items").value.trim() === "" ? null: document.getElementById("items").value.trim();
+    //const cantidad = document.getElementById("categoriaEdit").value.charAt(0) || null;;
+    
+
+    
+};
 
 
 function closeModal() {
@@ -1330,6 +1378,8 @@ function closeModal() {
     modal2.style.display = "none";
     const modal3= document.getElementById("formulario3");
     modal3.style.display = "none";
+    const modal4= document.getElementById("formularioPedido");
+    modal4.style.display = "none";
 }
 
 function cargarFormulario(registro) {
@@ -1369,6 +1419,16 @@ function cargarFormulario3(registro) {
     //     document.getElementById("items3").value = registro.ITEM;
     //     document.getElementById("cantidad3").value = registro.CANTIDAD;
     // }
+}
+function cargarFormulario4(registro,index) {
+    const modal = document.getElementById("formularioPedido");
+    modal.style.display = "flex"; // Mostrar el modal
+    document.getElementById("articuloPe").value = registro.ARTICULO;
+    document.getElementById("descripcionPe").value = registro.DESCRIPCION;
+    document.getElementById("cantidadPe").value = registro.CANTIDAD;
+    document.getElementById("precioPe").value = registro.PRECIO;
+    document.getElementById("totalPe").value = registro.TOTAL;
+    document.getElementById("idPe").value  = index
 }
 
 async function fetchData() {

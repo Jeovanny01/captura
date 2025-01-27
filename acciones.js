@@ -261,6 +261,25 @@ lupa.addEventListener('click', function () {
 
 });
 
+const cantPe = document.getElementById('cantidadPe');
+cantPe.addEventListener('input', () => {
+    let cantidad = parseFloat(document.getElementById("cantidadPe").value.trim()) || 0;
+    let precio = parseFloat(document.getElementById("precioPe").value) || 0;
+   document.getElementById("totalPe").value = cantidad*precio
+
+
+});
+
+const precioPe = document.getElementById('precioPe');
+precioPe.addEventListener('input', () => {
+    let cantidad = parseFloat(document.getElementById("cantidadPe").value.trim()) || 0;
+    let precio = parseFloat(document.getElementById("precioPe").value) || 0;
+   document.getElementById("totalPe").value = cantidad*precio
+
+
+});
+
+
 const buscar = document.getElementById('btnbuscar');
 buscar.addEventListener('click', function () {
     const inputCodigo = document.getElementById("codigo2");
