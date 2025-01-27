@@ -4,6 +4,8 @@ let user
 let productos = [];
 let inventarioTabla = [];
 let pedidoTabla = [];
+let pedidoTabla2 = [];
+let pedidoTabla3 = [];
 
 const fetchEjecutar = async (funct) => {
     try {
@@ -234,8 +236,10 @@ async function  saveArticulo(event) {
         });
 };
 
-function guardarTabla(){
 
+
+function guardarTabla(){
+    const nombre = document.getElementById("nombreCliente4").value;
    let nuevoPedido = {
     ARTICULO: document.getElementById("codigo4").value,        
     DESCRIPCION: document.getElementById("descripcion4").value, 
@@ -260,6 +264,7 @@ document.getElementById("totalGeneral").textContent  = " Total $ " + sumaFormate
 //document.getElementById("totalGeneral").value = formatear("totalGeneral",document.getElementById("totalGeneral").value)
 generarTabla4(pedidoTabla);
 document.getElementById('formVentas').reset();  // 'miFormulario' es el ID del formulario
+document.getElementById("nombreCliente4").value =nombre;
 window.scrollTo(0, 0);
 };
 
@@ -278,6 +283,40 @@ function recuperarTabla(nuevoPedido){
  document.getElementById('formVentas').reset();  // 'miFormulario' es el ID del formulario
  window.scrollTo(0, 0);
  };
+
+ function recuperarTabla2(nuevoPedido){
+ 
+    let sumaTotal = 0; 
+    for (let fila of nuevoPedido) {
+        sumaTotal += fila.TOTAL;
+    }
+    let sumaFormateada = sumaTotal.toFixed(2)
+    // Función para sumar la columna total
+    
+    document.getElementById("totalGeneral6").textContent  = " Total $ " + sumaFormateada.toString();
+    //document.getElementById("totalGeneral").value = formatear("totalGeneral",document.getElementById("totalGeneral").value)
+    generarTabla6(nuevoPedido);
+    document.getElementById('formVentas').reset();  // 'miFormulario' es el ID del formulario
+    window.scrollTo(0, 0);
+    };
+
+    function recuperarTabla3(nuevoPedido){
+ 
+        let sumaTotal = 0; 
+        for (let fila of nuevoPedido) {
+            sumaTotal += fila.TOTAL;
+        }
+        let sumaFormateada = sumaTotal.toFixed(2)
+        // Función para sumar la columna total
+        
+        document.getElementById("totalGeneral7").textContent  = " Total $ " + sumaFormateada.toString();
+        //document.getElementById("totalGeneral").value = formatear("totalGeneral",document.getElementById("totalGeneral").value)
+        generarTabla7(nuevoPedido);
+        document.getElementById('formVentas').reset();  // 'miFormulario' es el ID del formulario
+        window.scrollTo(0, 0);
+        };
+       
+   
 
 async function  saveInventario(event) {
     const session = JSON.parse(localStorage.getItem("session") || "{}");
@@ -392,40 +431,90 @@ async function  deleteArticulo(event) {
 };
 
 
-async function  savePedido(event) {
-      localStorage.removeItem("pedidoTabla"); 
-    alert("Pedido guardado con exito No. " + 5);
-    document.getElementById("btnGuardarPedido").style.display = "none";
-    document.getElementById("totalGeneral").textContent  =""
-    document.getElementById("tablaDatos4").innerHTML = "";
-    document.getElementById("nombreCliente").value=""
-    agregarTitulosTabla();
-    //event.preventDefault(); // Evitar recarga de la página
-    // const articulo = document.getElementById("articulo").value;
-    // const descripcion = document.getElementById("descripcionEdit").value;
-    // const items = document.getElementById("items").value.trim() === "" ? null: document.getElementById("items").value.trim();
-    // const cat1 = document.getElementById("categoriaEdit").value.charAt(0) || null;;
-    // const cat2 = document.getElementById("categoriaEdit").value;
+async function  savePedido() {
+    const session = JSON.parse(localStorage.getItem("session") || "{}");
+    let nom = document.getElementById("nombreCliente4").value || ""
 
-    // if (document.getElementById("articulo").readOnly) {
-    //         try {
-    //             const response = await articuloEdit("DELETE", articulo,descripcion,items,"FUNNY",cat1,cat2);
-    //             console.log("DELETED ARTICULO:", response); 
-    //             // Lógica para actualizar la fila correspondiente en la tabla
-    //             //updateTableRowVend(id, nombre); // Función para actualizar la fila
-    //             fetchData();
-    //             closeModal();
-                
-    //         } catch (error) {
-    //             console.error("Error al actualizar DELETED:", error.message);
-    //             alert("Error al ELIMINAR ");
-    //         }
-       
-    // }
+let sumaTotal = 0;
+
+for (let fila of pedidoTabla) {
+    sumaTotal += fila.TOTAL;
+}
+ // Envía los datos al backend mediante fetch
+ fetch(url+"cotizaciones", {
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+        accion:"INSERT", usuario:session.user,  vendedor:session.vendedor || session.user ,  nombre:nom,  total:sumaTotal })
+}) 
+.then(response => {
+    // Verificar si la respuesta es exitosa
+    if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return response.text();  // Leer la respuesta como texto
+})
+.then(text => {
+    console.log('Raw response:', text);  // Verifica lo que devuelve el servidor
+    try {
+        // Intentar convertir el texto a JSON
+        const result = JSON.parse(text);
+        console.log(result);  // Ver el contenido del objeto JSON
+        if (result.success) {
+        let i =0;
+        let cot =result.cotizacion;
+            //  for (let fila of pedidoTabla) {
+            //      i++; // Incrementa el índice
+            //     let eje =     cotizacionLinea("INSERT",  fila.ARTICULO,  fila.DESCRIPCION,  fila.CANTIDAD,  fila.PRECIO,  fila.TOTAL,  i,  cot);
+
+            //  }
+            
+         
+
+            localStorage.removeItem("pedidoTabla"); 
+            pedidoTabla =  [];  
+            document.getElementById("btnGuardarPedido").style.display = "none";
+            document.getElementById("btnCancelarPedido").style.display = "none";
+            document.getElementById("totalGeneral").textContent  =""
+            document.getElementById("tablaDatos4").innerHTML = "";  
+            document.getElementById("nombreCliente4").value=""
+           
+            alert('Cotizacion registrada con éxito No. ' + cot);
+
+        } else {
+            const errorMessage = result.data[0].ErrorMessage;
+           
+            console.error('Error:', errorMessage);
+            alert('Hubo un error al registrar: ' + errorMessage);
+                  
+          
+        }
+    } catch (e) {
+        console.error('Error al procesar la respuesta JSON:', e);
+        alert('Hubo un error al procesar la respuesta del servidor',e);
+    }
+})
+.catch(error => {
+    console.error('Error al procesar la solicitud:', error);
+    alert('Hubo un error al procesar la solicitud');
+});
+
+   
 
     
 };
-
+async function  cancelarPedido(event) {
+    localStorage.removeItem("pedidoTabla"); 
+    pedidoTabla =  [];
+    document.getElementById("btnGuardarPedido").style.display = "none";
+    document.getElementById("btnCancelarPedido").style.display = "none";
+    document.getElementById("totalGeneral").textContent  =""
+    document.getElementById("tablaDatos4").innerHTML = "";
+    document.getElementById("nombreCliente4").value=""
+   
+};
 
 // Función para leer el archivo como ArrayBuffer
 function convertirArchivoABase64(archivo) {
@@ -684,15 +773,25 @@ function generarTabla4(datos) {
                 horas = horas % 12 || 12; // Convierte a formato de 12 horas
                 td.textContent = `${dia}/${mes}/${anio} ${horas}:${minutos} ${ampm}`;
             } else if (columna === 'ACCION') {
-                // Convierte el ID en un enlace
-                const enlace = document.createElement('a');
-                enlace.href = `editar.html?id=${valor}`; // URL para editar
-                enlace.textContent = valor;
-                enlace.onclick = (event) => {
-                    event.preventDefault(); // Evita el comportamiento por defecto
-                   // editarRegistro2(valor); // Llama a la función de edición
-                };
-                td.appendChild(enlace);
+                 // Convierte el ID en un enlace
+                        const enlace = document.createElement('a');
+                        enlace.href = `eliminar.html?id=${valor}`; // URL para eliminar
+                        enlace.textContent = valor;
+                        enlace.onclick = (event) => {
+                            event.preventDefault(); // Evita el comportamiento por defecto
+                            eliminarFila(enlace,"tablaDatos4"); // Llama a la función con el elemento enlace
+                        };
+                        td.appendChild(enlace);
+            } else if (columna === 'CANTIDAD') {
+                 // Convierte el ID en un enlace
+                 const enlace = document.createElement('a');
+                 enlace.href = `editar.html?id=${valor}`; // URL para editar
+                 enlace.textContent = valor;
+                 enlace.onclick = (event) => {
+                     event.preventDefault(); // Evita el comportamiento por defecto
+                    // editarRegistro2(valor); // Llama a la función de edición
+                 };
+                 td.appendChild(enlace);
             } else {
                 td.textContent = valor;
             }
@@ -781,6 +880,203 @@ function generarTabla5(datos) {
     document.getElementById("filtroInput5").value="";
 }
 
+function generarTabla6(datos) {
+    const contenedorTabla = document.getElementById('contenedorTabla6'); // Obtiene el contenedor de la tabla
+    const tablaExistente = document.getElementById('tablaDatos6'); // Identifica la tabla existente
+
+    // Elimina la tabla anterior, si existe
+    if (tablaExistente) {
+        tablaExistente.remove();
+    }
+
+    const section = document.getElementById('ventas');
+
+    if (!datos.length) {
+        // Verifica si ya existe el mensaje "No hay datos disponibles"
+        if (!document.getElementById('mensajeNoDatos')) {
+            const mensaje = document.createElement('p');
+            mensaje.textContent = 'No hay datos disponibles.';
+            mensaje.id = 'mensajeNoDatos';
+            section.appendChild(mensaje);
+        }
+        return;
+    } else {
+        // Elimina el mensaje si los datos están disponibles
+        const mensajeNoDatos = document.getElementById('mensajeNoDatos');
+        if (mensajeNoDatos) mensajeNoDatos.remove();
+    }
+    
+
+    const table = document.createElement('table');
+    table.id = 'tablaDatos6'; // Asigna un ID único a la tabla
+    table.border = '1';
+
+    // Genera el encabezado de la tabla dinámicamente
+    const thead = document.createElement('thead');
+    const headerRow = document.createElement('tr');
+    Object.keys(datos[0]).forEach((columna) => {
+        const th = document.createElement('th');
+        th.textContent = columna;
+        headerRow.appendChild(th);
+    });
+    thead.appendChild(headerRow);
+    table.appendChild(thead);
+
+    // Genera el cuerpo de la tabla
+    const tbody = document.createElement('tbody');
+    datos.forEach((fila) => {
+        const tr = document.createElement('tr');
+        Object.entries(fila).forEach(([columna, valor]) => {
+            const td = document.createElement('td');
+            // Si la columna es una fecha en formato /Date(...)/, la convertimos
+            if (typeof valor === 'string' && valor.includes('/Date(') && valor.includes(')/')) {
+                const timestamp = valor.match(/\/Date\((\d+)\)\//)[1];
+                const fecha = new Date(parseInt(timestamp)); // Convierte el timestamp a una fecha
+                
+                // Formatea la fecha y hora en el formato dd/MM/yyyy hh:mm AM/PM
+                const dia = fecha.getDate().toString().padStart(2, '0');
+                const mes = (fecha.getMonth() + 1).toString().padStart(2, '0');
+                const anio = fecha.getFullYear();
+                let horas = fecha.getHours();
+                const minutos = fecha.getMinutes().toString().padStart(2, '0');
+                const ampm = horas >= 12 ? 'PM' : 'AM';
+                horas = horas % 12 || 12; // Convierte a formato de 12 horas
+                td.textContent = `${dia}/${mes}/${anio} ${horas}:${minutos} ${ampm}`;
+            } else if (columna === 'ACCION') {
+                // Convierte el ID en un enlace
+                const enlace = document.createElement('a');
+                enlace.href = `editar.html?id=${valor}`; // URL para editar
+                enlace.textContent = valor;
+                enlace.onclick = (event) => {
+                    event.preventDefault(); // Evita el comportamiento por defecto
+                   // editarRegistro2(valor); // Llama a la función de edición
+                }
+            } else if (columna === 'CANTIDAD') {
+                // Convierte el ID en un enlace
+                const enlace = document.createElement('a');
+                enlace.href = `editar.html?id=${valor}`; // URL para editar
+                enlace.textContent = valor;
+                enlace.onclick = (event) => {
+                    event.preventDefault(); // Evita el comportamiento por defecto
+                   // editarRegistro2(valor); // Llama a la función de edición
+                }
+                ;
+            
+                td.appendChild(enlace);
+            } else {
+                td.textContent = valor;
+            }
+
+            tr.appendChild(td);
+        });
+        tbody.appendChild(tr);
+    });
+    table.appendChild(tbody);
+
+    // Inserta la tabla al final de la sección
+    //section.appendChild(table);
+    contenedorTabla.appendChild(table);
+    //document.getElementById("filtroInput6").value="";
+}
+
+function generarTabla7(datos) {
+    const contenedorTabla = document.getElementById('contenedorTabla7'); // Obtiene el contenedor de la tabla
+    const tablaExistente = document.getElementById('tablaDatos7'); // Identifica la tabla existente
+
+    // Elimina la tabla anterior, si existe
+    if (tablaExistente) {
+        tablaExistente.remove();
+    }
+
+    const section = document.getElementById('ventas');
+
+    if (!datos.length) {
+        // Verifica si ya existe el mensaje "No hay datos disponibles"
+        if (!document.getElementById('mensajeNoDatos')) {
+            const mensaje = document.createElement('p');
+            mensaje.textContent = 'No hay datos disponibles.';
+            mensaje.id = 'mensajeNoDatos';
+            section.appendChild(mensaje);
+        }
+        return;
+    } else {
+        // Elimina el mensaje si los datos están disponibles
+        const mensajeNoDatos = document.getElementById('mensajeNoDatos');
+        if (mensajeNoDatos) mensajeNoDatos.remove();
+    }
+    
+
+    const table = document.createElement('table');
+    table.id = 'tablaDatos7'; // Asigna un ID único a la tabla
+    table.border = '1';
+
+    // Genera el encabezado de la tabla dinámicamente
+    const thead = document.createElement('thead');
+    const headerRow = document.createElement('tr');
+    Object.keys(datos[0]).forEach((columna) => {
+        const th = document.createElement('th');
+        th.textContent = columna;
+        headerRow.appendChild(th);
+    });
+    thead.appendChild(headerRow);
+    table.appendChild(thead);
+
+    // Genera el cuerpo de la tabla
+    const tbody = document.createElement('tbody');
+    datos.forEach((fila) => {
+        const tr = document.createElement('tr');
+        Object.entries(fila).forEach(([columna, valor]) => {
+            const td = document.createElement('td');
+            // Si la columna es una fecha en formato /Date(...)/, la convertimos
+            if (typeof valor === 'string' && valor.includes('/Date(') && valor.includes(')/')) {
+                const timestamp = valor.match(/\/Date\((\d+)\)\//)[1];
+                const fecha = new Date(parseInt(timestamp)); // Convierte el timestamp a una fecha
+                
+                // Formatea la fecha y hora en el formato dd/MM/yyyy hh:mm AM/PM
+                const dia = fecha.getDate().toString().padStart(2, '0');
+                const mes = (fecha.getMonth() + 1).toString().padStart(2, '0');
+                const anio = fecha.getFullYear();
+                let horas = fecha.getHours();
+                const minutos = fecha.getMinutes().toString().padStart(2, '0');
+                const ampm = horas >= 12 ? 'PM' : 'AM';
+                horas = horas % 12 || 12; // Convierte a formato de 12 horas
+                td.textContent = `${dia}/${mes}/${anio} ${horas}:${minutos} ${ampm}`;
+            } else if (columna === 'ACCION') {
+                // Convierte el ID en un enlace
+                const enlace = document.createElement('a');
+                enlace.href = `editar.html?id=${valor}`; // URL para editar
+                enlace.textContent = valor;
+                enlace.onclick = (event) => {
+                    event.preventDefault(); // Evita el comportamiento por defecto
+                   // editarRegistro2(valor); // Llama a la función de edición
+                }
+                td.appendChild(enlace);
+            } else if (columna === 'CANTIDAD') {
+                // Convierte el ID en un enlace
+                const enlace = document.createElement('a');
+                enlace.href = `editar.html?id=${valor}`; // URL para editar
+                enlace.textContent = valor;
+                enlace.onclick = (event) => {
+                    event.preventDefault(); // Evita el comportamiento por defecto
+                   // editarRegistro2(valor); // Llama a la función de edición
+                }
+                td.appendChild(enlace);
+            } else {
+                td.textContent = valor;
+            }
+
+            tr.appendChild(td);
+        });
+        tbody.appendChild(tr);
+    });
+    table.appendChild(tbody);
+
+    // Inserta la tabla al final de la sección
+    //section.appendChild(table);
+    contenedorTabla.appendChild(table);
+    //document.getElementById("filtroInput7").value="";
+}
+
 
 function editarRegistro(id) {
     const session = JSON.parse(localStorage.getItem("session") || "{}");
@@ -839,6 +1135,29 @@ const articuloEdit = async (accion, articulo, descripcion, items,empresa,cat1,ca
 
         if (response.ok) {
             const data = await response.json();
+            return data;
+        } else {
+            throw new Error(`Error en la petición. Código de estado: ${response.status}`);
+        }
+    } catch (error) {
+        console.error("Error en la petición:", error.message);
+        throw error;
+    }
+};
+const cotizacionLinea =  (accion,  articulo,  descripcion,  cantidad,  precioUnitario,  total,  linea,  cotizacion) => {
+    try {
+        const response =  fetch(url + "cotizacionesLinea", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                accion,  articulo,  descripcion,  cantidad,  precioUnitario,  total,  linea,  cotizacion
+            })
+        });
+
+        if (response.ok) {
+            const data =  response.json();
             return data;
         } else {
             throw new Error(`Error en la petición. Código de estado: ${response.status}`);
@@ -1040,10 +1359,12 @@ async function fetchData() {
 
         if (!response.ok) throw new Error('Error al obtener los datos.');
         const data = await response.json();
+        if (data && data.length > 0) {
         productos =data
         // Genera la tabla y la inserta en la sección "datos"
         generarTabla(data);
         generarTabla5(data)
+        }
     } catch (error) {
         console.error('Error al obtener los datos:', error);
     }

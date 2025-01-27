@@ -34,8 +34,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     showSection('ventas');
-    agregarTitulosTabla();
-    pedidoTabla =  JSON.parse(localStorage.getItem("pedidoTabla") || "{}");
+    pedidoTabla =  JSON.parse(localStorage.getItem("pedidoTabla") || ["{}"]);
+    pedidoTabla2 =  JSON.parse(localStorage.getItem("pedidoTabla2") || "{}");
+    pedidoTabla3 =  JSON.parse(localStorage.getItem("pedidoTabla3") || "{}");
 
     if (pedidoTabla.length > 0) {
         // Si hay datos, recuperar y procesar la tabla
@@ -44,10 +45,28 @@ document.addEventListener('DOMContentLoaded', () => {
         // Si no hay datos, inicializar pedidoTabla como un arreglo vacío
         pedidoTabla = [];
     }
+    if (pedidoTabla2.length > 0) {
+        // Si hay datos, recuperar y procesar la tabla
+        recuperarTabla2(pedidoTabla2);
+    } else {
+        // Si no hay datos, inicializar pedidoTabla como un arreglo vacío
+        pedidoTabla2 = [];
+    }
+    if (pedidoTabla3.length > 0) {
+        // Si hay datos, recuperar y procesar la tabla
+        recuperarTabla3(pedidoTabla3);
+    } else {
+        // Si no hay datos, inicializar pedidoTabla como un arreglo vacío
+        pedidoTabla3 = [];
+    }
+
+
+
     cargarCategorias();
     fetchData();
     fetchData2();
     document.getElementById("ubicacion").value =  localStorage.getItem("ubicacion")
+
 
   
 });
@@ -215,6 +234,8 @@ document.getElementById('formInventario').addEventListener('submit', function(ev
 
 document.getElementById('formVentas').addEventListener('submit', function(event) {
     event.preventDefault(); // Evita el envío tradicional del formulario
+    document.getElementById("btnGuardarPedido").style.display = "flex";
+    document.getElementById("btnCancelarPedido").style.display = "flex";
     guardarTabla(); // Llama a la función para registrar al alumno
 });
 
@@ -387,6 +408,35 @@ function agregarTitulosTabla() {
     // Agrega la fila de encabezados a la tabla
     tabla.appendChild(filaEncabezado);
 }
+function switchTab(event, tabId) {
+   // Ocultar todas las pestañas
+   const tabs = document.querySelectorAll('.tab-content');
+   tabs.forEach(tab => tab.classList.remove('active-tab'));
 
+   // Mostrar la pestaña seleccionada
+   document.getElementById(tabId).classList.add('active-tab');
 
+   // Cambiar el título según la pestaña seleccionada
+   const tituloPedido = document.getElementById('tituloPedido');
+   if (tabId === 'venta1') {
+       tituloPedido.textContent = 'Pedido de Cliente 1';
+   } else if (tabId === 'venta2') {
+       tituloPedido.textContent = 'Pedido de Cliente 2';
+   } else if (tabId === 'venta3') {
+       tituloPedido.textContent = 'Pedido de Cliente 3';
+   }
 
+   // Marcar el botón activo
+   const buttons = document.querySelectorAll('.tab-button');
+   buttons.forEach(button => button.classList.remove('active'));
+
+   event.currentTarget.classList.add('active');
+}
+
+function eliminarFila(enlace, tableName) {
+    const table = document.getElementById(tableName); // Obtén la tabla por su ID
+    const row = enlace.parentNode.parentNode; // Encuentra la fila del enlace
+    table.deleteRow(row.rowIndex); // Elimina la fila por su índice
+    pedidoTabla.splice(row.rowIndex-1, 1); // Elimina el elemento en el índice
+    recuperarTabla(pedidoTabla);
+}

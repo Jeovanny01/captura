@@ -343,8 +343,7 @@
             <h2>Captura de inventario</h2>
             <form id="formInventario">
                 
-                <div class="form-group">
-                    
+                <div class="form-group"> 
                     <div id="reader2" style="width: 100%; "></div>
 
                     <label for="ubicacion">UBICACION</label>
@@ -388,17 +387,27 @@
         </section>
     
         <section id="ventas" class="secciones">
-            <h2>Pedido de Cliente</h2>
-            <button id="btnGuardarPedido" type="button" onclick="savePedido()" >Guardar Pedido</button>
-            <br>
-            <label for="nombreCliente">NOMBRE DEL CLIENTE</label>
-            <label id="totalGeneral" style="font-size: 20px; font-weight: bold;"></label>
-            <input type="text" id="nombreCliente" name="nombreCliente" >
-      
-            <form id="formVentas">
-                
+            <h2 id="tituloPedido">Pedido de Cliente 1</h2>
+            <div class="tabs">
+                <button class="tab-button active"  onclick="switchTab(event, 'venta1')">Cliente 1</button>
+                <button class="tab-button" onclick="switchTab(event, 'venta2')">Cliente 2</button>
+                <button class="tab-button" onclick="switchTab(event, 'venta3')">Cliente 3</button>
+            </div>
+            <div id="venta1" class="tab-content active-tab">  
+            <form id="formVentas">               
                 <div class="form-group">
+                   <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0px; width: 100%;">
+    <button id="btnGuardarPedido" type="button" onclick="savePedido()">Guardar Pedido</button>
+    <button id="btnCancelarPedido" type="button" onclick="cancelarPedido()">Cancelar</button>
+</div>
+
                     
+                    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 0px;">
+                        <label for="nombreCliente4">NOMBRE DEL CLIENTE</label>
+                        <label id="totalGeneral" style="font-size: 20px; font-weight: bold;"></label>
+                    </div>
+                    <input type="text" id="nombreCliente4" name="nombreCliente4" >
+              
                     <div id="reader4" style="width: 100%; "></div>
 
                     <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
@@ -418,9 +427,7 @@
                     <button id="start-scan4" type="button"> Escaneo</button>
                     <button id="stop-scan4" type="button" disabled>Detener</button>
                     <button id="btnbuscar4" type="button">🔍Buscar</button>
-                 
-                               
-                                                 
+                                                   
                     <label for="descripcion4">Descripcion</label>
                     <input type="text" id="descripcion4" name="descripcion4" >
            
@@ -445,6 +452,122 @@
                     </div>
                 </div>
             </form>
+            </div>
+            <!-- 2 -->
+            <div id="venta2" class="tab-content">
+            <form id="formVentas">               
+                <div class="form-group">
+                    <button id="btnGuardarPedido6" type="button" onclick="savePedido()" >Guardar Pedido</button>
+                    <br>
+                    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 0px;">
+                        <label for="nombreCliente6">NOMBRE DEL CLIENTE</label>
+                        <label id="totalGeneral6" style="font-size: 20px; font-weight: bold;"></label>
+                    </div>
+                    <input type="text" id="nombreCliente6" name="nombreCliente6" >
+              
+                    <div id="reader6" style="width: 100%; "></div>
+
+                    <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+                        <div style="display: flex; align-items: center; margin-right: auto;">
+                            <label for="codigo6" style="margin-right: 10px;">Código de barra</label>
+                            <input type="text" id="codigo6" name="codigo4" inputmode="text" required>
+                        </div>
+                        <div style="display: flex; align-items: center; margin-left: 10px;">
+                            <label id ="lupa6" for="lupa6" style="cursor: pointer;">🔍</label>
+                            <!-- <input type="text" id="buscar4" name="buscar4" inputmode="text" required> -->
+                        </div>
+                    </div>
+                    <label for="item6">ITEM No.</label>
+                    <input type="text" id="item6" name="item6"  inputmode="text" >
+                  
+                    <button id="start-scan6" type="button"> Escaneo</button>
+                    <button id="stop-scan6" type="button" disabled>Detener</button>
+                    <button id="btnbuscar6" type="button">🔍Buscar</button>               
+                                                 
+                    <label for="descripcion6">Descripcion</label>
+                    <input type="text" id="descripcion6" name="descripcion6" >
+           
+                    <label for="cantidad6">Cantidad</label>
+                    <input type="number" id="cantidad6" name="cantidad6"  step="0.001"  min="0" max="100000"  placeholder="" required>
+                    <div class="input-group">
+                        <label for="precio6">Precio</label>
+                        <input type="number" id="precio6" name="precio6"  step="0.001"  min="0" max="100000"  placeholder="" required>
+                        
+                        <label for="total6">Total</label>
+                        <input type="number" id="total6" name="total6"  step="0.001"  min="0" max="100000"  placeholder="" disabled required>
+                  </div>
+                    <input type="submit" value="Agragar Producto">
+                    <br>
+                    <label for="total6">Productos del pedido</label>
+                    <div id="contenedorTabla6" class="tabla-contenedor">
+                        <table id="tablaDatos6">
+                            <!-- La tabla se llenará dinámicamente -->
+                        </table>
+                    </div>
+                </div>
+            </form>
+            </div>
+
+            <!-- 3 -->
+
+            <div id="venta3" class="tab-content"> 
+            <form id="formVentas">               
+                <div class="form-group">
+                    <button id="btnGuardarPedido7" type="button" onclick="savePedido()" >Guardar Pedido</button>
+                    <br>
+                    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 0px;">
+                        <label for="nombreCliente7">NOMBRE DEL CLIENTE</label>
+                        <label id="totalGeneral7" style="font-size: 20px; font-weight: bold;"></label>
+                    </div>
+                    <input type="text" id="nombreCliente7" name="nombreCliente7" >
+              
+                    <div id="reader7" style="width: 100%; "></div>
+
+                    <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+                        <div style="display: flex; align-items: center; margin-right: auto;">
+                            <label for="codigo7" style="margin-right: 10px;">Código de barra</label>
+                            <input type="text" id="codigo7" name="codigo7" inputmode="text" required>
+                        </div>
+                        <div style="display: flex; align-items: center; margin-left: 10px;">
+                            <label id ="lupa7" for="lupa7" style="cursor: pointer;">🔍</label>
+                            <!-- <input type="text" id="buscar4" name="buscar4" inputmode="text" required> -->
+                        </div>
+                    </div>
+                    <label for="item7">ITEM No.</label>
+                    <input type="text" id="item7" name="item7"  inputmode="text" >
+                  
+
+                    <button id="start-scan7" type="button"> Escaneo</button>
+                    <button id="stop-scan7" type="button" disabled>Detener</button>
+                    <button id="btnbuscar7" type="button">🔍Buscar</button>
+                 
+                               
+                                                 
+                    <label for="descripcion7">Descripcion</label>
+                    <input type="text" id="descripcion7" name="descripcion7" >
+           
+
+
+                    <label for="cantidad7">Cantidad</label>
+                    <input type="number" id="cantidad7" name="cantidad7"  step="0.001"  min="0" max="100000"  placeholder="" required>
+                    <div class="input-group">
+                        <label for="precio7">Precio</label>
+                        <input type="number" id="precio7" name="precio7"  step="0.001"  min="0" max="100000"  placeholder="" required>
+                        
+                        <label for="total7">Total</label>
+                        <input type="number" id="total7" name="total7"  step="0.001"  min="0" max="100000"  placeholder="" disabled required>
+                  </div>
+                    <input type="submit" value="Agragar Producto">
+                    <br>
+                    <label for="total7">Productos del pedido</label>
+                    <div id="contenedorTabla7" class="tabla-contenedor">
+                        <table id="tablaDatos7">
+                            <!-- La tabla se llenará dinámicamente -->
+                        </table>
+                    </div>
+                </div>
+            </form>
+            </div>
         </section>
 
 
@@ -452,13 +575,16 @@
 
 
  <!-- <script src="cargarSucursales.js"></script> Tu archivo de scripts principal, si existe -->
+ <script src="script.js"></script> 
   <script src="datos.js"></script>  
  <script src="acciones.js"></script> 
- <script src="script.js"></script> 
+
 
 <script src="./lib/html5-qrcode/html5-qrcode.min.js"></script>
 <script type="module" src="cam.js"></script>
 <script type="module" src="cam2.js"></script>
 <script type="module" src="cam3.js"></script>
+<script type="module" src="cam6.js"></script>
+<script type="module" src="cam7.js"></script>
 </body>
 </html>
