@@ -357,7 +357,7 @@ cant.addEventListener('input', () => {
     let codigo = document.getElementById("codigo4").value
     let cantidad = parseFloat(document.getElementById("cantidad4").value.trim()) || 0;
     let precio = parseFloat(document.getElementById("precio4").value) || 0;
-    if (cantidad > 1){   
+    if (cantidad > 0){   
         let valorbusado = buscarProducto(codigo)
         precio =  valorbusado.PRECIO_MAYOREO
         document.getElementById("precio4").value = precio
