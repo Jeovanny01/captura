@@ -324,7 +324,7 @@ function actualizarCampos4(prod) {
     document.getElementById("codigo4").value = prod.ARTICULO || '';
     document.getElementById("descripcion4").value = prod.DESCRIPCION || '';
     document.getElementById("item4").value = prod.ITEM || '';
-    document.getElementById("precio4").value = prod.PRECIO || 0;
+    document.getElementById("precio4").value = prod.PRECIO_MAYOREO || 0;
     document.getElementById("cantidad4").value = 1
     // Obtén los valores de los campos
 let precio = parseFloat(document.getElementById("precio4").value) || 0;
@@ -446,7 +446,9 @@ function switchTab(event, tabId) {
 function eliminarFila(enlace, tableName) {
     const table = document.getElementById(tableName); // Obtén la tabla por su ID
     const row = enlace.parentNode.parentNode; // Encuentra la fila del enlace
-    table.deleteRow(row.rowIndex); // Elimina la fila por su índice
-    pedidoTabla.splice(row.rowIndex, 1); // Elimina el elemento en el índice
+    //table.deleteRow(row.rowIndex); // Elimina la fila por su índice
+    pedidoTabla.splice(row.rowIndex-1, 1); // Elimina el elemento en el índice
+    localStorage.removeItem("pedidoTabla"); 
+    localStorage.setItem('pedidoTabla', JSON.stringify(pedidoTabla));
     recuperarTabla(pedidoTabla);
 }

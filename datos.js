@@ -285,7 +285,7 @@ function recuperarTabla(nuevoPedido){
  //document.getElementById("totalGeneral").value = formatear("totalGeneral",document.getElementById("totalGeneral").value)
  generarTabla4(nuevoPedido);
  document.getElementById('formVentas').reset();  // 'miFormulario' es el ID del formulario
- window.scrollTo(0, 0);
+ //window.scrollTo(0, 0);
  };
 
  function recuperarTabla2(nuevoPedido){
