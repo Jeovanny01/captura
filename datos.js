@@ -240,14 +240,18 @@ async function  saveArticulo(event) {
 
 function guardarTabla(){
     const nombre = document.getElementById("nombreCliente4").value;
+
+    let numeroFilas = pedidoTabla.length; // Contar las filas actuales
+
    let nuevoPedido = {
     ARTICULO: document.getElementById("codigo4").value,        
     DESCRIPCION: document.getElementById("descripcion4").value, 
     CANTIDAD: document.getElementById("cantidad4").value, 
     PRECIO: parseFloat(document.getElementById("precio4").value), 
     TOTAL: parseFloat(document.getElementById("total4").value), 
-    ACCION: "Eliminar"
+    ACCION: numeroFilas + "Eliminar"
     };
+
 // Agregar el nuevo pedido al arreglo
 pedidoTabla.push(nuevoPedido);
 localStorage.setItem('pedidoTabla', JSON.stringify(pedidoTabla));
@@ -480,7 +484,7 @@ for (let fila of pedidoTabla) {
             document.getElementById("totalGeneral").textContent  =""
             document.getElementById("tablaDatos4").innerHTML = "";  
             document.getElementById("nombreCliente4").value=""
-            
+
             localStorage.removeItem("pedidoTabla"); 
             pedidoTabla =  [];
             alert('Cotizacion registrada con éxito No. ' + cot);
@@ -795,7 +799,7 @@ function generarTabla4(datos) {
             } else if (columna === 'ACCION') {
                  // Convierte el ID en un enlace
                         const enlace = document.createElement('a');
-                        enlace.href = `eliminar.html?id=${valor}`; // URL para eliminar
+                        enlace.href = `eliminar.html?id=${valor}` ; // URL para eliminar
                         enlace.textContent = valor;
                         enlace.onclick = (event) => {
                             event.preventDefault(); // Evita el comportamiento por defecto

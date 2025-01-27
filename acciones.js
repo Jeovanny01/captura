@@ -236,7 +236,17 @@ document.getElementById('formVentas').addEventListener('submit', function(event)
     event.preventDefault(); // Evita el envío tradicional del formulario
     document.getElementById("btnGuardarPedido").style.display = "flex";
     document.getElementById("btnCancelarPedido").style.display = "flex";
-    guardarTabla(); // Llama a la función para registrar al alumno
+    
+    const productoCodigo = buscarProducto(document.getElementById("codigo4").value);
+    if (productoCodigo) {
+        // Si encuentra el producto por código
+        guardarTabla(); // Llama a la función para registrar al alumno
+
+    } else {
+        alert('Producto no existe en la base de datos');
+    }
+
+
 });
 
 const btnEliminar = document.getElementById('btnEliminar');
@@ -437,6 +447,6 @@ function eliminarFila(enlace, tableName) {
     const table = document.getElementById(tableName); // Obtén la tabla por su ID
     const row = enlace.parentNode.parentNode; // Encuentra la fila del enlace
     table.deleteRow(row.rowIndex); // Elimina la fila por su índice
-    pedidoTabla.splice(row.rowIndex-1, 1); // Elimina el elemento en el índice
+    pedidoTabla.splice(row.rowIndex, 1); // Elimina el elemento en el índice
     recuperarTabla(pedidoTabla);
 }
