@@ -432,6 +432,7 @@ async function  deleteArticulo(event) {
 
 
 async function  savePedido() {
+    let cot = 0
     const session = JSON.parse(localStorage.getItem("session") || "{}");
     let nom = document.getElementById("nombreCliente4").value || ""
 
@@ -456,7 +457,7 @@ for (let fila of pedidoTabla) {
     }
     return response.text();  // Leer la respuesta como texto
 })
-.then(text => {
+.then(async text => {
     console.log('Raw response:', text);  // Verifica lo que devuelve el servidor
     try {
         // Intentar convertir el texto a JSON
@@ -464,25 +465,26 @@ for (let fila of pedidoTabla) {
         console.log(result);  // Ver el contenido del objeto JSON
         if (result.success) {
         let i =0;
-        let cot =result.cotizacion;
-            //  for (let fila of pedidoTabla) {
-            //      i++; // Incrementa el índice
-            //     let eje =     cotizacionLinea("INSERT",  fila.ARTICULO,  fila.DESCRIPCION,  fila.CANTIDAD,  fila.PRECIO,  fila.TOTAL,  i,  cot);
+       cot =result.cotizacion;
+                 
+       
+      for (let fila of pedidoTabla) {
+                 i++; // Incrementa el índice
+                let eje =  await   cotizacionLinea("INSERT",  fila.ARTICULO,  fila.DESCRIPCION,  fila.CANTIDAD,  fila.PRECIO,  fila.TOTAL,  i,  cot);
 
-            //  }
-            
-         
+       }
 
-            localStorage.removeItem("pedidoTabla"); 
-            pedidoTabla =  [];  
+      
             document.getElementById("btnGuardarPedido").style.display = "none";
             document.getElementById("btnCancelarPedido").style.display = "none";
             document.getElementById("totalGeneral").textContent  =""
             document.getElementById("tablaDatos4").innerHTML = "";  
             document.getElementById("nombreCliente4").value=""
-           
+            
+            localStorage.removeItem("pedidoTabla"); 
+            pedidoTabla =  [];
             alert('Cotizacion registrada con éxito No. ' + cot);
-
+        
         } else {
             const errorMessage = result.data[0].ErrorMessage;
            
@@ -495,7 +497,10 @@ for (let fila of pedidoTabla) {
         console.error('Error al procesar la respuesta JSON:', e);
         alert('Hubo un error al procesar la respuesta del servidor',e);
     }
-})
+}
+
+
+)
 .catch(error => {
     console.error('Error al procesar la solicitud:', error);
     alert('Hubo un error al procesar la solicitud');
@@ -505,6 +510,18 @@ for (let fila of pedidoTabla) {
 
     
 };
+const procesarPedidoTabla = async (cot) => {
+    for (let fila of pedidoTabla) {
+        i++; // Incrementa el índice
+        try {
+            let eje = await cotizacionLinea("INSERT", fila.ARTICULO, fila.DESCRIPCION, fila.CANTIDAD, fila.PRECIO, fila.TOTAL, i, cot);
+            console.log("Resultado:", eje);
+        } catch (error) {
+            console.error("Error procesando fila:", error.message);
+        }
+    }
+};
+
 async function  cancelarPedido(event) {
     localStorage.removeItem("pedidoTabla"); 
     pedidoTabla =  [];
@@ -533,6 +550,9 @@ function convertirArchivoABase64(archivo) {
       });
 }
 
+function guardar(datos) {
+
+}
 
 function generarTabla(datos) {
     const contenedorTabla = document.getElementById('contenedorTabla'); // Obtiene el contenedor de la tabla
@@ -1144,9 +1164,9 @@ const articuloEdit = async (accion, articulo, descripcion, items,empresa,cat1,ca
         throw error;
     }
 };
-const cotizacionLinea =  (accion,  articulo,  descripcion,  cantidad,  precioUnitario,  total,  linea,  cotizacion) => {
+const cotizacionLinea = async (accion,  articulo,  descripcion,  cantidad,  precioUnitario,  total,  linea,  cotizacion) => {
     try {
-        const response =  fetch(url + "cotizacionesLinea", {
+        const response = await fetch(url + "cotizacionesLinea", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -1157,7 +1177,7 @@ const cotizacionLinea =  (accion,  articulo,  descripcion,  cantidad,  precioUni
         });
 
         if (response.ok) {
-            const data =  response.json();
+            const data = await response.json();
             return data;
         } else {
             throw new Error(`Error en la petición. Código de estado: ${response.status}`);
