@@ -418,7 +418,7 @@ async function  deleteArticulo(event) {
 
     if (document.getElementById("articulo").readOnly) {
             try {
-                const response = await articuloEdit("DELETE", articulo,descripcion,items,"FUNNY",cat1,cat2);
+                const response = await articuloEdit("DELETE", articulo,descripcion,items,"FUNNY",cat1,cat2,0,0,0);
                 console.log("DELETED ARTICULO:", response); 
                 // Lógica para actualizar la fila correspondiente en la tabla
                 //updateTableRowVend(id, nombre); // Función para actualizar la fila
@@ -1177,7 +1177,7 @@ if (registroSeleccionado.length > 0) {
 }
 
 
-const articuloEdit = async (accion, articulo, descripcion, items,empresa,cat1,cat2) => {
+const articuloEdit = async (accion, articulo, descripcion, items,empresa,cat1,cat2,precio=0,precioNormal=0,precioUnitario=0) => {
     try {
         const response = await fetch(url + "articuloEdit", {
             method: "POST",
@@ -1185,7 +1185,7 @@ const articuloEdit = async (accion, articulo, descripcion, items,empresa,cat1,ca
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                accion, articulo, descripcion, items,empresa,cat1,cat2
+                accion, articulo, descripcion, items,empresa,cat1,cat2,precio,precioNormal,precioUnitario
             })
         });
 
@@ -1200,6 +1200,7 @@ const articuloEdit = async (accion, articulo, descripcion, items,empresa,cat1,ca
         throw error;
     }
 };
+
 const cotizacionLinea = async (accion,  articulo,  descripcion,  cantidad,  precioUnitario,  total,  linea,  cotizacion) => {
     try {
         const response = await fetch(url + "cotizacionesLinea", {
@@ -1304,10 +1305,14 @@ async function  saveRegistro(event) {
     const items = document.getElementById("items").value.trim() === "" ? null: document.getElementById("items").value.trim();
     const cat1 = document.getElementById("categoriaEdit").value.charAt(0) || null;;
     const cat2 = document.getElementById("categoriaEdit").value;
+    const precio = document.getElementById("precioEdit").value;
+    const precioNormal = document.getElementById("precioNomalEdit").value;
+    const precioUnitario = document.getElementById("precioUnitEdit").value;
+
 
     if (document.getElementById("articulo").readOnly) {
             try {
-                const response = await articuloEdit("UPDATE2", articulo,descripcion,items,"FUNNY",cat1,cat2);
+                const response = await articuloEdit("UPDATE2", articulo,descripcion,items,"FUNNY",cat1,cat2,precio,precioNormal,precioUnitario);
                 console.log("Actualizado:", response); 
                 // Lógica para actualizar la fila correspondiente en la tabla
                 //updateTableRowVend(id, nombre); // Función para actualizar la fila
@@ -1392,6 +1397,10 @@ function cargarFormulario(registro) {
                // Seleccionar el estado actual del registro
         document.getElementById("items").value = registro.ITEM;
         document.getElementById("categoriaEdit").value = registro.CODIGO;
+        document.getElementById("precioEdit").value = registro.PRECIO_MAYOREO;
+        document.getElementById("precioNomalEdit").value = registro.PRECIO;
+        document.getElementById("precioUnitEdit").value = registro.PRECIO_UNITARIO;
+
     }
 }
 function cargarFormulario2(registro) {

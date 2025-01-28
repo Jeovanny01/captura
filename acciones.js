@@ -70,11 +70,17 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log("Bloque finally ejecutado.");
 }
 
+try {
     cargarCategorias();
     fetchData();
     fetchData2();
     document.getElementById("ubicacion").value =  localStorage.getItem("ubicacion")
-
+} catch (error) {
+    console.error("Ha ocurrido un error:", error.message);
+} finally {
+    // Código que se ejecuta siempre
+    console.log("Bloque finally ejecutado.");
+}
 
   
 });
