@@ -20,6 +20,7 @@ const fetchEjecutar = async (funct) => {
             throw new Error(`Error en la petición. Código de estado:  ${response.status}`);
         }
     } catch (error) {
+        alert('No hay conexion con el servidor, verificar internet',error.mensaje)
         console.error('Error en la petición:', error.message);
         throw error;
     }
