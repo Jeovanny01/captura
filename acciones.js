@@ -38,6 +38,8 @@ document.addEventListener('DOMContentLoaded', () => {
     pedidoTabla2 =  JSON.parse(localStorage.getItem("pedidoTabla2") || "{}");
     pedidoTabla3 =  JSON.parse(localStorage.getItem("pedidoTabla3") || "{}");
 
+
+    try {
     if (pedidoTabla.length > 0) {
         // Si hay datos, recuperar y procesar la tabla
         recuperarTabla(pedidoTabla);
@@ -60,7 +62,13 @@ document.addEventListener('DOMContentLoaded', () => {
         pedidoTabla3 = [];
     }
 
-
+} catch (error) {
+    // Código para manejar el error
+    console.error("Ha ocurrido un error:", error.message);
+} finally {
+    // Código que se ejecuta siempre
+    console.log("Bloque finally ejecutado.");
+}
 
     cargarCategorias();
     fetchData();
