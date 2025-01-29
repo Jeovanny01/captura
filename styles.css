@@ -30,6 +30,11 @@ h1 {
     margin: 0; /* Sin margen */
 }
 
+h2 {
+    font-size: 20px; /* Tamaño del texto */
+    margin: 0; /* Sin margen */
+}
+
 /* Estilo para el contenedor del login */
 .login-container {
     position: absolute; /* Permite posicionar el botón en relación al contenedor */
@@ -666,7 +671,8 @@ body {
 .tabs {
     display: flex;
     gap: 1px;
-    margin-bottom: 5px;
+    margin-bottom: 20px;
+    margin-top: 0px;
 }
 
 .tab-button {

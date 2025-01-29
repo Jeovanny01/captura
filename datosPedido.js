@@ -161,14 +161,7 @@ for (let fila of pedidoTabla) {
        }
 
       
-            document.getElementById("btnGuardarPedido").style.display = "none";
-            document.getElementById("btnCancelarPedido").style.display = "none";
-            document.getElementById("totalGeneral").textContent  =""
-            document.getElementById("tablaDatos4").innerHTML = "";  
-            document.getElementById("nombreCliente4").value=""
-
-            localStorage.removeItem("pedidoTabla"); 
-            pedidoTabla =  [];
+         cancelarPedido(1);
             alert('Cotizacion registrada con éxito No. ' + cot);
             button.disabled = false;
         } else {
@@ -204,6 +197,8 @@ async function  savePedidoNew(button) {
 for (let fila of pedidoTabla) {
     sumaTotal += fila.TOTAL;
 }
+
+if (sumaTotal == 0) {return}
  // Envía los datos al backend mediante fetch
  fetch(url+"cotizaciones02", {
     method: "POST",
@@ -229,7 +224,7 @@ for (let fila of pedidoTabla) {
         console.log(result);  // Ver el contenido del objeto JSON
         if (result.success) {
         cot =result.cotizacion;             
-           cancelarPedido();
+           cancelarPedido(1);
             alert('Cotizacion registrada con éxito No. ' + cot);
             button.disabled = false;
         } else {
@@ -262,6 +257,7 @@ async function  savePedidoNew2(button) {
 for (let fila of pedidoTabla2) {
     sumaTotal += fila.TOTAL;
 }
+if (sumaTotal == 0) {return}
  // Envía los datos al backend mediante fetch
  fetch(url+"cotizaciones02", {
     method: "POST",
@@ -287,7 +283,7 @@ for (let fila of pedidoTabla2) {
         console.log(result);  // Ver el contenido del objeto JSON
         if (result.success) {
         cot =result.cotizacion;             
-            cancelarPedido()
+            cancelarPedido(1)
             alert('Cotizacion registrada con éxito No. ' + cot);
             button.disabled = false;
         } else {
@@ -320,6 +316,7 @@ async function  savePedidoNew3(button) {
 for (let fila of pedidoTabla3) {
     sumaTotal += fila.TOTAL;
 }
+if (sumaTotal == 0) {return}
  // Envía los datos al backend mediante fetch
  fetch(url+"cotizaciones02", {
     method: "POST",
@@ -345,7 +342,7 @@ for (let fila of pedidoTabla3) {
         console.log(result);  // Ver el contenido del objeto JSON
         if (result.success) {
         cot =result.cotizacion;             
-            cancelarPedido()
+            cancelarPedido(1)
             alert('Cotizacion registrada con éxito No. ' + cot);
             button.disabled = false;
         } else {
@@ -368,14 +365,15 @@ for (let fila of pedidoTabla3) {
 }) 
 };
 
-async function  cancelarPedido() {
+async function  cancelarPedido(guardar = 0) {
 let tab =   localStorage.getItem("ventana") || "venta1"
-let confirmacion = confirm("¿Estás seguro de que deseas CANCELAR VENTA?");
-    
+if (guardar ==0) {
+let confirmacion = confirm("¿Estás seguro de que deseas borrar la venta VENTA?");
+
     if (!confirmacion) {
         return; // Sale de la función si el usuario cancela
     }
-
+}
 
 if (tab =="venta1") {
     localStorage.removeItem("nombreCliente"); 
