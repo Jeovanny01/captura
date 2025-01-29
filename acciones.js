@@ -44,22 +44,34 @@ document.addEventListener('DOMContentLoaded', () => {
     if (pedidoTabla.length > 0) {
         // Si hay datos, recuperar y procesar la tabla
         recuperarTabla(pedidoTabla);
+        document.getElementById("btnGuardarPedido").style.display = "flex";
+        document.getElementById("btnCancelarPedido").style.display = "flex";
     } else {
         // Si no hay datos, inicializar pedidoTabla como un arreglo vacío
+        document.getElementById("btnGuardarPedido").style.display = "none";
+        document.getElementById("btnCancelarPedido").style.display = "none";
         pedidoTabla = [];
     }
     if (pedidoTabla2.length > 0) {
         // Si hay datos, recuperar y procesar la tabla
+        document.getElementById("btnGuardarPedido2").style.display = "flex";
+        document.getElementById("btnCancelarPedido2").style.display = "flex";
         recuperarTabla2(pedidoTabla2);
     } else {
         // Si no hay datos, inicializar pedidoTabla como un arreglo vacío
+        document.getElementById("btnGuardarPedido2").style.display = "none";
+        document.getElementById("btnCancelarPedido2").style.display = "none";
         pedidoTabla2 = [];
     }
     if (pedidoTabla3.length > 0) {
         // Si hay datos, recuperar y procesar la tabla
+        document.getElementById("btnGuardarPedido3").style.display = "flex";
+        document.getElementById("btnCancelarPedido3").style.display = "flex";
         recuperarTabla3(pedidoTabla3);
     } else {
         // Si no hay datos, inicializar pedidoTabla como un arreglo vacío
+        document.getElementById("btnGuardarPedido3").style.display = "none";
+        document.getElementById("btnCancelarPedido3").style.display = "none";
         pedidoTabla3 = [];
     }
 
@@ -282,7 +294,7 @@ document.getElementById('formVentas3').addEventListener('submit', function(event
     const productoCodigo = buscarProducto(document.getElementById("codigo7").value);
     if (productoCodigo) {
         // Si encuentra el producto por código
-        guardarTabla(); // Llama a la función para registrar al alumno
+        guardarTabla7(); // Llama a la función para registrar al alumno
 
     } else {
         alert('Producto no existe en la base de datos');
@@ -478,10 +490,17 @@ formatear("total7",total)
 
 
 function formatear(control,valor) {
+  try {
+    
+
     document.getElementById(control).value = valor.toLocaleString('en-US', {
         minimumFractionDigits: 2,  // Número mínimo de decimales
         maximumFractionDigits: 6   // Número máximo de decimales
-    });
+    }).replace(/,/g, '');
+} catch (error) {
+ console.log(error.message())   ;
+}
+    
 }
 function formatoNumero(valor) {
      valor.toLocaleString('en-US', {
