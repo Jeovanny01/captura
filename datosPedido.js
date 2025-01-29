@@ -368,7 +368,7 @@ if (sumaTotal == 0) {return}
 async function  cancelarPedido(guardar = 0) {
 let tab =   localStorage.getItem("ventana") || "venta1"
 if (guardar ==0) {
-let confirmacion = confirm("¿Estás seguro de que deseas borrar la venta VENTA?");
+let confirmacion = confirm("¿Estás seguro de que deseas borrar la VENTA?");
 
     if (!confirmacion) {
         return; // Sale de la función si el usuario cancela
