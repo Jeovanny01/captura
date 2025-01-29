@@ -34,6 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     showSection('ventas');
+    localStorage.setItem("ventana", "venta1")
    // localStorage.removeItem("pedidoTabla2")
     pedidoTabla =  JSON.parse(localStorage.getItem("pedidoTabla") || ["{}"]);
     pedidoTabla2 =  JSON.parse(localStorage.getItem("pedidoTabla2") || "{}");

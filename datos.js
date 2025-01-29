@@ -648,16 +648,12 @@ function generarTabla4(datos) {
                  enlace.textContent = valor;
                  enlace.onclick = (event) => {
                                             event.preventDefault(); // Evita el comportamiento por defecto
-    
                         // Capturar el índice de la fila
                         const fila = event.target.closest('tr'); // Encuentra la fila (<tr>) más cercana al enlace
                         const indice = fila.rowIndex; // Obtén el índice de la fila
                                             console.log("Índice de la fila:", indice); // Muestra el índice en la consola
-                    
-                        editarRegistroPe(indice); // Llama a la función de edición con el índice
-                        
-                
-                 };
+                        editarRegistroPe(indice); // Llama a la función de edición con el índice                
+                };
                  td.appendChild(enlace);
             } else {
                 td.textContent = valor;
@@ -820,15 +816,17 @@ function generarTabla6(datos) {
                 };
                 td.appendChild(enlace);
             } else if (columna === 'ARTICULO') {
-                // Convierte el ID en un enlace
                 const enlace = document.createElement('a');
-                enlace.href = `editar.html?id=${valor}`; // URL para editar
+                enlace.href = `editar2.html?id=${valor}`; // URL para editar
                 enlace.textContent = valor;
                 enlace.onclick = (event) => {
-                    event.preventDefault(); // Evita el comportamiento por defecto
-                   // editarRegistro2(valor); // Llama a la función de edición
-                }
-                ;
+                                           event.preventDefault(); // Evita el comportamiento por defecto
+                       // Capturar el índice de la fila
+                       const fila = event.target.closest('tr'); // Encuentra la fila (<tr>) más cercana al enlace
+                       const indice = fila.rowIndex; // Obtén el índice de la fila
+                                           console.log("Índice de la fila:", indice); // Muestra el índice en la consola
+                       editarRegistroPe(indice); // Llama a la función de edición con el índice                
+                };
             
                 td.appendChild(enlace);
             } else {
@@ -920,22 +918,17 @@ function generarTabla7(datos) {
              };
              td.appendChild(enlace);
             } else if (columna === 'ARTICULO') {
-                // Convierte el ID en un enlace
                 const enlace = document.createElement('a');
-                enlace.href = `editar.html?id=${valor}`; // URL para editar
+                enlace.href = `editar3.html?id=${valor}`; // URL para editar
                 enlace.textContent = valor;
                 enlace.onclick = (event) => {
-                    event.preventDefault(); // Evita el comportamiento por defecto
-
-                    // Capturar el índice de la fila
-                    const fila = event.target.closest('tr'); // Encuentra la fila (<tr>) más cercana al enlace
-                    const indice = fila.rowIndex; // Obtén el índice de la fila
-                
-                    console.log("Índice de la fila:", indice); // Muestra el índice en la consola
-                
-                    editarRegistroPe(indice); // Llama a la función de edición con el índice
-
-                }
+                                           event.preventDefault(); // Evita el comportamiento por defecto
+                       // Capturar el índice de la fila
+                       const fila = event.target.closest('tr'); // Encuentra la fila (<tr>) más cercana al enlace
+                       const indice = fila.rowIndex; // Obtén el índice de la fila
+                                           console.log("Índice de la fila:", indice); // Muestra el índice en la consola
+                       editarRegistroPe(indice); // Llama a la función de edición con el índice                
+               };
                 td.appendChild(enlace);
             } else {
                 td.textContent = valor;
@@ -961,11 +954,9 @@ function editarRegistro(id) {
     }
 // Filtrar la tabla de datos para obtener el registro con el ID seleccionado
 let registroSeleccionado = productos.filter(item => item.ARTICULO === id);
-
 // Si encuentras el registro, puedes hacer algo con él, por ejemplo, mostrarlo en un formulario
 if (registroSeleccionado.length > 0) {
-    console.log("Registro encontrado:", registroSeleccionado[0]);
-    
+    console.log("Registro encontrado:", registroSeleccionado[0]); 
     cargarFormulario(registroSeleccionado[0])
        // Abrir el modal
        const modal = document.getElementById("formulario");
@@ -976,13 +967,21 @@ if (registroSeleccionado.length > 0) {
 }
 
 function editarRegistroPe(id) {
-
 // Filtrar la tabla de datos para obtener el registro con el ID seleccionado
-let filaSeleccionada = pedidoTabla[id-1]
 
-
-    cargarFormulario4(filaSeleccionada,id-1)
-
+let tab =   localStorage.getItem("ventana") || "venta1" 
+    if (tab =="venta1") {
+    let filaSeleccionada = pedidoTabla[id-1]
+        cargarFormulario4(filaSeleccionada,id-1)
+    }
+    if (tab =="venta2") {
+        let filaSeleccionada = pedidoTabla2[id-1]
+            cargarFormulario4(filaSeleccionada,id-1)
+    }
+    if (tab =="venta3") {
+        let filaSeleccionada = pedidoTabla3[id-1]
+            cargarFormulario4(filaSeleccionada,id-1)
+    }
 
 }
 
@@ -1193,10 +1192,34 @@ async function  saveRegistroPed(event) {
     const cantidad = parseFloat(document.getElementById("cantidadPe").value);
     const precio = parseFloat(document.getElementById("precioPe").value);
     const total = parseFloat(document.getElementById("totalPe").value);
+
+let tab =   localStorage.getItem("ventana") || "venta1"
+
+if (tab =="venta1") {
 pedidoTabla[id].CANTIDAD=cantidad;
 pedidoTabla[id].PRECIO=precio;
 pedidoTabla[id].TOTAL=total;
 recuperarTabla(pedidoTabla);
+localStorage.setItem('pedidoTabla', JSON.stringify(pedidoTabla));
+
+}
+if (tab =="venta2") {
+    pedidoTabla2[id].CANTIDAD=cantidad;
+    pedidoTabla2[id].PRECIO=precio;
+    pedidoTabla2[id].TOTAL=total;
+    recuperarTabla2(pedidoTabla2);
+    localStorage.setItem('pedidoTabla2', JSON.stringify(pedidoTabla2));
+}
+if (tab =="venta3") {
+    pedidoTabla3[id].CANTIDAD=cantidad;
+    pedidoTabla3[id].PRECIO=precio;
+    pedidoTabla3[id].TOTAL=total;
+    recuperarTabla3(pedidoTabla3);
+    localStorage.setItem('pedidoTabla3', JSON.stringify(pedidoTabla3));
+}
+
+
+
 closeModal();
 
    // const articulo = document.getElementById("articulo2").value;
@@ -1265,6 +1288,8 @@ function cargarFormulario3(registro) {
 function cargarFormulario4(registro,index) {
     const modal = document.getElementById("formularioPedido");
     modal.style.display = "flex"; // Mostrar el modal
+
+
     document.getElementById("articuloPe").value = registro.ARTICULO;
     document.getElementById("descripcionPe").value = registro.DESCRIPCION;
     document.getElementById("cantidadPe").value = registro.CANTIDAD;
