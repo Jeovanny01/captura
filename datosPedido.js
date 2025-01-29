@@ -194,7 +194,179 @@ for (let fila of pedidoTabla) {
 }) 
 };
 
+async function  savePedidoNew(button) {
+    button.disabled = true;
+    let cot = 0
+    const session = JSON.parse(localStorage.getItem("session") || "{}");
+    let nom = document.getElementById("nombreCliente4").value || ""
+    let sumaTotal = 0;
 
+for (let fila of pedidoTabla) {
+    sumaTotal += fila.TOTAL;
+}
+ // Envía los datos al backend mediante fetch
+ fetch(url+"cotizaciones02", {
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+       
+        accion:"INSERT", usuario:session.user,  vendedor:session.vendedor || session.user ,  nombre:nom,  total:sumaTotal,jsonData:pedidoTabla })
+}) 
+.then(response => {
+    // Verificar si la respuesta es exitosa
+    if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return response.text();  // Leer la respuesta como texto
+})
+.then(async text => {
+    console.log('Raw response:', text);  // Verifica lo que devuelve el servidor
+    try {
+        // Intentar convertir el texto a JSON
+        const result = JSON.parse(text);
+        console.log(result);  // Ver el contenido del objeto JSON
+        if (result.success) {
+        cot =result.cotizacion;             
+           cancelarPedido();
+            alert('Cotizacion registrada con éxito No. ' + cot);
+            button.disabled = false;
+        } else {
+            const errorMessage = result.data[0].ErrorMessage;
+            button.disabled = false;
+            console.error('Error:', errorMessage);
+            alert('Hubo un error al registrar: ' + errorMessage);          
+        }
+    } catch (e) {
+        button.disabled = false;
+        console.error('Error al procesar la respuesta JSON:', e);
+        alert('Hubo un error al procesar la respuesta del servidor',e);
+    }
+}
+)
+.catch(error => {
+    button.disabled = false;
+    console.error('Error al procesar la solicitud:', error);
+    alert('Hubo un error al procesar la solicitud');
+}) 
+};
+
+async function  savePedidoNew2(button) {
+    button.disabled = true;
+    let cot = 0
+    const session = JSON.parse(localStorage.getItem("session") || "{}");
+    let nom = document.getElementById("nombreCliente6").value || ""
+    let sumaTotal = 0;
+
+for (let fila of pedidoTabla2) {
+    sumaTotal += fila.TOTAL;
+}
+ // Envía los datos al backend mediante fetch
+ fetch(url+"cotizaciones02", {
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+       
+        accion:"INSERT", usuario:session.user,  vendedor:session.vendedor || session.user ,  nombre:nom,  total:sumaTotal,jsonData:pedidoTabla2 })
+}) 
+.then(response => {
+    // Verificar si la respuesta es exitosa
+    if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return response.text();  // Leer la respuesta como texto
+})
+.then(async text => {
+    console.log('Raw response:', text);  // Verifica lo que devuelve el servidor
+    try {
+        // Intentar convertir el texto a JSON
+        const result = JSON.parse(text);
+        console.log(result);  // Ver el contenido del objeto JSON
+        if (result.success) {
+        cot =result.cotizacion;             
+            cancelarPedido()
+            alert('Cotizacion registrada con éxito No. ' + cot);
+            button.disabled = false;
+        } else {
+            const errorMessage = result.data[0].ErrorMessage;
+            button.disabled = false;
+            console.error('Error:', errorMessage);
+            alert('Hubo un error al registrar: ' + errorMessage);          
+        }
+    } catch (e) {
+        button.disabled = false;
+        console.error('Error al procesar la respuesta JSON:', e);
+        alert('Hubo un error al procesar la respuesta del servidor',e);
+    }
+}
+)
+.catch(error => {
+    button.disabled = false;
+    console.error('Error al procesar la solicitud:', error);
+    alert('Hubo un error al procesar la solicitud');
+}) 
+};
+
+async function  savePedidoNew3(button) {
+    button.disabled = true;
+    let cot = 0
+    const session = JSON.parse(localStorage.getItem("session") || "{}");
+    let nom = document.getElementById("nombreCliente7").value || ""
+    let sumaTotal = 0;
+
+for (let fila of pedidoTabla3) {
+    sumaTotal += fila.TOTAL;
+}
+ // Envía los datos al backend mediante fetch
+ fetch(url+"cotizaciones02", {
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+       
+        accion:"INSERT", usuario:session.user,  vendedor:session.vendedor || session.user ,  nombre:nom,  total:sumaTotal,jsonData:pedidoTabla3 })
+}) 
+.then(response => {
+    // Verificar si la respuesta es exitosa
+    if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return response.text();  // Leer la respuesta como texto
+})
+.then(async text => {
+    console.log('Raw response:', text);  // Verifica lo que devuelve el servidor
+    try {
+        // Intentar convertir el texto a JSON
+        const result = JSON.parse(text);
+        console.log(result);  // Ver el contenido del objeto JSON
+        if (result.success) {
+        cot =result.cotizacion;             
+            cancelarPedido()
+            alert('Cotizacion registrada con éxito No. ' + cot);
+            button.disabled = false;
+        } else {
+            const errorMessage = result.data[0].ErrorMessage;
+            button.disabled = false;
+            console.error('Error:', errorMessage);
+            alert('Hubo un error al registrar: ' + errorMessage);          
+        }
+    } catch (e) {
+        button.disabled = false;
+        console.error('Error al procesar la respuesta JSON:', e);
+        alert('Hubo un error al procesar la respuesta del servidor',e);
+    }
+}
+)
+.catch(error => {
+    button.disabled = false;
+    console.error('Error al procesar la solicitud:', error);
+    alert('Hubo un error al procesar la solicitud');
+}) 
+};
 
 async function  cancelarPedido() {
 let tab =   localStorage.getItem("ventana") || "venta1"
@@ -207,7 +379,6 @@ if (tab =="venta1") {
     document.getElementById("totalGeneral").textContent  =""
     document.getElementById("tablaDatos4").innerHTML = "";
     document.getElementById("nombreCliente4").value=""
-    localStorage.removeItem("nombreCliente4"); 
    
 }
 if (tab =="venta2") {
@@ -245,9 +416,15 @@ function recuperarTabla(nuevoPedido){
     document.getElementById("totalGeneral").textContent  = " Total $ " + sumaFormateada.toString()+"   UNDS: "+piezas.toString();
     //document.getElementById("totalGeneral").value = formatear("totalGeneral",document.getElementById("totalGeneral").value)
     generarTabla4(nuevoPedido);
-    document.getElementById('formVentas').reset();  // 'miFormulario' es el ID del formulario
-    document.getElementById('nombreCliente4').value= localStorage.getItem("nombreCliente")
-    //window.scrollTo(0, 0);
+    //document.getElementById('formVentas').reset();  // 'miFormulario' es el ID del formulario
+    try {
+        
+
+    document.getElementById('nombreCliente4').value= localStorage.getItem("nombreCliente");
+    window.scrollTo(0, 0);
+    } catch (error) {
+        console.log(error);        
+    }
     };
    
     function recuperarTabla2(nuevoPedido){
@@ -263,8 +440,8 @@ function recuperarTabla(nuevoPedido){
         document.getElementById("totalGeneral6").textContent  = " Total $ " + sumaFormateada.toString()+"   UNDS: "+piezas.toString();
            //document.getElementById("totalGeneral").value = formatear("totalGeneral",document.getElementById("totalGeneral").value)
        generarTabla6(nuevoPedido);
-       document.getElementById('formVentas').reset();  // 'miFormulario' es el ID del formulario
-       document.getElementById('nombreCliente6').value= localStorage.getItem("nombreCliente2")
+       //document.getElementById('formVentas').reset();  // 'miFormulario' es el ID del formulario
+       document.getElementById('nombreCliente6').value= localStorage.getItem("nombreCliente2");
        window.scrollTo(0, 0);
    };
    
@@ -281,8 +458,8 @@ function recuperarTabla(nuevoPedido){
     document.getElementById("totalGeneral7").textContent  = " Total $ " + sumaFormateada.toString()+"   UNDS: "+piezas.toString();
        //document.getElementById("totalGeneral").value = formatear("totalGeneral",document.getElementById("totalGeneral").value)
            generarTabla7(nuevoPedido);
-           document.getElementById('formVentas').reset();  // 'miFormulario' es el ID del formulario
-           document.getElementById('nombreCliente7').value= localStorage.getItem("nombreCliente3")
+          // document.getElementById('formVentas').reset();  // 'miFormulario' es el ID del formulario
+           document.getElementById('nombreCliente7').value= localStorage.getItem("nombreCliente3");
            window.scrollTo(0, 0);
    };
 
