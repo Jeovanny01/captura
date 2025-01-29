@@ -88,7 +88,7 @@ try {
     cargarCategorias();
     fetchData();
     const session = JSON.parse(localStorage.getItem("session") || "{}");
-    if (session.userRole ="1") {
+    if (session.userRole =="1") {
         fetchData2();
     }
   
