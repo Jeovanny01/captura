@@ -1,8 +1,7 @@
 //VENTA 1
 function guardarTabla(){
-    const nombre = document.getElementById("nombreCliente4").value;
-
-    let numeroFilas = pedidoTabla.length; // Contar las filas actuales
+    localStorage.setItem("nombreCliente", document.getElementById("nombreCliente4").value);
+    let numeroFilas = pedidoTabla.length+1; // Contar las filas actuales
 
    let nuevoPedido = {
     ARTICULO: document.getElementById("codigo4").value,        
@@ -16,7 +15,7 @@ function guardarTabla(){
 // Agregar el nuevo pedido al arreglo
 pedidoTabla.push(nuevoPedido);
 localStorage.setItem('pedidoTabla', JSON.stringify(pedidoTabla));
-
+let sumaTotal = 0;
 let piezas = 0;
 
 for (let fila of pedidoTabla) {
@@ -26,18 +25,18 @@ for (let fila of pedidoTabla) {
 let sumaFormateada = sumaTotal.toFixed(2)
 // Función para sumar la columna total
 
-document.getElementById("totalGeneral").textContent  = " Total $ " + sumaFormateada.toString()+"      UND: "+piezas.toString();
+document.getElementById("totalGeneral").textContent  = " Total $ " + sumaFormateada.toString()+"   UNDS: "+piezas.toString();
 //document.getElementById("totalGeneral").value = formatear("totalGeneral",document.getElementById("totalGeneral").value)
 generarTabla4(pedidoTabla);
 document.getElementById('formVentas').reset();  // 'miFormulario' es el ID del formulario
-document.getElementById("nombreCliente4").value =nombre;
+document.getElementById("nombreCliente4").value =    localStorage.getItem("nombreCliente");
 window.scrollTo(0, 0);
 };
 //VENTA2
 function guardarTabla6(){
-    const nombre = document.getElementById("nombreCliente6").value;
+    localStorage.setItem("nombreCliente2",document.getElementById("nombreCliente6").value);
 
-    let numeroFilas = pedidoTabla2.length; // Contar las filas actuales
+    let numeroFilas = pedidoTabla2.length+1; // Contar las filas actuales
 
    let nuevoPedido = {
     ARTICULO: document.getElementById("codigo6").value,        
@@ -62,18 +61,18 @@ for (let fila of pedidoTabla2) {
 let sumaFormateada = sumaTotal.toFixed(2)
 // Función para sumar la columna total
 
-document.getElementById("totalGeneral6").textContent  = " Total $ " + sumaFormateada.toString()+"      UND: "+piezas.toString();
+document.getElementById("totalGeneral6").textContent  = " Total $ " + sumaFormateada.toString()+"   UNDS: "+piezas.toString();
 //document.getElementById("totalGeneral").value = formatear("totalGeneral",document.getElementById("totalGeneral").value)
 generarTabla6(pedidoTabla2);
 document.getElementById('formVentas2').reset();  // 'miFormulario' es el ID del formulario
-document.getElementById("nombreCliente6").value =nombre;
+document.getElementById("nombreCliente6").value =    localStorage.getItem("nombreCliente2");
 window.scrollTo(0, 0);
 };
 //VENTA 3
 function guardarTabla7(){
-    const nombre = document.getElementById("nombreCliente7").value;
+    localStorage.setItem("nombreCliente3", document.getElementById("nombreCliente7").value);
 
-    let numeroFilas = pedidoTabla3.length; // Contar las filas actuales
+    let numeroFilas = pedidoTabla3.length+1; // Contar las filas actuales
 
    let nuevoPedido = {
     ARTICULO: document.getElementById("codigo7").value,        
@@ -85,9 +84,14 @@ function guardarTabla7(){
     };
 
 // Agregar el nuevo pedido al arreglo
-pedidoTabla3.push(nuevoPedido);
-localStorage.setItem('pedidoTabla3', JSON.stringify(pedidoTabla2));
+try {
+    
 
+pedidoTabla3.push(nuevoPedido);
+localStorage.setItem('pedidoTabla3', JSON.stringify(pedidoTabla3));
+} catch (error) {
+   console.log(error) ;
+}
 let sumaTotal = 0;
 let piezas = 0;
 
@@ -98,11 +102,11 @@ for (let fila of pedidoTabla3) {
 let sumaFormateada = sumaTotal.toFixed(2)
 // Función para sumar la columna total
 
-document.getElementById("totalGeneral7").textContent  = " Total $ " + sumaFormateada.toString()+"      UND: "+piezas.toString();
+document.getElementById("totalGeneral7").textContent  = " Total $ " + sumaFormateada.toString()+"   UNDS: "+piezas.toString();
 //document.getElementById("totalGeneral").value = formatear("totalGeneral",document.getElementById("totalGeneral").value)
-generarTabla6(pedidoTabla2);
-document.getElementById('formVentas2').reset();  // 'miFormulario' es el ID del formulario
-document.getElementById("nombreCliente6").value =nombre;
+generarTabla7(pedidoTabla3);
+document.getElementById('formVentas3').reset();  // 'miFormulario' es el ID del formulario
+document.getElementById("nombreCliente7").value =    localStorage.getItem("nombreCliente3");
 window.scrollTo(0, 0);
 };
 
@@ -238,10 +242,11 @@ function recuperarTabla(nuevoPedido){
     let sumaFormateada = sumaTotal.toFixed(2)
     // Función para sumar la columna total
     
-    document.getElementById("totalGeneral").textContent  = " Total $ " + sumaFormateada.toString()+"      UND: "+piezas.toString();
+    document.getElementById("totalGeneral").textContent  = " Total $ " + sumaFormateada.toString()+"   UNDS: "+piezas.toString();
     //document.getElementById("totalGeneral").value = formatear("totalGeneral",document.getElementById("totalGeneral").value)
     generarTabla4(nuevoPedido);
     document.getElementById('formVentas').reset();  // 'miFormulario' es el ID del formulario
+    document.getElementById('nombreCliente4').value= localStorage.getItem("nombreCliente")
     //window.scrollTo(0, 0);
     };
    
@@ -255,10 +260,11 @@ function recuperarTabla(nuevoPedido){
         let sumaFormateada = sumaTotal.toFixed(2)
         // Función para sumar la columna total
         
-        document.getElementById("totalGenera6").textContent  = " Total $ " + sumaFormateada.toString()+"      UND: "+piezas.toString();
+        document.getElementById("totalGeneral6").textContent  = " Total $ " + sumaFormateada.toString()+"   UNDS: "+piezas.toString();
            //document.getElementById("totalGeneral").value = formatear("totalGeneral",document.getElementById("totalGeneral").value)
        generarTabla6(nuevoPedido);
        document.getElementById('formVentas').reset();  // 'miFormulario' es el ID del formulario
+       document.getElementById('nombreCliente6').value= localStorage.getItem("nombreCliente2")
        window.scrollTo(0, 0);
    };
    
@@ -272,10 +278,11 @@ function recuperarTabla(nuevoPedido){
     let sumaFormateada = sumaTotal.toFixed(2)
     // Función para sumar la columna total
     
-    document.getElementById("totalGeneral7").textContent  = " Total $ " + sumaFormateada.toString()+"      UND: "+piezas.toString();
+    document.getElementById("totalGeneral7").textContent  = " Total $ " + sumaFormateada.toString()+"   UNDS: "+piezas.toString();
        //document.getElementById("totalGeneral").value = formatear("totalGeneral",document.getElementById("totalGeneral").value)
            generarTabla7(nuevoPedido);
            document.getElementById('formVentas').reset();  // 'miFormulario' es el ID del formulario
+           document.getElementById('nombreCliente7').value= localStorage.getItem("nombreCliente3")
            window.scrollTo(0, 0);
    };
 

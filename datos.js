@@ -812,11 +812,11 @@ function generarTabla6(datos) {
             } else if (columna === 'ACCION') {
                 // Convierte el ID en un enlace
                 const enlace = document.createElement('a');
-                enlace.href = `eliminar.html?id=${valor}` ; // URL para eliminar
+                enlace.href = `eliminar2.html?id=${valor}` ; // URL para eliminar
                 enlace.textContent = valor;
                 enlace.onclick = (event) => {
                     event.preventDefault(); // Evita el comportamiento por defecto
-                    eliminarFila(enlace,"tablaDatos6"); // Llama a la función con el elemento enlace
+                    eliminarFila2(enlace,"tablaDatos6"); // Llama a la función con el elemento enlace
                 };
                 td.appendChild(enlace);
             } else if (columna === 'ARTICULO') {
@@ -912,11 +912,11 @@ function generarTabla7(datos) {
             } else if (columna === 'ACCION') {
              // Convierte el ID en un enlace
              const enlace = document.createElement('a');
-             enlace.href = `eliminar.html?id=${valor}` ; // URL para eliminar
+             enlace.href = `eliminar3.html?id=${valor}` ; // URL para eliminar
              enlace.textContent = valor;
              enlace.onclick = (event) => {
                  event.preventDefault(); // Evita el comportamiento por defecto
-                 eliminarFila(enlace,"tablaDatos7"); // Llama a la función con el elemento enlace
+                 eliminarFila3(enlace,"tablaDatos7"); // Llama a la función con el elemento enlace
              };
              td.appendChild(enlace);
             } else if (columna === 'ARTICULO') {

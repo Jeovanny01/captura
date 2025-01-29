@@ -578,12 +578,24 @@ function switchTab(event, tabId) {
    localStorage.setItem('ventana', tabId);
 }
 
-function eliminarFila(enlace, tableName) {
-    const table = document.getElementById(tableName); // Obtén la tabla por su ID
+function eliminarFila(enlace) {
     const row = enlace.parentNode.parentNode; // Encuentra la fila del enlace
-    //table.deleteRow(row.rowIndex); // Elimina la fila por su índice
     pedidoTabla.splice(row.rowIndex-1, 1); // Elimina el elemento en el índice
     localStorage.removeItem("pedidoTabla"); 
     localStorage.setItem('pedidoTabla', JSON.stringify(pedidoTabla));
     recuperarTabla(pedidoTabla);
+}
+function eliminarFila2(enlace) {
+    const row = enlace.parentNode.parentNode; // Encuentra la fila del enlace
+    pedidoTabla2.splice(row.rowIndex-1, 1); // Elimina el elemento en el índice
+    localStorage.removeItem("pedidoTabla2"); 
+    localStorage.setItem('pedidoTabla2', JSON.stringify(pedidoTabla2));
+    recuperarTabla2(pedidoTabla2);
+}
+function eliminarFila3(enlace) {
+    const row = enlace.parentNode.parentNode; // Encuentra la fila del enlace
+    pedidoTabla3.splice(row.rowIndex-1, 1); // Elimina el elemento en el índice
+    localStorage.removeItem("pedidoTabla3"); 
+    localStorage.setItem('pedidoTabla3', JSON.stringify(pedidoTabla3));
+    recuperarTabla3(pedidoTabla3);
 }
