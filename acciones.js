@@ -87,7 +87,13 @@ document.addEventListener('DOMContentLoaded', () => {
 try {
     cargarCategorias();
     fetchData();
-    fetchData2();
+    const session = JSON.parse(localStorage.getItem("session") || "{}");
+    if (session.userRole ="1") {
+        fetchData2();
+    }
+  
+
+
     document.getElementById("ubicacion").value =  localStorage.getItem("ubicacion")
 } catch (error) {
     console.error("Ha ocurrido un error:", error.message);
