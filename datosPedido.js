@@ -370,6 +370,13 @@ for (let fila of pedidoTabla3) {
 
 async function  cancelarPedido() {
 let tab =   localStorage.getItem("ventana") || "venta1"
+let confirmacion = confirm("¿Estás seguro de que deseas CANCELAR VENTA?");
+    
+    if (!confirmacion) {
+        return; // Sale de la función si el usuario cancela
+    }
+
+
 if (tab =="venta1") {
     localStorage.removeItem("nombreCliente"); 
     localStorage.removeItem("pedidoTabla"); 
