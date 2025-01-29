@@ -131,8 +131,8 @@ document.getElementById('archivo').addEventListener('change', function (event) {
 });
 
 function buscarProducto(codigo) {
-    return productos.find(producto => producto.ARTICULO.toUpperCase() === codigo.trim().toUpperCase());
 
+    return productos.find(producto => producto.ARTICULO.toUpperCase() === codigo.trim().toUpperCase());
 }
 
 function buscarItems(codigo) {
@@ -239,87 +239,9 @@ async function  saveArticulo(event) {
 
 
 
-function guardarTabla(){
-    const nombre = document.getElementById("nombreCliente4").value;
 
-    let numeroFilas = pedidoTabla.length; // Contar las filas actuales
 
-   let nuevoPedido = {
-    ARTICULO: document.getElementById("codigo4").value,        
-    DESCRIPCION: document.getElementById("descripcion4").value, 
-    CANTIDAD: document.getElementById("cantidad4").value, 
-    PRECIO: parseFloat(document.getElementById("precio4").value), 
-    TOTAL: parseFloat(document.getElementById("total4").value), 
-    ACCION: numeroFilas + "Eliminar"
-    };
 
-// Agregar el nuevo pedido al arreglo
-pedidoTabla.push(nuevoPedido);
-localStorage.setItem('pedidoTabla', JSON.stringify(pedidoTabla));
-
-let sumaTotal = 0;
-
-for (let fila of pedidoTabla) {
-    sumaTotal += fila.TOTAL;
-}
-let sumaFormateada = sumaTotal.toFixed(2)
-// Función para sumar la columna total
-
-document.getElementById("totalGeneral").textContent  = " Total $ " + sumaFormateada.toString();
-//document.getElementById("totalGeneral").value = formatear("totalGeneral",document.getElementById("totalGeneral").value)
-generarTabla4(pedidoTabla);
-document.getElementById('formVentas').reset();  // 'miFormulario' es el ID del formulario
-document.getElementById("nombreCliente4").value =nombre;
-window.scrollTo(0, 0);
-};
-
-function recuperarTabla(nuevoPedido){
- 
- let sumaTotal = 0; 
- for (let fila of nuevoPedido) {
-     sumaTotal += fila.TOTAL;
- }
- let sumaFormateada = sumaTotal.toFixed(2)
- // Función para sumar la columna total
- 
- document.getElementById("totalGeneral").textContent  = " Total $ " + sumaFormateada.toString();
- //document.getElementById("totalGeneral").value = formatear("totalGeneral",document.getElementById("totalGeneral").value)
- generarTabla4(nuevoPedido);
- document.getElementById('formVentas').reset();  // 'miFormulario' es el ID del formulario
- //window.scrollTo(0, 0);
- };
-
- function recuperarTabla2(nuevoPedido){
- 
-    let sumaTotal = 0; 
-    for (let fila of nuevoPedido) {
-        sumaTotal += fila.TOTAL;
-    }
-    let sumaFormateada = sumaTotal.toFixed(2)
-    // Función para sumar la columna total
-    
-    document.getElementById("totalGeneral6").textContent  = " Total $ " + sumaFormateada.toString();
-    //document.getElementById("totalGeneral").value = formatear("totalGeneral",document.getElementById("totalGeneral").value)
-    generarTabla6(nuevoPedido);
-    document.getElementById('formVentas').reset();  // 'miFormulario' es el ID del formulario
-    window.scrollTo(0, 0);
-    };
-
-    function recuperarTabla3(nuevoPedido){
- 
-        let sumaTotal = 0; 
-        for (let fila of nuevoPedido) {
-            sumaTotal += fila.TOTAL;
-        }
-        let sumaFormateada = sumaTotal.toFixed(2)
-        // Función para sumar la columna total
-        
-        document.getElementById("totalGeneral7").textContent  = " Total $ " + sumaFormateada.toString();
-        //document.getElementById("totalGeneral").value = formatear("totalGeneral",document.getElementById("totalGeneral").value)
-        generarTabla7(nuevoPedido);
-        document.getElementById('formVentas').reset();  // 'miFormulario' es el ID del formulario
-        window.scrollTo(0, 0);
-        };
        
    
 
@@ -436,88 +358,7 @@ async function  deleteArticulo(event) {
 };
 
 
-async function  savePedido(button) {
-    button.disabled = true;
-    let cot = 0
-    const session = JSON.parse(localStorage.getItem("session") || "{}");
-    let nom = document.getElementById("nombreCliente4").value || ""
 
-let sumaTotal = 0;
-
-for (let fila of pedidoTabla) {
-    sumaTotal += fila.TOTAL;
-}
- // Envía los datos al backend mediante fetch
- fetch(url+"cotizaciones", {
-    method: "POST",
-    headers: {
-        "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-        accion:"INSERT", usuario:session.user,  vendedor:session.vendedor || session.user ,  nombre:nom,  total:sumaTotal })
-}) 
-.then(response => {
-    // Verificar si la respuesta es exitosa
-    if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    return response.text();  // Leer la respuesta como texto
-})
-.then(async text => {
-    console.log('Raw response:', text);  // Verifica lo que devuelve el servidor
-    try {
-        // Intentar convertir el texto a JSON
-        const result = JSON.parse(text);
-        console.log(result);  // Ver el contenido del objeto JSON
-        if (result.success) {
-        let i =0;
-       cot =result.cotizacion;
-                 
-       
-      for (let fila of pedidoTabla) {
-                 i++; // Incrementa el índice
-                let eje =  await   cotizacionLinea("INSERT",  fila.ARTICULO,  fila.DESCRIPCION,  fila.CANTIDAD,  fila.PRECIO,  fila.TOTAL,  i,  cot);
-
-       }
-
-      
-            document.getElementById("btnGuardarPedido").style.display = "none";
-            document.getElementById("btnCancelarPedido").style.display = "none";
-            document.getElementById("totalGeneral").textContent  =""
-            document.getElementById("tablaDatos4").innerHTML = "";  
-            document.getElementById("nombreCliente4").value=""
-
-            localStorage.removeItem("pedidoTabla"); 
-            pedidoTabla =  [];
-            alert('Cotizacion registrada con éxito No. ' + cot);
-            button.disabled = false;
-        } else {
-            const errorMessage = result.data[0].ErrorMessage;
-            button.disabled = false;
-            console.error('Error:', errorMessage);
-            alert('Hubo un error al registrar: ' + errorMessage);
-                  
-          
-        }
-    } catch (e) {
-        button.disabled = false;
-        console.error('Error al procesar la respuesta JSON:', e);
-        alert('Hubo un error al procesar la respuesta del servidor',e);
-    }
-}
-
-
-)
-.catch(error => {
-    button.disabled = false;
-    console.error('Error al procesar la solicitud:', error);
-    alert('Hubo un error al procesar la solicitud');
-});
-
-   
-
-    
-};
 const procesarPedidoTabla = async (cot) => {
     for (let fila of pedidoTabla) {
         i++; // Incrementa el índice
@@ -530,16 +371,6 @@ const procesarPedidoTabla = async (cot) => {
     }
 };
 
-async function  cancelarPedido(event) {
-    localStorage.removeItem("pedidoTabla"); 
-    pedidoTabla =  [];
-    document.getElementById("btnGuardarPedido").style.display = "none";
-    document.getElementById("btnCancelarPedido").style.display = "none";
-    document.getElementById("totalGeneral").textContent  =""
-    document.getElementById("tablaDatos4").innerHTML = "";
-    document.getElementById("nombreCliente4").value=""
-   
-};
 
 // Función para leer el archivo como ArrayBuffer
 function convertirArchivoABase64(archivo) {
@@ -981,13 +812,14 @@ function generarTabla6(datos) {
             } else if (columna === 'ACCION') {
                 // Convierte el ID en un enlace
                 const enlace = document.createElement('a');
-                enlace.href = `editar.html?id=${valor}`; // URL para editar
+                enlace.href = `eliminar.html?id=${valor}` ; // URL para eliminar
                 enlace.textContent = valor;
                 enlace.onclick = (event) => {
                     event.preventDefault(); // Evita el comportamiento por defecto
-                   // editarRegistro2(valor); // Llama a la función de edición
-                }
-            } else if (columna === 'CANTIDAD') {
+                    eliminarFila(enlace,"tablaDatos6"); // Llama a la función con el elemento enlace
+                };
+                td.appendChild(enlace);
+            } else if (columna === 'ARTICULO') {
                 // Convierte el ID en un enlace
                 const enlace = document.createElement('a');
                 enlace.href = `editar.html?id=${valor}`; // URL para editar
@@ -1078,15 +910,15 @@ function generarTabla7(datos) {
                 horas = horas % 12 || 12; // Convierte a formato de 12 horas
                 td.textContent = `${dia}/${mes}/${anio} ${horas}:${minutos} ${ampm}`;
             } else if (columna === 'ACCION') {
-                // Convierte el ID en un enlace
-                const enlace = document.createElement('a');
-                enlace.href = `editar.html?id=${valor}`; // URL para editar
-                enlace.textContent = valor;
-                enlace.onclick = (event) => {
-                    event.preventDefault(); // Evita el comportamiento por defecto
-                   // editarRegistro2(valor); // Llama a la función de edición
-                }
-                td.appendChild(enlace);
+             // Convierte el ID en un enlace
+             const enlace = document.createElement('a');
+             enlace.href = `eliminar.html?id=${valor}` ; // URL para eliminar
+             enlace.textContent = valor;
+             enlace.onclick = (event) => {
+                 event.preventDefault(); // Evita el comportamiento por defecto
+                 eliminarFila(enlace,"tablaDatos7"); // Llama a la función con el elemento enlace
+             };
+             td.appendChild(enlace);
             } else if (columna === 'ARTICULO') {
                 // Convierte el ID en un enlace
                 const enlace = document.createElement('a');

@@ -34,6 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     showSection('ventas');
+   // localStorage.removeItem("pedidoTabla2")
     pedidoTabla =  JSON.parse(localStorage.getItem("pedidoTabla") || ["{}"]);
     pedidoTabla2 =  JSON.parse(localStorage.getItem("pedidoTabla2") || "{}");
     pedidoTabla3 =  JSON.parse(localStorage.getItem("pedidoTabla3") || "{}");
@@ -250,7 +251,6 @@ document.getElementById('formVentas').addEventListener('submit', function(event)
     event.preventDefault(); // Evita el envío tradicional del formulario
     document.getElementById("btnGuardarPedido").style.display = "flex";
     document.getElementById("btnCancelarPedido").style.display = "flex";
-    
     const productoCodigo = buscarProducto(document.getElementById("codigo4").value);
     if (productoCodigo) {
         // Si encuentra el producto por código
@@ -259,10 +259,35 @@ document.getElementById('formVentas').addEventListener('submit', function(event)
     } else {
         alert('Producto no existe en la base de datos');
     }
-
-
 });
 
+document.getElementById('formVentas2').addEventListener('submit', function(event) {
+    event.preventDefault(); // Evita el envío tradicional del formulario
+    document.getElementById("btnGuardarPedido2").style.display = "flex";
+    document.getElementById("btnCancelarPedido2").style.display = "flex";
+    const productoCodigo = buscarProducto(document.getElementById("codigo6").value);
+    if (productoCodigo) {
+        // Si encuentra el producto por código
+        guardarTabla6(); // Llama a la función para registrar al alumno
+
+    } else {
+        alert('Producto no existe en la base de datos');
+    }
+});
+
+document.getElementById('formVentas3').addEventListener('submit', function(event) {
+    event.preventDefault(); // Evita el envío tradicional del formulario
+    document.getElementById("btnGuardarPedido3").style.display = "flex";
+    document.getElementById("btnCancelarPedido3").style.display = "flex";
+    const productoCodigo = buscarProducto(document.getElementById("codigo7").value);
+    if (productoCodigo) {
+        // Si encuentra el producto por código
+        guardarTabla(); // Llama a la función para registrar al alumno
+
+    } else {
+        alert('Producto no existe en la base de datos');
+    }
+});
 const btnEliminar = document.getElementById('btnEliminar');
 btnEliminar.addEventListener('click', function () {
        deleteArticulo();
@@ -292,6 +317,8 @@ precioPe.addEventListener('input', () => {
 
 
 });
+
+
 
 
 const buscar = document.getElementById('btnbuscar');
@@ -352,6 +379,56 @@ buscar4.addEventListener('click', function () {
     alert('Producto no encontrado');
 });
 
+const buscar6 = document.getElementById('btnbuscar6');
+buscar6.addEventListener('click', function () {
+    const inputCodigo = document.getElementById("codigo6");
+    //const inputDescripcion = document.getElementById("descripcion2");
+    const inputItem = document.getElementById("item6");
+    // Intentar buscar con el valor de `txtcodigo2`
+    const productoCodigo = buscarProducto(inputCodigo.value);
+    if (productoCodigo) {
+        // Si encuentra el producto por código
+        actualizarCampos6(productoCodigo);
+        closeModal()
+        return; // Salir de la función
+    }
+    // Si no lo encuentra por código, intenta con el valor de `txtitem2`
+    const productoItem = buscarItems(inputItem.value);
+    if (productoItem) {
+        // Si encuentra el producto por ítem
+        actualizarCampos6(productoItem);
+        return; // Salir de la función
+    }
+
+    // Si no encuentra nada
+    alert('Producto no encontrado');
+});
+
+const buscar7 = document.getElementById('btnbuscar7');
+buscar7.addEventListener('click', function () {
+    const inputCodigo = document.getElementById("codigo7");
+    //const inputDescripcion = document.getElementById("descripcion2");
+    const inputItem = document.getElementById("item7");
+    // Intentar buscar con el valor de `txtcodigo2`
+    const productoCodigo = buscarProducto(inputCodigo.value);
+    if (productoCodigo) {
+        // Si encuentra el producto por código
+        actualizarCampos7(productoCodigo);
+        closeModal()
+        return; // Salir de la función
+    }
+    // Si no lo encuentra por código, intenta con el valor de `txtitem2`
+    const productoItem = buscarItems(inputItem.value);
+    if (productoItem) {
+        // Si encuentra el producto por ítem
+        actualizarCampos7(productoItem);
+        return; // Salir de la función
+    }
+
+    // Si no encuentra nada
+    alert('Producto no encontrado');
+});
+
 // Función para actualizar los campos del formulario
 function actualizarCampos4(prod) {
     document.getElementById("codigo4").value = prod.ARTICULO || '';
@@ -362,14 +439,44 @@ function actualizarCampos4(prod) {
     // Obtén los valores de los campos
 let precio = parseFloat(document.getElementById("precio4").value) || 0;
 let cantidad = parseFloat(document.getElementById("cantidad4").value) || 0;
-
 // Calcula el total
 let total = precio * cantidad;
-
 formatear("precio4",precio)
 formatear("total4",total)
-
 }
+// Función para actualizar los campos del formulario
+function actualizarCampos6(prod) {
+    document.getElementById("codigo6").value = prod.ARTICULO || '';
+    document.getElementById("descripcion6").value = prod.DESCRIPCION || '';
+    document.getElementById("item6").value = prod.ITEM || '';
+    document.getElementById("precio6").value = prod.PRECIO_MAYOREO || 0;
+    document.getElementById("cantidad6").value = 1
+    // Obtén los valores de los campos
+let precio = parseFloat(document.getElementById("precio6").value) || 0;
+let cantidad = parseFloat(document.getElementById("cantidad6").value) || 0;
+// Calcula el total
+let total = precio * cantidad;
+formatear("precio6",precio)
+formatear("total6",total)
+}
+
+function actualizarCampos7(prod) {
+    document.getElementById("codigo7").value = prod.ARTICULO || '';
+    document.getElementById("descripcion7").value = prod.DESCRIPCION || '';
+    document.getElementById("item7").value = prod.ITEM || '';
+    document.getElementById("precio7").value = prod.PRECIO_MAYOREO || 0;
+    document.getElementById("cantidad7").value = 1
+    // Obtén los valores de los campos
+let precio = parseFloat(document.getElementById("precio7").value) || 0;
+let cantidad = parseFloat(document.getElementById("cantidad7").value) || 0;
+// Calcula el total
+let total = precio * cantidad;
+formatear("precio7",precio)
+formatear("total7",total)
+}
+
+
+
 function formatear(control,valor) {
     document.getElementById(control).value = valor.toLocaleString('en-US', {
         minimumFractionDigits: 2,  // Número mínimo de decimales
@@ -395,36 +502,6 @@ function selccionarDato4(id) {
 }
 
     
-const cant = document.getElementById('cantidad4');
-cant.addEventListener('input', () => {
-    let codigo = document.getElementById("codigo4").value
-    let cantidad = parseFloat(document.getElementById("cantidad4").value.trim()) || 0;
-    let precio = parseFloat(document.getElementById("precio4").value) || 0;
-    if (cantidad > 0){   
-        let valorbusado = buscarProducto(codigo)
-        precio =  valorbusado.PRECIO_MAYOREO
-        document.getElementById("precio4").value = precio
-        formatear("precio4",precio)
-    }  else 
-    {
-        let valorbusado = buscarProducto(codigo)
-        precio =  valorbusado.PRECIO
-        document.getElementById("precio4").value = precio
-        formatear("precio4",precio)
-    }
-
-    formatear("total4",precio*cantidad)
-
-});
-const prec = document.getElementById('precio4');
-prec.addEventListener('input', () => {
-    let cantidad = parseFloat(document.getElementById("cantidad4").value.trim()) || 0;
-    let precio = parseFloat(document.getElementById("precio4").value) || 0;
-
-
-    formatear("total4",precio*cantidad)
-
-});
 
 
 // Función para agregar los títulos a la tabla existente
@@ -466,14 +543,20 @@ function switchTab(event, tabId) {
    } else if (tabId === 'venta2') {
        tituloPedido.textContent = 'Pedido de Cliente 2';
    } else if (tabId === 'venta3') {
-       tituloPedido.textContent = 'Pedido de Cliente 3';
+       tituloPedido.textContent = 'Pedido de Cliente 3'; 
+   }  else if (tabId === 'venta4') {
+    tituloPedido.textContent = 'Pedido de Cliente 4'; 
    }
+    else if (tabId === 'venta5') {
+        tituloPedido.textContent = 'Pedido de Cliente 5'; 
+    }
+   
 
    // Marcar el botón activo
    const buttons = document.querySelectorAll('.tab-button');
    buttons.forEach(button => button.classList.remove('active'));
-
    event.currentTarget.classList.add('active');
+   localStorage.setItem('ventana', tabId);
 }
 
 function eliminarFila(enlace, tableName) {
