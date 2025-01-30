@@ -13,7 +13,7 @@ function guardarTabla(){
     };
 
 // Agregar el nuevo pedido al arreglo
-pedidoTabla.push(nuevoPedido);
+pedidoTabla.unshift(nuevoPedido);
 localStorage.setItem('pedidoTabla', JSON.stringify(pedidoTabla));
 let sumaTotal = 0;
 let piezas = 0;
@@ -48,7 +48,7 @@ function guardarTabla6(){
     };
 
 // Agregar el nuevo pedido al arreglo
-pedidoTabla2.push(nuevoPedido);
+pedidoTabla2.unshift(nuevoPedido);
 localStorage.setItem('pedidoTabla2', JSON.stringify(pedidoTabla2));
 
 let sumaTotal = 0;
@@ -87,7 +87,7 @@ function guardarTabla7(){
 try {
     
 
-pedidoTabla3.push(nuevoPedido);
+pedidoTabla3.unshift(nuevoPedido);
 localStorage.setItem('pedidoTabla3', JSON.stringify(pedidoTabla3));
 } catch (error) {
    console.log(error) ;
