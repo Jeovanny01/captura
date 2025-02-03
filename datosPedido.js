@@ -441,7 +441,7 @@ function recuperarTabla(nuevoPedido){
         
 
     document.getElementById('nombreCliente4').value= localStorage.getItem("nombreCliente");
-    window.scrollTo(0, 0);
+    // window.scrollTo(0, 0);
     } catch (error) {
         console.log(error);        
     }
@@ -462,7 +462,7 @@ function recuperarTabla(nuevoPedido){
        generarTabla6(nuevoPedido);
        //document.getElementById('formVentas').reset();  // 'miFormulario' es el ID del formulario
        document.getElementById('nombreCliente6').value= localStorage.getItem("nombreCliente2");
-       window.scrollTo(0, 0);
+    //    window.scrollTo(0, 0);
    };
    
    function recuperarTabla3(nuevoPedido){
@@ -480,7 +480,7 @@ function recuperarTabla(nuevoPedido){
            generarTabla7(nuevoPedido);
           // document.getElementById('formVentas').reset();  // 'miFormulario' es el ID del formulario
            document.getElementById('nombreCliente7').value= localStorage.getItem("nombreCliente3");
-           window.scrollTo(0, 0);
+        //    window.scrollTo(0, 0);
    };
 
 
