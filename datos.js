@@ -1061,7 +1061,7 @@ const cotizacionLinea = async (accion,  articulo,  descripcion,  cantidad,  prec
     }
 };
 
-const inventarioEdit = async (accion, id, cantidad) => {
+const inventarioEdit = async (accion, id, cantidad,descripcion,item,articulo) => {
     try {
         const response = await fetch(url + "inventarioEdit", {
             method: "POST",
@@ -1069,7 +1069,7 @@ const inventarioEdit = async (accion, id, cantidad) => {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                accion, id, cantidad,empresa:"FUNNY"
+                accion, id, cantidad,empresa:"FUNNY",descripcion,item,articulo
             })
         });
 
@@ -1168,15 +1168,15 @@ async function  saveRegistro(event) {
 async function  saveRegistro3(event) {
     event.preventDefault(); // Evitar recarga de la página
     const id = document.getElementById("id3").value;
-   // const articulo = document.getElementById("articulo2").value;
-    //const descripcion = document.getElementById("descripcionEdit").value;
-    //const items = document.getElementById("items").value.trim() === "" ? null: document.getElementById("items").value.trim();
+    const articulo = document.getElementById("articulo2").value;
+   const descripcion = document.getElementById("descripcionEdit").value;
+    const items = document.getElementById("items").value.trim() === "" ? null: document.getElementById("items").value.trim();
     //const cantidad = document.getElementById("categoriaEdit").value.charAt(0) || null;;
     const cantidad = document.getElementById("cantidad3").value;
 
     if (document.getElementById("articulo").readOnly) {
             try {
-                const response = await inventarioEdit("UPDATE", id,cantidad);
+                const response = await inventarioEdit("UPDATE", id,cantidad,descripcion,items,articulo);
                 console.log("Actualizado:", response); 
                 
                 fetchData2();
