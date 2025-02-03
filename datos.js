@@ -1170,13 +1170,13 @@ async function  saveRegistro3(event) {
     const id = document.getElementById("id3").value;
     const articulo = document.getElementById("articulo2").value;
    const descripcion = document.getElementById("descripcionEdit").value;
-    const items = document.getElementById("items").value.trim() === "" ? null: document.getElementById("items").value.trim();
+    const item = document.getElementById("items").value.trim() === "" ? null: document.getElementById("items").value.trim();
     //const cantidad = document.getElementById("categoriaEdit").value.charAt(0) || null;;
     const cantidad = document.getElementById("cantidad3").value;
 
     if (document.getElementById("articulo").readOnly) {
             try {
-                const response = await inventarioEdit("UPDATE", id,cantidad,descripcion,items,articulo);
+                const response = await inventarioEdit("UPDATE", id,cantidad,descripcion,item,articulo);
                 console.log("Actualizado:", response); 
                 
                 fetchData2();
