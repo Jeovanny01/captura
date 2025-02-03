@@ -4,7 +4,7 @@ function guardarTabla(){
     let numeroFilas = pedidoTabla.length+1; // Contar las filas actuales
 
    let nuevoPedido = {
-    ARTICULO: document.getElementById("codigo4").value,        
+    ARTICULO: document.getElementById("codigo4").value.toUpperCase(),        
     DESCRIPCION: document.getElementById("descripcion4").value, 
     CANTIDAD: parseFloat(document.getElementById("cantidad4").value), 
     PRECIO: parseFloat(document.getElementById("precio4").value), 
@@ -39,7 +39,7 @@ function guardarTabla6(){
     let numeroFilas = pedidoTabla2.length+1; // Contar las filas actuales
 
    let nuevoPedido = {
-    ARTICULO: document.getElementById("codigo6").value,        
+    ARTICULO: document.getElementById("codigo6").value.toUpperCase(),        
     DESCRIPCION: document.getElementById("descripcion6").value, 
     CANTIDAD: parseFloat(document.getElementById("cantidad6").value), 
     PRECIO: parseFloat(document.getElementById("precio6").value), 
@@ -75,7 +75,7 @@ function guardarTabla7(){
     let numeroFilas = pedidoTabla3.length+1; // Contar las filas actuales
 
    let nuevoPedido = {
-    ARTICULO: document.getElementById("codigo7").value,        
+    ARTICULO: document.getElementById("codigo7").value.toUpperCase(),        
     DESCRIPCION: document.getElementById("descripcion7").value, 
     CANTIDAD: parseFloat(document.getElementById("cantidad7").value), 
     PRECIO: parseFloat(document.getElementById("precio7").value), 
@@ -188,19 +188,23 @@ for (let fila of pedidoTabla) {
 };
 
 async function  savePedidoNew(button) {
+
+    let confirmacion = confirm("¿Estás seguro de que deseas GUARDAR pedido?");
+    
+    if (!confirmacion) {
+        return; // Sale de la función si el usuario cancela
+    }
     button.disabled = true;
     let cot = 0
     const session = JSON.parse(localStorage.getItem("session") || "{}");
     let nom = document.getElementById("nombreCliente4").value || ""
     let sumaTotal = 0;
-
 for (let fila of pedidoTabla) {
     sumaTotal += fila.TOTAL;
 }
-
 if (sumaTotal == 0) {return}
  // Envía los datos al backend mediante fetch
- fetch(url+"cotizaciones02", {
+ fetch(url+"cotizacionesTotal", {
     method: "POST",
     headers: {
         "Content-Type": "application/json"
@@ -248,6 +252,12 @@ if (sumaTotal == 0) {return}
 };
 
 async function  savePedidoNew2(button) {
+    let confirmacion = confirm("¿Estás seguro de que deseas GUARDAR pedido?");
+    
+    if (!confirmacion) {
+        return; // Sale de la función si el usuario cancela
+    }
+
     button.disabled = true;
     let cot = 0
     const session = JSON.parse(localStorage.getItem("session") || "{}");
@@ -259,7 +269,7 @@ for (let fila of pedidoTabla2) {
 }
 if (sumaTotal == 0) {return}
  // Envía los datos al backend mediante fetch
- fetch(url+"cotizaciones02", {
+ fetch(url+"cotizacionesTotal", {
     method: "POST",
     headers: {
         "Content-Type": "application/json"
@@ -307,6 +317,11 @@ if (sumaTotal == 0) {return}
 };
 
 async function  savePedidoNew3(button) {
+    let confirmacion = confirm("¿Estás seguro de que deseas GUARDAR pedido?");
+    
+    if (!confirmacion) {
+        return; // Sale de la función si el usuario cancela
+    }
     button.disabled = true;
     let cot = 0
     const session = JSON.parse(localStorage.getItem("session") || "{}");
@@ -318,7 +333,7 @@ for (let fila of pedidoTabla3) {
 }
 if (sumaTotal == 0) {return}
  // Envía los datos al backend mediante fetch
- fetch(url+"cotizaciones02", {
+ fetch(url+"cotizacionesTotal", {
     method: "POST",
     headers: {
         "Content-Type": "application/json"
