@@ -636,6 +636,7 @@ function generarTabla4(datos) {
                         const enlace = document.createElement('a');
                         enlace.href = `eliminar.html?id=${valor}` ; // URL para eliminar
                         enlace.textContent = valor;
+                        enlace.style.color = 'red'; // Cambia el color a rojo
                         enlace.onclick = (event) => {
                             event.preventDefault(); // Evita el comportamiento por defecto
                             eliminarFila(enlace,"tablaDatos4"); // Llama a la función con el elemento enlace
@@ -810,6 +811,7 @@ function generarTabla6(datos) {
                 const enlace = document.createElement('a');
                 enlace.href = `eliminar2.html?id=${valor}` ; // URL para eliminar
                 enlace.textContent = valor;
+                enlace.style.color = 'red'; // Cambia el color a rojo
                 enlace.onclick = (event) => {
                     event.preventDefault(); // Evita el comportamiento por defecto
                     eliminarFila2(enlace,"tablaDatos6"); // Llama a la función con el elemento enlace
@@ -912,6 +914,7 @@ function generarTabla7(datos) {
              const enlace = document.createElement('a');
              enlace.href = `eliminar3.html?id=${valor}` ; // URL para eliminar
              enlace.textContent = valor;
+             enlace.style.color = 'red'; // Cambia el color a rojo
              enlace.onclick = (event) => {
                  event.preventDefault(); // Evita el comportamiento por defecto
                  eliminarFila3(enlace,"tablaDatos7"); // Llama a la función con el elemento enlace
