@@ -96,7 +96,7 @@ async function cargarSucursales() {
     try {
       
         const selectBranch = document.getElementById('sucursal');
-        //const selectBranch2 = document.getElementById('sucursal');
+        const selectBranch2 = document.getElementById('sucursal3');
         if (!selectBranch) return;
         //if (!selectBranch2) return;
          // Verificar si ya hay datos cargados
@@ -115,13 +115,14 @@ async function cargarSucursales() {
             selectBranch.value =  localStorage.getItem("sucursal") || "01";
         });
 
-        // dat.forEach(data => {
-        //     const option2 = document.createElement('option');
-        //     option2.value = data.CLASIFICACION;
-        //     option2.textContent = data.DESCRIPCION;
-        //     selectBranch2.appendChild(option2);
+         dat.forEach(data => {
+            const option2 = document.createElement('option');
+            option2.value = data.BODEGA;
+            option2.textContent = data.NOMBRE;
+            selectBranch2.appendChild(option2);     
+          
             
-        // });
+         });
 
 
     } catch (error) {
@@ -1126,7 +1127,7 @@ const cotizacionLinea = async (accion,  articulo,  descripcion,  cantidad,  prec
     }
 };
 
-const inventarioEdit = async (accion, id, cantidad,descripcion,item,articulo) => {
+const inventarioEdit = async (accion, id, cantidad,descripcion,item,articulo,bodega) => {
     try {
         const response = await fetch(url + "inventarioEdit", {
             method: "POST",
@@ -1134,7 +1135,7 @@ const inventarioEdit = async (accion, id, cantidad,descripcion,item,articulo) =>
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                accion, id, cantidad,empresa,descripcion,item,articulo
+                accion, id, cantidad,empresa,descripcion,item,articulo,bodega
             })
         });
 
@@ -1238,10 +1239,10 @@ async function  saveRegistro3(event) {
     const item = document.getElementById("items3").value.trim() === "" ? null: document.getElementById("items3").value.trim();
     //const cantidad = document.getElementById("categoriaEdit").value.charAt(0) || null;;
     const cantidad = document.getElementById("cantidad3").value;
-
+    const sucursal = document.getElementById("sucursal3").value;
     if (document.getElementById("articulo3").readOnly) {
             try {
-                const response = await inventarioEdit("UPDATE", id,cantidad,descripcion,item,articulo);
+                const response = await inventarioEdit("UPDATE", id,cantidad,descripcion,item,articulo,sucursal);
                 console.log("Actualizado:", response); 
                 
                 fetchData2();
@@ -1338,6 +1339,7 @@ function cargarFormulario2(registro) {
                // Seleccionar el estado actual del registro
         document.getElementById("items3").value = registro.ITEM;
         document.getElementById("cantidad3").value = registro.CANTIDAD;
+        document.getElementById("sucursal3").value = registro.BODEGA;
     }
 }
 function cargarFormulario3(registro) {
