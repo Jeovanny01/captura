@@ -22,6 +22,9 @@ internoCheckbox.addEventListener('change', () => {
         boton2.disabled = false; 
     }
 });
+document.getElementById('sucursal').addEventListener('change', function() {
+    localStorage.setItem("sucursal", this.value);
+});
 
 
 // Mostrar la sección de bienvenida por defecto cuando se carga la página
@@ -39,8 +42,9 @@ document.addEventListener('DOMContentLoaded', () => {
     pedidoTabla =  JSON.parse(localStorage.getItem("pedidoTabla") || ["{}"]);
     pedidoTabla2 =  JSON.parse(localStorage.getItem("pedidoTabla2") || "{}");
     pedidoTabla3 =  JSON.parse(localStorage.getItem("pedidoTabla3") || "{}");
-
-
+    sucursalTabla =  JSON.parse(localStorage.getItem("sucursalTabla") || "{}");
+    categoriaTabla =  JSON.parse(localStorage.getItem("categoriaTabla") || "{}");
+    
     try {
     if (pedidoTabla.length > 0) {
         // Si hay datos, recuperar y procesar la tabla
@@ -76,6 +80,8 @@ document.addEventListener('DOMContentLoaded', () => {
         pedidoTabla3 = [];
     }
 
+    
+
 } catch (error) {
     // Código para manejar el error
     console.error("Ha ocurrido un error:", error.message);
@@ -87,6 +93,8 @@ document.addEventListener('DOMContentLoaded', () => {
 try {
     cargarCategorias();
     fetchData();
+   cargarSucursales()
+
     const session = JSON.parse(localStorage.getItem("session") || "{}");
     if (session.userRole =="1") {
         fetchData2();

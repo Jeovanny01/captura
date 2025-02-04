@@ -6,6 +6,9 @@ let inventarioTabla = [];
 let pedidoTabla = [];
 let pedidoTabla2 = [];
 let pedidoTabla3 = [];
+let sucursalTabla = [];
+let categoriaTabla = [];
+let empresa ="FUNNY"
 
 const fetchEjecutar = async (funct) => {
     try {
@@ -25,8 +28,28 @@ const fetchEjecutar = async (funct) => {
         throw error;
     }
 };
-
-
+const fetchEjecutarSelect = async (funct) => {
+    try {
+        const response = await fetch(url+funct, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ empresa })
+        });
+        if (response.ok) {
+            const data = await response.json();
+            return data;
+            
+        } else {
+            throw new Error(`Error en la petición. Código de estado:  ${response.status}`);
+        }
+    } catch (error) {
+        //alert('No hay conexion con el servidor, verificar internet',error.mensaje)
+        console.error('Error en la petición:', error.message);
+        throw error;
+    }
+};
 
 async function cargarCategorias() {
     try {
@@ -40,16 +63,18 @@ async function cargarCategorias() {
             return;
         }
         const dat = await fetchEjecutar("categoriasProd");
-        dat.forEach(data => {
+        if (dat && dat.length > 0) {
+        categoriaTabla =dat;
+        localStorage.setItem('categoriaTabla', JSON.stringify(categoriaTabla));
+        }
+        categoriaTabla.forEach(data => {
             const option = document.createElement('option');
             option.value = data.CLASIFICACION;
             option.textContent = data.DESCRIPCION;
-            selectBranch.appendChild(option);
-
-            
+            selectBranch.appendChild(option);      
         });
 
-        dat.forEach(data => {
+        categoriaTabla.forEach(data => {
             const option2 = document.createElement('option');
             option2.value = data.CLASIFICACION;
             option2.textContent = data.DESCRIPCION;
@@ -67,6 +92,48 @@ async function cargarCategorias() {
         selectBranch.appendChild(option);
     }
 };
+async function cargarSucursales() {
+    try {
+      
+        const selectBranch = document.getElementById('sucursal');
+        //const selectBranch2 = document.getElementById('sucursal');
+        if (!selectBranch) return;
+        //if (!selectBranch2) return;
+         // Verificar si ya hay datos cargados
+        
+
+        const dat = await fetchEjecutarSelect("sucursales",);
+        if (dat && dat.length > 0) {
+        sucursalTabla =dat;
+        localStorage.setItem('sucursalTabla', JSON.stringify(sucursalTabla));
+        }
+        sucursalTabla.forEach(data => {
+            const option = document.createElement('option');
+            option.value = data.BODEGA;
+            option.textContent = data.NOMBRE;
+            selectBranch.appendChild(option);     
+            selectBranch.value =  localStorage.getItem("sucursal") || "01";
+        });
+
+        // dat.forEach(data => {
+        //     const option2 = document.createElement('option');
+        //     option2.value = data.CLASIFICACION;
+        //     option2.textContent = data.DESCRIPCION;
+        //     selectBranch2.appendChild(option2);
+            
+        // });
+
+
+    } catch (error) {
+        console.error('Error al cargar los categoria:', error.message);
+        const selectBranch = document.getElementById('categoria');
+        const option = document.createElement('option');
+        option.value = "error";
+        option.textContent = error.message;
+        selectBranch.appendChild(option);
+    }
+};
+
 function reducirYConvertirImagen(archivo) {
     return new Promise((resolve, reject) => {
         const reader = new FileReader();
@@ -238,11 +305,7 @@ async function  saveArticulo(event) {
 };
 
 
-
-
-
-
-       
+     
    
 
 async function  saveInventario(event) {
@@ -253,9 +316,10 @@ async function  saveInventario(event) {
     const ubicacion = document.getElementById("ubicacion").value;
     const factor = document.getElementById("unidadCon").value;
     const item = document.getElementById("item2").value;
-   
+    const sucursal = document.getElementById("sucursal").value;
 
     localStorage.setItem("ubicacion", ubicacion);
+    localStorage.setItem("sucursal", sucursal);
     const descripcion = document.getElementById("descripcion2").value;
     
     // Verificar si es nulo o está vacío
@@ -272,7 +336,7 @@ if (!descripcion || descripcion.trim() === "") {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                accion:"INSERT",  articulo,  cantidad, usuario:session.user,ubicacion,factor,descripcion,item })
+                accion:"INSERT",  articulo,  cantidad, usuario:session.user,ubicacion,factor,descripcion,item,bodega:sucursal })
     }) 
         .then(response => {
             // Verificar si la respuesta es exitosa
@@ -300,6 +364,7 @@ if (!descripcion || descripcion.trim() === "") {
                      // Limpiar el formulario
                     document.getElementById('formInventario').reset();  // 'miFormulario' es el ID del formulario
                   document.getElementById("ubicacion").value =  localStorage.getItem("ubicacion")
+                  document.getElementById("sucursal").value =  localStorage.getItem("sucursal")
                         // Regresar al principio de la página
                         window.scrollTo(0, 0);
                         fetchData2();
@@ -1069,7 +1134,7 @@ const inventarioEdit = async (accion, id, cantidad,descripcion,item,articulo) =>
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                accion, id, cantidad,empresa:"FUNNY",descripcion,item,articulo
+                accion, id, cantidad,empresa,descripcion,item,articulo
             })
         });
 
@@ -1312,7 +1377,7 @@ async function fetchData() {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                empresa:"FUNNY"
+                empresa
             })
         });
 
@@ -1337,7 +1402,7 @@ async function fetchData2() {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                empresa:"FUNNY"
+                empresa
             })
         });
 
