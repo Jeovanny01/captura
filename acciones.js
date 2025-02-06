@@ -281,7 +281,6 @@ btnQuitar.addEventListener('click', function () {
     IMAGEN=null;
 });
 
-
 // Mostrar el botón "Quitar" si se selecciona un archivo
 inputArchivoEdit.addEventListener('change', function () {
     if (this.files && this.files.length > 0) {
@@ -291,7 +290,7 @@ inputArchivoEdit.addEventListener('change', function () {
 
 // Quitar el archivo seleccionado
 btnQuitarEdit.addEventListener('click', function () {
-    inputArchivo.value = ''; // Resetear el campo de archivo
+    inputArchivoEdit.value = ''; // Resetear el campo de archivo
     btnQuitarEdit.style.display = 'none'; // Ocultar el botón
     IMAGENEDIT=null;
 });

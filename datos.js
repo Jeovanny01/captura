@@ -1158,7 +1158,7 @@ const articuloEdit = async (accion, articulo, descripcion, items,empresa,cat1,ca
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                accion, articulo, descripcion, items,empresa,cat1,cat2,precio,precioNormal,precioUnitario
+                accion, articulo, descripcion, items,empresa,cat1,cat2,precio,precioNormal,precioUnitario,fotografia:IMAGENEDIT
             })
         });
 

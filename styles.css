@@ -42,6 +42,7 @@ h2 {
     right: 10px; /* Ajusta la posición derecha */
 }
 
+
 #login-button {
     padding: 10px 20px; /* Ajusta el padding del botón */
     font-size: 16px; /* Tamaño de fuente */
@@ -480,6 +481,7 @@ tbody tr:hover {
 #btn-quitarEdit:hover {
     background-color: #d32f2f;
 }
+
 
 #btn-quitar2 {
     display: none; /* Ocultar el botón por defecto */
