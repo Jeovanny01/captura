@@ -1164,7 +1164,11 @@ const articuloEdit = async (accion, articulo, descripcion, items,empresa,cat1,ca
 
         if (response.ok) {
             const data = await response.json();
+            document.getElementById('btn-quitarEdit').style.display = 'none';
+            IMAGENEDIT=null;
+      
             return data;
+           
         } else {
             throw new Error(`Error en la petición. Código de estado: ${response.status}`);
         }
