@@ -1150,7 +1150,7 @@ if (registroSeleccionado.length > 0) {
 }
 
 
-const articuloEdit = async (accion, articulo, descripcion, items,empresa,cat1,cat2,precio=0,precioNormal=0,precioUnitario=0) => {
+const articuloEdit = async (accion, articulo, descripcion, items,empresa,cat1,cat2,precio=0,precioNormal=0,precioUnitario=0,artNvo="") => {
     try {
         const response = await fetch(url + "articuloEdit", {
             method: "POST",
@@ -1158,7 +1158,7 @@ const articuloEdit = async (accion, articulo, descripcion, items,empresa,cat1,ca
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                accion, articulo, descripcion, items,empresa,cat1,cat2,precio,precioNormal,precioUnitario,fotografia:IMAGENEDIT,
+                accion, articulo, descripcion, items,empresa,cat1,cat2,precio,precioNormal,precioUnitario,fotografia:IMAGENEDIT,artNvo,
             })
         });
 
@@ -1278,6 +1278,7 @@ function filtrarDatos5() {
 async function  saveRegistro(event) {
     event.preventDefault(); // Evitar recarga de la página
     const articulo = document.getElementById("articulo").value;
+    const artNvo = document.getElementById("articuloEdit").value;
     const descripcion = document.getElementById("descripcionEdit").value;
     const items = document.getElementById("items").value.trim() === "" ? null: document.getElementById("items").value.trim();
     const cat1 = document.getElementById("categoriaEdit").value.charAt(0) || null;;
@@ -1285,11 +1286,18 @@ async function  saveRegistro(event) {
     const precio = document.getElementById("precioEdit").value;
     const precioNormal = document.getElementById("precioNomalEdit").value;
     const precioUnitario = document.getElementById("precioUnitEdit").value;
+    const productoEncontrado = buscarProducto(artNvo);
+
+    if (productoEncontrado) {
+        // Si el producto existe, detén el escáner y muestra un mensaje
+        alert(`Producto encontrado en la base de datos, no se puede cambiar: ${artNvo}`);
+        return; // Sale de la función para que no continúe
+    } 
 
 
     if (document.getElementById("articulo").readOnly) {
             try {
-                const response = await articuloEdit("UPDATE2", articulo,descripcion,items,"FUNNY",cat1,cat2,precio,precioNormal,precioUnitario);
+                const response = await articuloEdit("UPDATE2", articulo,descripcion,items,"FUNNY",cat1,cat2,precio,precioNormal,precioUnitario,artNvo);
                 console.log("Actualizado:", response); 
                 // Lógica para actualizar la fila correspondiente en la tabla
                 //updateTableRowVend(id, nombre); // Función para actualizar la fila
