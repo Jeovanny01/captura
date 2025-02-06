@@ -26,6 +26,13 @@ document.getElementById('sucursal').addEventListener('change', function() {
     localStorage.setItem("sucursal", this.value);
 });
 
+    // Obtener el elemento <select>
+    const sucursalSelect = document.getElementById("sucursal4");
+
+    // Agregar un evento para detectar cambios en el valor del select
+    sucursalSelect.addEventListener("change", function() {
+        ActualizaCortes();  // Ejecutar la función cuando cambia el valor
+    });
 
 // Mostrar la sección de bienvenida por defecto cuando se carga la página
 document.addEventListener('DOMContentLoaded', () => {
@@ -35,7 +42,16 @@ document.addEventListener('DOMContentLoaded', () => {
         window.location.href = "index.html";
         return;
     }
-    
+    document.getElementById("ff").setAttribute("value", new Date().toISOString().split('T')[0]);
+   
+  // Ocultar por defecto
+  document.getElementById("facturacion1").style.display = "none";
+  document.getElementById("cierre1").style.display = "none";
+
+    if (session.userRole === "1" ) {
+        document.getElementById("facturacion1").style.display = "block";
+        document.getElementById("cierre1").style.display = "block";
+    } 
     showSection('ventas');
     localStorage.setItem("ventana", "venta1")
    // localStorage.removeItem("pedidoTabla2")

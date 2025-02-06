@@ -97,6 +97,7 @@ async function cargarSucursales() {
       
         const selectBranch = document.getElementById('sucursal');
         const selectBranch2 = document.getElementById('sucursal3');
+        const selectBranch3 = document.getElementById('sucursal4');
         if (!selectBranch) return;
         //if (!selectBranch2) return;
          // Verificar si ya hay datos cargados
@@ -113,14 +114,23 @@ async function cargarSucursales() {
             option.textContent = data.NOMBRE;
             selectBranch.appendChild(option);     
             selectBranch.value =  localStorage.getItem("sucursal") || "01";
+            
         });
-
-         dat.forEach(data => {
+        dat.forEach(data => {
             const option2 = document.createElement('option');
             option2.value = data.BODEGA;
             option2.textContent = data.NOMBRE;
             selectBranch2.appendChild(option2);     
           
+            
+         });
+
+         dat.filter(data => data.TIPO === "VENTAS").forEach(data => {
+            const option2 = document.createElement('option');
+            option2.value = data.BODEGA;
+            option2.textContent = data.NOMBRE;
+            selectBranch3.appendChild(option2);     
+            //selectBranch3.value =  localStorage.getItem("sucursal") || "01";
             
          });
 
@@ -207,7 +217,50 @@ function buscarItems(codigo) {
     return productos.find(producto => producto.ITEM.toUpperCase()  === codigo.trim().toUpperCase() );
 }
 
+async function  ActualizaCortes(){
+    let dat =[];
+    try {
+        const bodega = document.getElementById("sucursal4").value;
+        const ff = document.getElementById("ff").value;
+      
+        if (!ff) {
+            alert("Seleccione fecha!");
+        return
+        }
+        // Llama al endpoint con las fechas como parámetros
+        const response = await fetch(url + "cierreSelect", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                empresa,bodega,ff
+            })
+        });
 
+        if (!response.ok) throw new Error('Error al obtener los datos.');
+        const data = await response.json();
+        dat =data;
+        if (data && data.length > 0) {
+       
+        }
+    } catch (error) {
+        console.error('Error al obtener los datos:', error);
+    }
+
+    const contenedor = document.getElementById("contenedorCierre");
+    contenedor.innerHTML = ""; // Limpiar antes de agregar nuevos datos
+
+    Object.entries(dat[0]).forEach(([key, value]) => {
+        if (key !== 'CONTADO_EXTRA') {  // Verificar si la clave no es 'CONTADO_EXTRA'
+        const card = document.createElement("div");
+        card.style.cssText = "border: 1px solid #ccc; padding: 10px; border-radius: 5px; width: 120px; text-align: center;";
+        card.innerHTML = `<strong>${key}:</strong> <br> $${value.toLocaleString('es-SV', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+
+        contenedor.appendChild(card);
+        }
+    });
+}
 // Guardar sucursal (creación o edición)
 async function  saveArticulo(event) {
 

@@ -142,7 +142,9 @@
                 <li><a onclick="showSection('datos')"> Productos</a></li>
                 <li><a onclick="showSection('inventario')"> Inventario</a></li>
                 <li><a onclick="showSection('registrosInv')"> Registros Inv.</a></li>
-                <li><a onclick="showSection('ventas')"> Ventas</a></li>
+                <li><a onclick="showSection('ventas')">Pre-Venta</a></li>
+                <li id="facturacion1"><a onclick="showSection('facturacion')"> Facturación</a></li>
+                <li id="cierre1"><a onclick="showSection('cierre')"> Cierre</a></li>
                            </ul>
             <div id="logout" onclick="logout()">
                 <i class="fas fa-sign-out-alt" title="Cerrar sesión"></i>
@@ -152,10 +154,19 @@
 
     <main>
         <!-- Sección de bienvenida -->
-        <!-- <section id="welcome">
-            <h1>Bienvenido a la Gestión de Academia</h1>
-            <p>Utiliza el menú superior para gestionar los recursos.</p>
-        </section>  -->
+       <section id="cierre" class="secciones">
+            <h1>Bienvenido a los cierres de caja</h1>
+            <label for="sucursal4">Sucursal:</label>
+            <select id="sucursal4" name="sucursal4" required>
+            </select>
+            <label for="ff">Cierre Hasta:</label>
+                <input type="date" id="ff" name="ff" required>
+            <button onclick="ActualizaCortes()">Actualizar</button>
+            <br>
+            <br>
+                <!-- Contenedor para las tarjetas -->
+                <div id="contenedorCierre" style="display: flex; gap: 10px; flex-wrap: wrap;"></div>
+       </section> 
         
      <!-- Sección de bienvenida -->
      <section id="datos" class="secciones">
