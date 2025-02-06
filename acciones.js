@@ -264,6 +264,8 @@ function emitirPitido() {
 
 const inputArchivo = document.getElementById('archivo');
 const btnQuitar = document.getElementById('btn-quitar');
+const inputArchivoEdit = document.getElementById('archivoEdit');
+const btnQuitarEdit = document.getElementById('btn-quitarEdit');
 
 // Mostrar el botón "Quitar" si se selecciona un archivo
 inputArchivo.addEventListener('change', function () {
@@ -276,8 +278,26 @@ inputArchivo.addEventListener('change', function () {
 btnQuitar.addEventListener('click', function () {
     inputArchivo.value = ''; // Resetear el campo de archivo
     btnQuitar.style.display = 'none'; // Ocultar el botón
-    DOC_DUI=null;
+    IMAGEN=null;
 });
+
+
+// Mostrar el botón "Quitar" si se selecciona un archivo
+inputArchivoEdit.addEventListener('change', function () {
+    if (this.files && this.files.length > 0) {
+        btnQuitar.style.display = 'inline-block';
+    }
+});
+
+// Quitar el archivo seleccionado
+btnQuitarEdit.addEventListener('click', function () {
+    inputArchivo.value = ''; // Resetear el campo de archivo
+    btnQuitar.style.display = 'none'; // Ocultar el botón
+    IMAGENEDIT=null;
+});
+
+
+
 
 document.getElementById('formRegistrar').addEventListener('submit', function(event) {
     event.preventDefault(); // Evita el envío tradicional del formulario

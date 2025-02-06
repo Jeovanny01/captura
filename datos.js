@@ -1,5 +1,6 @@
 const url = "https://apitest.grupocarosa.com/ApiDatos/"
 let IMAGEN = null
+let IMAGENEDIT = null
 let user
 let productos = [];
 let inventarioTabla = [];
@@ -200,6 +201,23 @@ document.getElementById('archivo').addEventListener('change', function (event) {
     reducirYConvertirImagen(archivo)
         .then(base64 => {
             IMAGEN = base64.replace(/^data:.+;base64,/, '');
+            //console.log("Imagen redimensionada y convertida:", IMAGEN);
+           // alert(IMAGEN);
+        })
+        .catch(error => {
+            console.error("Error al redimensionar o convertir la imagen:", error);
+        });
+});
+
+// Uso:
+document.getElementById('archivoEdit').addEventListener('change', function (event) {
+    const archivo = event.target.files[0];
+
+    if (!archivo) return;
+ 
+    reducirYConvertirImagen(archivo)
+        .then(base64 => {
+            IMAGENEDIT = base64.replace(/^data:.+;base64,/, '');
             //console.log("Imagen redimensionada y convertida:", IMAGEN);
            // alert(IMAGEN);
         })

@@ -467,6 +467,20 @@ tbody tr:hover {
     background-color: #d32f2f;
 }
 
+#btn-quitarEdit {
+    display: none; /* Ocultar el botón por defecto */
+    margin-left: 10px;
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+#btn-quitarEdit:hover {
+    background-color: #d32f2f;
+}
+
 #btn-quitar2 {
     display: none; /* Ocultar el botón por defecto */
     margin-left: 10px;
