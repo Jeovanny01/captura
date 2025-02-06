@@ -1402,6 +1402,7 @@ function cargarFormulario(registro) {
         if (registro) {
         // Llenar los campos del formulario con los datos del registro
             document.getElementById("articulo").value = registro.ARTICULO;
+            document.getElementById("articuloEdit").value="";
         document.getElementById("descripcionEdit").value = registro.DESCRIPCION;
                // Seleccionar el estado actual del registro
         document.getElementById("items").value = registro.ITEM;
