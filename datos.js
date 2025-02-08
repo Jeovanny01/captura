@@ -296,8 +296,11 @@ async function  hacerCierre(button){
             alert("Seleccione fecha!");
         return
         }
-     
-        const response = await fetch("/.netlify/functions/proxy", {
+     try {
+        
+   
+        // Llama al endpoint con las fechas como parámetros
+        const response = await fetch("http://131.100.140.45:8082/ApiDatos/reporteCrystal", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -306,7 +309,9 @@ async function  hacerCierre(button){
                 empresa,bodega,ff,usuario:session.user
             })
         });
-
+    } catch (error) {
+        alert(error);
+    }
         if (!response.ok)  throw new Error(`Error al obtener los datos: ${response.statusText}`);
         
         const contentType = response.headers.get('Content-Type');
