@@ -296,9 +296,7 @@ async function  hacerCierre(button){
             alert("Seleccione fecha!");
         return
         }
-     try {
-        
-   
+
         // Llama al endpoint con las fechas como parámetros
         const response = await fetch("http://131.100.140.45:8082/ApiDatos/reporteCrystal", {
             method: "POST",
@@ -309,9 +307,7 @@ async function  hacerCierre(button){
                 empresa,bodega,ff,usuario:session.user
             })
         });
-    } catch (error) {
-        alert(error);
-    }
+
         if (!response.ok)  throw new Error(`Error al obtener los datos: ${response.statusText}`);
         
         const contentType = response.headers.get('Content-Type');
