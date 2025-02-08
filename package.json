@@ -1,7 +1,8 @@
 {
   "dependencies": {
     "@zxing/library": "^0.21.3",
-    "html5-qrcode": "^2.3.8"
+    "html5-qrcode": "^2.3.8",
+    "node-fetch": "^2.6.1"  
   },
   "name": "captura",
   "version": "1.0.0",
