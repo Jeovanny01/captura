@@ -11,6 +11,8 @@ let sucursalTabla = [];
 let categoriaTabla = [];
 let empresa ="FUNNY"
 
+const session = JSON.parse(localStorage.getItem("session") || "{}");
+
 const fetchEjecutar = async (funct) => {
     try {
         const response = await fetch(
@@ -278,6 +280,78 @@ async function  ActualizaCortes(){
         contenedor.appendChild(card);
         }
     });
+}
+async function  hacerCierre(button){
+    let confirmacion = confirm("¿Estás seguro de que deseas HACER CIERRE?");
+    
+    if (!confirmacion) {
+        return; // Sale de la función si el usuario cancela
+    }
+    button.disabled = true;
+
+    try {
+        const bodega = document.getElementById("sucursal4").value;
+        const ff = document.getElementById("ff").value;
+        if (!ff) {
+            alert("Seleccione fecha!");
+        return
+        }
+     
+        // Llama al endpoint con las fechas como parámetros
+        const response = await fetch("http://131.100.140.45:8082/ApiDatos/reporteCrystal", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                empresa,bodega,ff,usuario:session.user
+            })
+        });
+
+        if (!response.ok)  throw new Error(`Error al obtener los datos: ${response.statusText}`);
+        
+        const contentType = response.headers.get('Content-Type');
+        if (contentType && contentType.includes('application/pdf')) {
+            const contentType = response.headers.get('Content-Type');
+
+            if (contentType && contentType.includes('application/pdf')) {
+                const pdfBlob = await response.blob();
+        
+                if (pdfBlob.size === 0) {
+                    throw new Error('El archivo PDF recibido está vacío.');
+                }
+                        const pdfUrl = URL.createObjectURL(pdfBlob);
+                
+                            
+                const link = document.createElement("a");
+                link.href = pdfUrl;
+                link.target = "_blank"; // Abrir en nueva ventana
+                link.download = "Reporte_CorteCaja.pdf"; // Nombre del archivo
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            } else {
+                throw new Error(`Se recibió un contenido inesperado: ${contentType}`);
+            }
+            
+            button.disabled = false;
+        } else {
+            // Si no es un PDF, intenta procesar la respuesta como JSON (o lo que sea apropiado)
+            const data = await response.json();
+          
+            if (data && data.length > 0) {
+                button.disabled = false;
+            }
+        }
+    } catch (error) {
+        console.error('Error al obtener los datos:', error);
+        button.disabled = false;
+    }
+
+    const contenedor = document.getElementById("contenedorCierre");
+    contenedor.innerHTML = ""; // Limpiar antes de agregar nuevos datos
+
+    
 }
 // Guardar sucursal (creación o edición)
 async function  saveArticulo(event) {
