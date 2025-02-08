@@ -297,16 +297,16 @@ async function  hacerCierre(button){
         return
         }
      
-        // Llama al endpoint con las fechas como parámetros
-        const response = await fetch("http://131.100.140.45:8082/ApiDatos/reporteCrystal", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                empresa,bodega,ff,usuario:session.user
-            })
-        });
+            // Llama al endpoint con las fechas como parámetros
+            const response = await fetch("http://131.100.140.45:8082/ApiDatos/reporteCrystal", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    empresa,bodega,ff,usuario:session.user
+                })
+            });
 
         if (!response.ok)  throw new Error(`Error al obtener los datos: ${response.statusText}`);
         
