@@ -33,7 +33,7 @@
 127C:\Users\grpinf2017\Documents\Jeovanny\PROYECTOS\captura\node_modules\@zxing\library\es2015\core\aztec\encoder\SimpleToken.d.ts133822364805139432 0
 80C:\Users\grpinf2017\Documents\Jeovanny\PROYECTOS\captura\node_modules\fill-range133822364887136760 1
 109C:\Users\grpinf2017\Documents\Jeovanny\PROYECTOS\captura\node_modules\caniuse-lite\data\features\css-fixed.js133822364859699114 0
-65C:\Users\grpinf2017\Documents\Jeovanny\PROYECTOS\captura\.netlify133835108147574664 1
+65C:\Users\grpinf2017\Documents\Jeovanny\PROYECTOS\captura\.netlify133835167326154578 1
 60C:\Users\grpinf2017\Documents\Jeovanny\PROYECTOS\captura\lib133822364661426649 1
 129C:\Users\grpinf2017\Documents\Jeovanny\PROYECTOS\captura\node_modules\@zxing\text-encoding\esm\coders\gb18030\GB18030Decoder.d.ts133822364849254182 0
 130C:\Users\grpinf2017\Documents\Jeovanny\PROYECTOS\captura\node_modules\htmlnano\docs\versioned_sidebars\version-1.1.1-sidebars.json133822364898957607 0
@@ -44,7 +44,7 @@
 104C:\Users\grpinf2017\Documents\Jeovanny\PROYECTOS\captura\node_modules\@swc\helpers\esm\_object_spread.js133822364761177268 0
 100C:\Users\grpinf2017\Documents\Jeovanny\PROYECTOS\captura\node_modules\type-fest\ts41\kebab-case.d.ts133822364926088510 0
 68C:\Users\grpinf2017\Documents\Jeovanny\PROYECTOS\captura\acciones.js133833340749987380 0
-84C:\Users\grpinf2017\Documents\Jeovanny\PROYECTOS\captura\.netlify\functions-internal133835108116191117 1
+84C:\Users\grpinf2017\Documents\Jeovanny\PROYECTOS\captura\.netlify\functions-internal133835167326154578 1
 97C:\Users\grpinf2017\Documents\Jeovanny\PROYECTOS\captura\node_modules\react-error-overlay\LICENSE133822364919928066 0
 88C:\Users\grpinf2017\Documents\Jeovanny\PROYECTOS\captura\node_modules\argparse\README.md133822364856135321 0
 64C:\Users\grpinf2017\Documents\Jeovanny\PROYECTOS\captura\cam2.js133822380840679854 0
@@ -57,7 +57,7 @@
 111C:\Users\grpinf2017\Documents\Jeovanny\PROYECTOS\captura\node_modules\ts-custom-error\dist\custom-error.mjs.map133822364924818434 0
 101C:\Users\grpinf2017\Documents\Jeovanny\PROYECTOS\captura\node_modules\caniuse-lite\data\regions\AL.js133822364870979939 0
 112C:\Users\grpinf2017\Documents\Jeovanny\PROYECTOS\captura\node_modules\html5-qrcode\esm\camera\permissions.js.map133822364892327139 0
-65C:\Users\grpinf2017\Documents\Jeovanny\PROYECTOS\captura\datos.js133835104071420062 0
+65C:\Users\grpinf2017\Documents\Jeovanny\PROYECTOS\captura\datos.js133835170478157357 0
 103C:\Users\grpinf2017\Documents\Jeovanny\PROYECTOS\captura\node_modules\@swc\helpers\cjs\_ts_decorate.cjs133822364755512123 0
 117C:\Users\grpinf2017\Documents\Jeovanny\PROYECTOS\captura\node_modules\html5-qrcode\cjs\ui\scanner\camera-zoom-ui.d.ts133822364889466899 0
 106C:\Users\grpinf2017\Documents\Jeovanny\PROYECTOS\captura\node_modules\@swc\helpers\esm\_define_property.js133822364759817163 0

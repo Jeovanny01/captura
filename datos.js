@@ -296,7 +296,7 @@ async function  hacerCierre(button){
             alert("Seleccione fecha!");
         return
         }
-
+     
         // Llama al endpoint con las fechas como parámetros
         const response = await fetch("http://131.100.140.45:8082/ApiDatos/reporteCrystal", {
             method: "POST",
