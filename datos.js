@@ -298,7 +298,7 @@ async function  hacerCierre(button){
         }
      
             // Llama al endpoint con las fechas como parámetros
-            const response = await fetch("http://131.100.140.45:8082/ApiDatos/reporteCrystal", {
+            const response = await fetch("/api/ApiDatos/reporteCrystal", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"

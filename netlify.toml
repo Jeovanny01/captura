@@ -1,8 +1,4 @@
-[build]
-  command = "parcel build index.html"
-  publish = "dist"
-
-[[headers]]
-  for = "/*"
-  [headers.values]
-    Content-Security-Policy = "upgrade-insecure-requests"
+[[redirects]]
+  from = "/api/*"
+  to = "http://131.100.140.45:8082/:splat"
+  status = 200
