@@ -346,6 +346,7 @@ async function  hacerCierre(button){
     } catch (error) {
         console.error('Error al obtener los datos:', error);
         button.disabled = false;
+        alert(error);
     }
 
     const contenedor = document.getElementById("contenedorCierre");
