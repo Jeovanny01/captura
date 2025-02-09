@@ -123,19 +123,19 @@
             
             if (data.success) { // Verifica si la autenticación fue exitosa
                 // Por ejemplo, aquí puedes verificar el rol del usuario
-                const [{ COD_ROLL: userRole=null, ROL: rol=null,VENDEDOR: vend=null } = {}] = data.data || [{}];
+                const [{ COD_ROLL: userRole=null, ROL: rol=null,VENDEDOR: vend=null,NOMBRE:name } = {}] = data.data || [{}];
 
                // console.log(vend);
                // console.log(userRole); // Muestra el rol del usuario o `undefined` si no existe
                 if (userRole == "1") {
-                    alert("Inicio de sesión exitoso como " + rol);
+                    alert("Inicio de sesión exitoso como " + rol + " estid@: "+name);
                 } else if (userRole == "2") {
-                    alert("Inicio de sesión exitoso como " + rol);
+                    alert("Inicio de sesión exitoso como " + rol+ " estid@: "+name);
                 } else if (userRole == "3") {
-                    alert("Inicio de sesión exitoso como " +rol);
+                    alert("Inicio de sesión exitoso como " +rol+ " estid@: "+name);
                     
                 } else {
-                    alert("Inicio de sesión exitoso con rol "+  rol);
+                    alert("Inicio de sesión exitoso con rol "+  rol+ " estid@: "+name);
                 }
 
                 // Cierra el modal
