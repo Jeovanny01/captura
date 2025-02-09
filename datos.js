@@ -1166,7 +1166,7 @@ function generarTabla7(datos) {
 
 function editarRegistro(id) {
     const session = JSON.parse(localStorage.getItem("session") || "{}");
-    if (session.userRole !="1") {
+    if (!["1", "3"].includes(session.userRole)) {
         return;
     }
 // Filtrar la tabla de datos para obtener el registro con el ID seleccionado
@@ -1204,7 +1204,7 @@ let tab =   localStorage.getItem("ventana") || "venta1"
 
 function editarRegistro2(id) {
     const session = JSON.parse(localStorage.getItem("session") || "{}");
-    if (session.userRole !="1") {
+    if (!["1", "3"].includes(session.userRole)) {
         return;
     }
     

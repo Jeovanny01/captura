@@ -52,6 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById("facturacion1").style.display = "block";
         document.getElementById("cierre1").style.display = "block";
     } 
+
     showSection('ventas');
     localStorage.setItem("ventana", "venta1")
    // localStorage.removeItem("pedidoTabla2")
@@ -112,7 +113,7 @@ try {
    cargarSucursales()
 
     const session = JSON.parse(localStorage.getItem("session") || "{}");
-    if (session.userRole =="1") {
+    if (["1", "3"].includes(session.userRole)) {
         fetchData2();
     }
   
