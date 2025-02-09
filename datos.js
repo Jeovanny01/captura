@@ -10,6 +10,7 @@ let pedidoTabla3 = [];
 let sucursalTabla = [];
 let categoriaTabla = [];
 let empresa ="FUNNY"
+let ventaTotal=0;
 
 const session = JSON.parse(localStorage.getItem("session") || "{}");
 
@@ -270,23 +271,29 @@ async function  ActualizaCortes(){
 
     const contenedor = document.getElementById("contenedorCierre");
     contenedor.innerHTML = ""; // Limpiar antes de agregar nuevos datos
-
+ventaTotal=0;
     Object.entries(dat[0]).forEach(([key, value]) => {
         if (key !== 'CONTADO_EXTRA') {  // Verificar si la clave no es 'CONTADO_EXTRA'
         const card = document.createElement("div");
         card.style.cssText = "border: 1px solid #ccc; padding: 10px; border-radius: 5px; width: 120px; text-align: center;";
         card.innerHTML = `<strong>${key}:</strong> <br> $${value.toLocaleString('es-SV', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-
+        ventaTotal=ventaTotal+value;
         contenedor.appendChild(card);
         }
     });
 }
 async function  hacerCierre(button){
+    if (ventaTotal==0) {
+        alert("No se puede hacaer cierre con valor cero!");
+    return
+    }
     let confirmacion = confirm("¿Estás seguro de que deseas HACER CIERRE?");
     
     if (!confirmacion) {
         return; // Sale de la función si el usuario cancela
     }
+
+
     button.disabled = true;
 
     try {
@@ -335,6 +342,7 @@ async function  hacerCierre(button){
             }
             
             button.disabled = false;
+            ventaTotal=0;
         } else {
             // Si no es un PDF, intenta procesar la respuesta como JSON (o lo que sea apropiado)
             const data = await response.json();
