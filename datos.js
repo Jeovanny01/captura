@@ -303,7 +303,7 @@ async function  hacerCierre(button){
             alert("Seleccione fecha!");
         return
         }
-     
+        spinner.style.display = "block"; // Mostrar spinner
             // Llama al endpoint con las fechas como parámetros
             const response = await fetch("/api/ApiDatos/reporteCrystal", {
                 method: "POST",
@@ -356,6 +356,8 @@ async function  hacerCierre(button){
         button.disabled = false;
         alert(error);
     }
+
+    spinner.style.display = "none"; // Ocultar spinner
 
     const contenedor = document.getElementById("contenedorCierre");
     contenedor.innerHTML = ""; // Limpiar antes de agregar nuevos datos
