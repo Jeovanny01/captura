@@ -207,7 +207,7 @@ for (let fila of pedidoTabla) {
 if (sumaTotal == 0) {return}
 document.getElementById("spinner2").style.display = "inline"; // Muestra el spinner
  // Envía los datos al backend mediante fetch
- fetch(url+"cotizacionesTotal2", {
+ fetch(url+"cotizacionesTotal", {
     method: "POST",
     headers: {
         "Content-Type": "application/json"
@@ -277,7 +277,7 @@ for (let fila of pedidoTabla2) {
 if (sumaTotal == 0) {return}
 document.getElementById("spinner3").style.display = "inline"; 
  // Envía los datos al backend mediante fetch
- fetch(url+"cotizacionesTotal2", {
+ fetch(url+"cotizacionesTotal", {
     method: "POST",
     headers: {
         "Content-Type": "application/json"
@@ -347,7 +347,7 @@ for (let fila of pedidoTabla3) {
 if (sumaTotal == 0) {return}
 document.getElementById("spinner4").style.display = "inline"; 
  // Envía los datos al backend mediante fetch
- fetch(url+"cotizacionesTotal2", {
+ fetch(url+"cotizacionesTotal", {
     method: "POST",
     headers: {
         "Content-Type": "application/json"
