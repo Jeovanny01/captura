@@ -253,7 +253,7 @@ document.getElementById("spinner2").style.display = "inline"; // Muestra el spin
 .catch(error => {
     button.disabled = false;
     document.getElementById("spinner2").style.display = "none"; 
-    console.error('Error al procesar la solicitud:', error);
+    console.error('Error al procesar la solicitud, verifica si tienes internet:', error);
     alert('Hubo un error al procesar la solicitud');
 }) 
 };
@@ -323,7 +323,7 @@ document.getElementById("spinner3").style.display = "inline";
 .catch(error => {
     button.disabled = false;
     document.getElementById("spinner3").style.display = "none"; 
-    console.error('Error al procesar la solicitud:', error);
+    console.error('Error al procesar la solicitud, verifica si tienes internet:', error);
     alert('Hubo un error al procesar la solicitud');
 }) 
 };
@@ -392,7 +392,7 @@ document.getElementById("spinner4").style.display = "inline";
 .catch(error => {
     button.disabled = false;
     document.getElementById("spinner4").style.display = "none"; 
-    console.error('Error al procesar la solicitud:', error);
+    console.error('Error al procesar la solicitud, verifica si tienes internet:', error);
     alert('Hubo un error al procesar la solicitud');
 }) 
 };
