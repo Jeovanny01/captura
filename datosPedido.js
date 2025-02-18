@@ -189,12 +189,14 @@ for (let fila of pedidoTabla) {
 
 async function  savePedidoNew(button) {
 
-    let confirmacion = confirm("¿Estás seguro de que deseas GUARDAR pedido?");
+    let confirmacion = 
+    confirm("¿Estás seguro de que deseas GUARDAR pedido?");
     
     if (!confirmacion) {
         return; // Sale de la función si el usuario cancela
     }
     button.disabled = true;
+    document.getElementById("spinner2").style.display = "inline"; // Muestra el spinner
     let cot = 0
     const session = JSON.parse(localStorage.getItem("session") || "{}");
     let nom = document.getElementById("nombreCliente4").value || ""
@@ -203,8 +205,9 @@ for (let fila of pedidoTabla) {
     sumaTotal += fila.TOTAL;
 }
 if (sumaTotal == 0) {return}
+document.getElementById("spinner2").style.display = "inline"; // Muestra el spinner
  // Envía los datos al backend mediante fetch
- fetch(url+"cotizacionesTotal", {
+ fetch(url+"cotizacionesTotal2", {
     method: "POST",
     headers: {
         "Content-Type": "application/json"
@@ -229,16 +232,19 @@ if (sumaTotal == 0) {return}
         if (result.success) {
         cot =result.cotizacion;             
            cancelarPedido(1);
-            alert('Cotizacion registrada con éxito No. ' + cot);
             button.disabled = false;
+            document.getElementById("spinner2").style.display = "none"; 
+            alert('Cotizacion registrada con éxito No. ' + cot);
         } else {
             const errorMessage = result.data[0].ErrorMessage;
             button.disabled = false;
+            document.getElementById("spinner2").style.display = "none"; 
             console.error('Error:', errorMessage);
             alert('Hubo un error al registrar: ' + errorMessage);          
         }
     } catch (e) {
         button.disabled = false;
+        document.getElementById("spinner2").style.display = "none"; 
         console.error('Error al procesar la respuesta JSON:', e);
         alert('Hubo un error al procesar la respuesta del servidor',e);
     }
@@ -246,6 +252,7 @@ if (sumaTotal == 0) {return}
 )
 .catch(error => {
     button.disabled = false;
+    document.getElementById("spinner2").style.display = "none"; 
     console.error('Error al procesar la solicitud:', error);
     alert('Hubo un error al procesar la solicitud');
 }) 
@@ -268,8 +275,9 @@ for (let fila of pedidoTabla2) {
     sumaTotal += fila.TOTAL;
 }
 if (sumaTotal == 0) {return}
+document.getElementById("spinner3").style.display = "inline"; 
  // Envía los datos al backend mediante fetch
- fetch(url+"cotizacionesTotal", {
+ fetch(url+"cotizacionesTotal2", {
     method: "POST",
     headers: {
         "Content-Type": "application/json"
@@ -294,16 +302,19 @@ if (sumaTotal == 0) {return}
         if (result.success) {
         cot =result.cotizacion;             
             cancelarPedido(1)
-            alert('Cotizacion registrada con éxito No. ' + cot);
             button.disabled = false;
+            document.getElementById("spinner3").style.display = "none"; 
+            alert('Cotizacion registrada con éxito No. ' + cot);
         } else {
             const errorMessage = result.data[0].ErrorMessage;
             button.disabled = false;
+            document.getElementById("spinner3").style.display = "none"; 
             console.error('Error:', errorMessage);
             alert('Hubo un error al registrar: ' + errorMessage);          
         }
     } catch (e) {
         button.disabled = false;
+        document.getElementById("spinner3").style.display = "none"; 
         console.error('Error al procesar la respuesta JSON:', e);
         alert('Hubo un error al procesar la respuesta del servidor',e);
     }
@@ -311,6 +322,7 @@ if (sumaTotal == 0) {return}
 )
 .catch(error => {
     button.disabled = false;
+    document.getElementById("spinner3").style.display = "none"; 
     console.error('Error al procesar la solicitud:', error);
     alert('Hubo un error al procesar la solicitud');
 }) 
@@ -323,6 +335,7 @@ async function  savePedidoNew3(button) {
         return; // Sale de la función si el usuario cancela
     }
     button.disabled = true;
+
     let cot = 0
     const session = JSON.parse(localStorage.getItem("session") || "{}");
     let nom = document.getElementById("nombreCliente7").value || ""
@@ -332,8 +345,9 @@ for (let fila of pedidoTabla3) {
     sumaTotal += fila.TOTAL;
 }
 if (sumaTotal == 0) {return}
+document.getElementById("spinner4").style.display = "inline"; 
  // Envía los datos al backend mediante fetch
- fetch(url+"cotizacionesTotal", {
+ fetch(url+"cotizacionesTotal2", {
     method: "POST",
     headers: {
         "Content-Type": "application/json"
@@ -358,11 +372,13 @@ if (sumaTotal == 0) {return}
         if (result.success) {
         cot =result.cotizacion;             
             cancelarPedido(1)
-            alert('Cotizacion registrada con éxito No. ' + cot);
             button.disabled = false;
+            document.getElementById("spinner4").style.display = "none"; 
+            alert('Cotizacion registrada con éxito No. ' + cot);
         } else {
             const errorMessage = result.data[0].ErrorMessage;
             button.disabled = false;
+            document.getElementById("spinner4").style.display = "none"; 
             console.error('Error:', errorMessage);
             alert('Hubo un error al registrar: ' + errorMessage);          
         }
@@ -375,6 +391,7 @@ if (sumaTotal == 0) {return}
 )
 .catch(error => {
     button.disabled = false;
+    document.getElementById("spinner4").style.display = "none"; 
     console.error('Error al procesar la solicitud:', error);
     alert('Hubo un error al procesar la solicitud');
 }) 

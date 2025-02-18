@@ -284,7 +284,7 @@ ventaTotal=0;
 }
 async function  hacerCierre(button){
     if (ventaTotal==0) {
-        alert("No se puede hacaer cierre con valor cero!");
+        alert("No se puede hacer cierre con valor cero!");
     return
     }
     let confirmacion = confirm("¿Estás seguro de que deseas HACER CIERRE?");
