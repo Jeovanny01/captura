@@ -357,6 +357,19 @@ btnEliminar.addEventListener('click', function () {
 
 });
 
+const buscarExistenciaBod = document.getElementById('buscarExistenciaBod');
+buscarExistenciaBod.addEventListener('click', function () {
+  if(document.getElementById("codigo4").value ==="")
+  {
+    alert ("Ingrese codigo")
+    return;
+  }
+
+
+    cargarFormularioExist(document.getElementById("codigo4").value);
+
+});
+
 const lupa = document.getElementById('lupa');
 lupa.addEventListener('click', function () {
        cargarFormulario3();

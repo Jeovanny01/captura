@@ -346,6 +346,22 @@
                         </div>
                     </div>
                 </div>
+
+                  <!-- Sección de bienvenida -->
+                  <div id="formularioExist" class="modal">
+                    <div class="modal-content2">
+                        <span class="close" onclick="closeModal()">&times;</span>
+                        <h2>Existencias por bodega</h2>
+                        <!-- Contenedor para los filtros, organizado en una línea -->
+                       
+                        <div id="contenedorTablaExist" class="tabla-contenedorTablaExist">
+                            <table id="tablaExist">
+                                <!-- La tabla se llenará dinámicamente -->
+                            </table>
+                        </div>
+                    </div>
+                </div>
+         
          
         <!-- Sección del formulario de registro de alumnos -->
     <section id="register" class="secciones">
@@ -485,8 +501,7 @@
                 </div>
                 <button id="btnCancelarPedido" type="button" onclick="cancelarPedido()" hidden>Cancelar</button>
             </div>
-
-                    
+                   
                     <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 0px;">
                         <label for="nombreCliente4">NOMBRE DEL CLIENTE</label>
                         <label id="totalGeneral" style="font-size: 20px; font-weight: bold;"></label>
@@ -501,6 +516,7 @@
                             <input type="text" id="codigo4" name="codigo4" inputmode="text" required>
                         </div>
                         <div style="display: flex; align-items: center; margin-left: 10px;">
+                            <label id ="buscarExistenciaBod" for="buscarExistenciaBod" style="cursor: pointer;">🔍</label>
                             <label id ="lupa" for="lupa" style="cursor: pointer;">🔍</label>
                             <!-- <input type="text" id="buscar4" name="buscar4" inputmode="text" required> -->
                         </div>
