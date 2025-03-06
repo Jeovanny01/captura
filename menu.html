@@ -362,6 +362,20 @@
                     </div>
                 </div>
          
+                 <!-- Sección de bienvenida -->
+                 <div id="formularioClientes" class="modal">
+                    <div class="modal-content2">
+                        <span class="close" onclick="closeModal()">&times;</span>
+                        <h2>Listado de clientes </h2>
+                        <!-- Contenedor para los filtros, organizado en una línea -->
+                        <input type="text" id="filtroInputCliente" placeholder="Escribe el dato filtrar...">
+                        <div id="contenedorTablaClientes" class="tabla-contenedorTablaClientes">
+                            <table id="tablaClientes">
+                                <!-- La tabla se llenará dinámicamente -->
+                            </table>
+                        </div>
+                    </div>
+                </div>
          
         <!-- Sección del formulario de registro de alumnos -->
     <section id="register" class="secciones">
@@ -473,9 +487,7 @@
 
 
                     <label for="cantidad2">Existencia</label>
-                    <input type="number" id="cantidad2" name="cantidad2"  step="0.01"  min="0" max="100000"  placeholder="0.00" required>
-
-           
+                    <input type="number" id="cantidad2" name="cantidad2"  step="0.01"  min="0" max="100000"  placeholder="0.00" required>          
                     <br>
                     <br>
                     <input type="submit" value="Guardar">
@@ -503,7 +515,7 @@
             </div>
                    
                     <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 0px;">
-                        <label for="nombreCliente4">NOMBRE DEL CLIENTE</label>
+                        <a href="#" id="nombreCliente4" onclick="cargarFormularioClientes(this)">NOMBRE DEL CLIENTE</a>
                         <label id="totalGeneral" style="font-size: 20px; font-weight: bold;"></label>
                     </div>
                     <input type="text" id="nombreCliente4" name="nombreCliente4" >
@@ -569,7 +581,7 @@
               </div>
 
                     <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 0px;">
-                        <label for="nombreCliente6">NOMBRE DEL CLIENTE</label>
+                        <a href="#" id="nombreCliente6" onclick="cargarFormularioClientes(this)">NOMBRE DEL CLIENTE</a>
                         <label id="totalGeneral6" style="font-size: 20px; font-weight: bold;"></label>
                     </div>
                     <input type="text" id="nombreCliente6" name="nombreCliente6" >
@@ -632,7 +644,7 @@
                      <button id="btnCancelarPedido3" type="button" onclick="cancelarPedido()" hidden>Cancelar</button>
                  </div>
                     <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 0px;">
-                        <label for="nombreCliente7">NOMBRE DEL CLIENTE</label>
+                        <a href="#" id="nombreCliente7" onclick="cargarFormularioClientes(this)">NOMBRE DEL CLIENTE</a>
                         <label id="totalGeneral7" style="font-size: 20px; font-weight: bold;"></label>
                     </div>
                     <input type="text" id="nombreCliente7" name="nombreCliente7" >
@@ -685,8 +697,6 @@
             </form>
             </div>
         </section>
-
-
     </main>
 
 

@@ -61,6 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
     pedidoTabla3 =  JSON.parse(localStorage.getItem("pedidoTabla3") || "{}");
     sucursalTabla =  JSON.parse(localStorage.getItem("sucursalTabla") || "{}");
     categoriaTabla =  JSON.parse(localStorage.getItem("categoriaTabla") || "{}");
+    clienteTabla =  JSON.parse(localStorage.getItem("categoriaTabla") || "{}");
     
     try {
     if (pedidoTabla.length > 0) {
@@ -110,7 +111,8 @@ document.addEventListener('DOMContentLoaded', () => {
 try {
     cargarCategorias();
     fetchData();
-   cargarSucursales()
+   cargarSucursales();
+   cargarClientes();
 
     const session = JSON.parse(localStorage.getItem("session") || "{}");
     if (["1", "3"].includes(session.userRole)) {

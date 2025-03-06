@@ -9,7 +9,10 @@ let pedidoTabla2 = [];
 let pedidoTabla3 = [];
 let sucursalTabla = [];
 let categoriaTabla = [];
+let clientesTabla = [];
 let empresa ="FUNNY"
+let bd ="FUNNY"
+let codCliente1,codCliente2,codCliente3
 let ventaTotal=0;
 
 const session = JSON.parse(localStorage.getItem("session") || "{}");
@@ -85,8 +88,6 @@ async function cargarCategorias() {
             selectBranch2.appendChild(option2);
             
         });
-
-
     } catch (error) {
         console.error('Error al cargar los categoria:', error.message);
         const selectBranch = document.getElementById('categoria');
@@ -96,9 +97,26 @@ async function cargarCategorias() {
         selectBranch.appendChild(option);
     }
 };
+
+
+async function cargarClientes() {
+    try {
+            
+        const dat = await fetchDataClientes();
+      
+        if (dat && dat.length > 0) {
+        clientesTabla =dat;
+        localStorage.setItem('clientesTabla', JSON.stringify(clientesTabla));
+        }
+       
+    } catch (error) {
+        console.error('Error al cargar los clientes:', error.message);
+    
+    }
+};
+
 async function cargarSucursales() {
     try {
-      
         const selectBranch = document.getElementById('sucursal');
         const selectBranch2 = document.getElementById('sucursal3');
         const selectBranch3 = document.getElementById('sucursal4');
@@ -148,6 +166,7 @@ async function cargarSucursales() {
         selectBranch.appendChild(option);
     }
 };
+
 
 function reducirYConvertirImagen(archivo) {
     return new Promise((resolve, reject) => {
@@ -862,6 +881,75 @@ function generarTablaExist(datos) {
     document.getElementById("filtroInput2").value="";
 }
 
+function generarTablaDatos(datos,contenedor,tabla) {
+    const contenedorTabla = document.getElementById(contenedor); // Obtiene el contenedor de la tabla
+    const tablaExistente = document.getElementById(tabla); // Identifica la tabla existente
+
+
+     // Elimina la tabla anterior, si existe
+     if (tablaExistente) {
+        tablaExistente.remove();
+    }
+
+    const table = document.createElement('table');
+    table.id = tabla; // Asigna un ID único a la tabla
+    table.border = '1';
+
+    // Genera el encabezado de la tabla dinámicamente
+    const thead = document.createElement('thead');
+    const headerRow = document.createElement('tr');
+    Object.keys(datos[0]).forEach((columna) => {
+        const th = document.createElement('th');
+        th.textContent = columna;
+        headerRow.appendChild(th);
+    });
+    thead.appendChild(headerRow);
+    table.appendChild(thead);
+
+    // Genera el cuerpo de la tabla
+    const tbody = document.createElement('tbody');
+    datos.forEach((fila) => {
+        const tr = document.createElement('tr');
+        Object.entries(fila).forEach(([columna, valor]) => {
+            const td = document.createElement('td');
+            // Si la columna es una fecha en formato /Date(...)/, la convertimos
+            if (typeof valor === 'string' && valor.includes('/Date(') && valor.includes(')/')) {
+                const timestamp = valor.match(/\/Date\((\d+)\)\//)[1];
+                const fecha = new Date(parseInt(timestamp)); // Convierte el timestamp a una fecha
+                
+                // Formatea la fecha y hora en el formato dd/MM/yyyy hh:mm AM/PM
+                const dia = fecha.getDate().toString().padStart(2, '0');
+                const mes = (fecha.getMonth() + 1).toString().padStart(2, '0');
+                const anio = fecha.getFullYear();
+                let horas = fecha.getHours();
+                const minutos = fecha.getMinutes().toString().padStart(2, '0');
+                const ampm = horas >= 12 ? 'PM' : 'AM';
+                horas = horas % 12 || 12; // Convierte a formato de 12 horas
+                td.textContent = `${dia}/${mes}/${anio} ${horas}:${minutos} ${ampm}`;
+            } else if (columna === 'CLIENTE') {
+                // Convierte el ID en un enlace
+                const enlace = document.createElement('a');
+                enlace.href = `editar.html?id=${valor}`; // URL para editar
+                enlace.textContent = valor;
+                enlace.onclick = (event) => {
+                    event.preventDefault(); // Evita el comportamiento por defecto
+                  //  editarRegistro2(valor); // Llama a la función de edición
+                };
+                td.appendChild(enlace);
+            } else {
+                td.textContent = valor;
+            }
+
+            tr.appendChild(td);
+        });
+        tbody.appendChild(tr);
+    });
+    table.appendChild(tbody);
+
+    // Inserta la tabla al final de la sección
+    //section.appendChild(table);
+    contenedorTabla.appendChild(table);
+}
 
 function generarTabla4(datos) {
     const contenedorTabla = document.getElementById('contenedorTabla4'); // Obtiene el contenedor de la tabla
@@ -1552,6 +1640,8 @@ function closeModal() {
     modal4.style.display = "none";
     const modal5= document.getElementById("formularioExist");
     modal5.style.display = "none";
+    const modal6= document.getElementById("formularioClientes");
+    modal6.style.display = "none";
 }
 
 function cargarFormulario(registro) {
@@ -1604,6 +1694,14 @@ function cargarFormularioExist(articulo) {
     modal.style.display = "flex"; // Mostrar el modal
     fetchDataExist(articulo)//obtener datos endpoint
 }
+function cargarFormularioClientes(control) {
+    const modal = document.getElementById("formularioClientes");
+    modal.style.display = "flex"; // Mostrar el modal
+    //fetchDataClientes()//obtener datos endpoint
+    generarTablaDatos(clientesTabla,"contenedorTablaClientes","tablaClientes");
+
+}
+
 
 
 function cargarFormulario4(registro,index) {
@@ -1676,7 +1774,7 @@ async function fetchDataExist(articulo) {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                user:"sa",pass:"ancw95",articulo
+                bd,empresa,articulo
             })
         });
 
@@ -1685,6 +1783,29 @@ async function fetchDataExist(articulo) {
      
         generarTablaExist(data);
 
+    } catch (error) {
+        console.error('Error al obtener los datos:', error);
+    }
+}
+
+async function fetchDataClientes() {
+    try {
+        // Llama al endpoint con las fechas como parámetros
+        const response = await fetch(url + "ConsultarClientes", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                bd,empresa
+            })
+        });
+
+        if (!response.ok) throw new Error('Error al obtener los datos.');
+        const data = await response.json();
+        return data;
+        //clientesTabla = data;
+       
     } catch (error) {
         console.error('Error al obtener los datos:', error);
     }
