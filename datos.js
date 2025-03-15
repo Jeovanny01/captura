@@ -501,8 +501,8 @@ async function  saveInventario(event) {
     const lote = document.getElementById("lote").value;
     const month = document.getElementById("month").value||"";
     const year = document.getElementById("year").value||"";
-    const vence="";
-    if (month !="" && year !="") { vence= "01/"+month+"/"+year; }
+    let vence="";
+    if (month !=="" && year !=="") { vence ="01/" + month + "/" + year; }
     
 
     localStorage.setItem("ubicacion", ubicacion);
