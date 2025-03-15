@@ -56,7 +56,7 @@ startScanButton.addEventListener("click", () => {
 
                             if (productoEncontrado) {
                                 // Si el producto existe, detén el escáner y muestra un mensaje
-                                detener(); // Detiene el escáner
+                                //detener(); // Detiene el escáner
                                 inputCodigo.value = decodedText;
                                 inputDescripcion.value = productoEncontrado.DESCRIPCION
                                 inputItem.value = productoEncontrado.ITEM
