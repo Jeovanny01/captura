@@ -53,7 +53,8 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById("cierre1").style.display = "block";
     } 
 
-    showSection('ventas');
+    if (empresa==="FARMA") showSection('inventario');
+    if (empresa==="FUNNY") showSection('ventas');
     localStorage.setItem("ventana", "venta1")
    // localStorage.removeItem("pedidoTabla2")
     pedidoTabla =  JSON.parse(localStorage.getItem("pedidoTabla") || ["{}"]);
