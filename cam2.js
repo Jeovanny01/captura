@@ -71,7 +71,7 @@ startScanButton.addEventListener("click", () => {
                             inputCodigo.value = decodedText;
                             console.log("Resultado completo:", decodedResult);
                             setTimeout(() => {
-                                detener();
+                               // detener();
                             }, 300);
                             
                         }
