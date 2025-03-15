@@ -56,7 +56,7 @@ startScanButton.addEventListener("click", () => {
 
                             if (productoEncontrado) {
                                 // Si el producto existe, detén el escáner y muestra un mensaje
-                                //detener(); // Detiene el escáner
+                                detener(); // Detiene el escáner
                                 inputCodigo.value = decodedText;
                                 inputDescripcion.value = productoEncontrado.DESCRIPCION
                                 inputItem.value = productoEncontrado.ITEM
@@ -65,14 +65,15 @@ startScanButton.addEventListener("click", () => {
                                 return; // Sale de la función para que no continúe
                             } 
                             
-                                emitirPitido();
+                               // emitirPitido();
                             
 
                             inputCodigo.value = decodedText;
                             console.log("Resultado completo:", decodedResult);
-                            setTimeout(() => {
-                               // detener();
-                            }, 300);
+                            detener();
+                            //setTimeout(() => {
+                             //   detener();
+                           // }, 300);
                             
                         }
                     )
