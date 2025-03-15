@@ -1755,7 +1755,7 @@ async function fetchData2() {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                empresa
+               bd, empresa
             })
         });
 

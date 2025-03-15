@@ -740,3 +740,12 @@ body {
 .tab-content.active-tab {
     display: block;
 }
+.container {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Espaciado entre los elementos */
+}
+select, input {
+    padding: 5px;
+    font-size: 16px;
+}
