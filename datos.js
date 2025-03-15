@@ -10,8 +10,8 @@ let pedidoTabla3 = [];
 let sucursalTabla = [];
 let categoriaTabla = [];
 let clientesTabla = [];
-let empresa ="FARMA";
-let bd ="FARMA";
+let empresa ="FUNNY";
+let bd ="FUNNY";
 let codCliente1,codCliente2,codCliente3
 let ventaTotal=0;
 
@@ -497,6 +497,13 @@ async function  saveInventario(event) {
     const factor = document.getElementById("unidadCon").value;
     const item = document.getElementById("item2").value;
     const sucursal = document.getElementById("sucursal").value;
+    const precio = document.getElementById("precioPublico").value || 0;
+    const lote = document.getElementById("lote").value;
+    const month = document.getElementById("month").value||"";
+    const year = document.getElementById("year").value||"";
+    const vence="";
+    if (month !="" && year !="") { vence= "01/"+month+"/"+year; }
+    
 
     localStorage.setItem("ubicacion", ubicacion);
     localStorage.setItem("sucursal", sucursal);
@@ -507,8 +514,7 @@ if (!descripcion || descripcion.trim() === "") {
     alert("Por favor, cree producto, antes de guardar inventario");
     return; // Salir de la función o evitar continuar
   }
-
-    
+   
         // Envía los datos al backend mediante fetch
         fetch(url+"inventario", {
             method: "POST",
@@ -516,7 +522,7 @@ if (!descripcion || descripcion.trim() === "") {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                accion:"INSERT",  articulo,  cantidad, usuario:session.user,ubicacion,factor,descripcion,item,bodega:sucursal })
+                accion:"INSERT",  articulo,  cantidad, usuario:session.user,ubicacion,factor,descripcion,item,bodega:sucursal,bd,empresa, lote, vence,precio })
     }) 
         .then(response => {
             // Verificar si la respuesta es exitosa
@@ -1457,7 +1463,7 @@ const inventarioEdit = async (accion, id, cantidad,descripcion,item,articulo,bod
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                accion, id, cantidad,empresa,descripcion,item,articulo,bodega
+                accion, id, cantidad,bd,empresa,descripcion,item,articulo,bodega
             })
         });
 

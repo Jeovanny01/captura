@@ -98,7 +98,17 @@ document.addEventListener('DOMContentLoaded', () => {
         pedidoTabla3 = [];
     }
 
-    
+    if(empresa==="FUNNY") {
+        document.getElementById("month").style.display = "none";
+        document.getElementById("year").style.display = "none";
+        document.getElementById("lote").style.display = "none";
+        document.getElementById("monthL").style.display = "none";
+        document.getElementById("yearL").style.display = "none";
+        document.getElementById("loteL").style.display = "none";
+        document.getElementById("precioPublicoL").style.display = "none";
+        document.getElementById("precioPublico").style.display = "none";
+
+    } 
 
 } catch (error) {
     // Código para manejar el error
