@@ -115,7 +115,7 @@
                     headers: {
                         "Content-Type": "application/json"
                     },
-                    body: JSON.stringify({ user, pass,empresa:"FUNNY" })
+                    body: JSON.stringify({ user, pass, bd })
                 });
 
                 if (response.ok) {
@@ -160,5 +160,6 @@
             }
         };
     </script>
+      <script src="datos.js"></script>  
 </body>
 </html>

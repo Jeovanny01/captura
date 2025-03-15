@@ -10,8 +10,8 @@ let pedidoTabla3 = [];
 let sucursalTabla = [];
 let categoriaTabla = [];
 let clientesTabla = [];
-let empresa ="FUNNY"
-let bd ="FUNNY"
+let empresa ="FARMA";
+let bd ="FARMA";
 let codCliente1,codCliente2,codCliente3
 let ventaTotal=0;
 
@@ -19,9 +19,13 @@ const session = JSON.parse(localStorage.getItem("session") || "{}");
 
 const fetchEjecutar = async (funct) => {
     try {
-        const response = await fetch(
-            url + funct
-        );
+        const response = await fetch(url+funct, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ bd,  empresa })
+    });
         if (response.ok) {
             const data = await response.json();
             return data;
@@ -42,7 +46,7 @@ const fetchEjecutarSelect = async (funct) => {
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify({ empresa })
+                body: JSON.stringify({ bd,  empresa })
         });
         if (response.ok) {
             const data = await response.json();
@@ -1726,7 +1730,7 @@ async function fetchData() {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                empresa
+              bd,  empresa
             })
         });
 

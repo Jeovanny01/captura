@@ -50,6 +50,7 @@ startScanButton.addEventListener("click", () => {
                         (decodedText, decodedResult) => {
                             // Muestra el resultado
                             // Busca el producto en el arreglo
+                            decodedText = inputCodigo&decodedText;
                             const productoEncontrado = buscarProducto(decodedText);
 
                             if (productoEncontrado) {
