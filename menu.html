@@ -460,12 +460,11 @@
                     <label for="ubicacion">UBICACION</label>
                     <input type="text" id="ubicacion" name="ubicacion" required>
 
-                    <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
-                        <div style="display: flex; align-items: center;">
+                    <div class="container">
+                        <div class="input-group">
                             <label for="codigo2" style="margin-right: 10px;">Código de barra</label>
                             <input type="text" id="codigo2" name="codigo2"  inputmode="text"  required style="margin-right: 10px;">
                         </div>
-                        
                     </div>
                   
 
@@ -475,23 +474,33 @@
                           
                     <label for="item2">ITEM No.</label>
                     <input type="text" id="item2" name="item2"  inputmode="text" >
-                                                 
+
+                            
                     <label for="descripcion2">Descripcion</label>
                     <input type="text" id="descripcion2" name="descripcion2" >
            
-
+                    <div class="container">
+                        <div class="input-group">
                     <label for="">Unidades por caja?</label>
                     <input type="number" id="unidadCon" name="unidadCon"  step="0.01"  min="0" max="100000"  placeholder="0.00" required>
-
-
-                    <label for="cantidad2">Existencia</label>
+                    </div>
+                </div>
+                <div class="container">
+                    <div class="input-group">
+                                  <label for="cantidad2">Existencia</label>
                     <input type="number" id="cantidad2" name="cantidad2"  step="0.01"  min="0" max="100000"  placeholder="0.00" required>          
-                    
-                    <label for="lote">Lote</label>
+                </div>
+            </div>
+            <div class="container">
+                <div class="input-group">
+                              <label for="lote">Lote</label>
                     <input type="lote" id="lote" name="lote"  inputmode="text" >
+                </div>
+            </div>  
                     <div class="container">
                     <label for="month">Mes:</label>
                     <select id="month">
+                        <option value=""></option>
                         <option value="01">Enero</option>
                         <option value="02">Febrero</option>
                         <option value="03">Marzo</option>

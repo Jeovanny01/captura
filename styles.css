@@ -749,3 +749,14 @@ select, input {
     padding: 5px;
     font-size: 16px;
 }
+.input-group {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+.input-group input {
+    margin-left: auto; /* Mueve el input a la derecha */
+    padding: 5px;
+    font-size: 16px;
+    width: 50%; /* Ajusta el ancho según necesidad */
+}
