@@ -49,7 +49,7 @@ startScanButton.addEventListener("click", () => {
                         cameraId,
                         config,
                         (decodedText, decodedResult) => {
-                            decodedText = inputCodigo+decodedText
+                            decodedText = inputCodigo.value+decodedText
                             // Muestra el resultado
                             // Busca el producto en el arreglo
                             const productoEncontrado = buscarProducto(decodedText);
