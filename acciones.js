@@ -55,6 +55,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (empresa==="FARMA") showSection('inventario');
     if (empresa==="FUNNY") showSection('ventas');
+    if (empresa==="DISPROSAL") showSection('ventas');
+    if (empresa==="MMAG") showSection('inventario');
     localStorage.setItem("ventana", "venta1")
    // localStorage.removeItem("pedidoTabla2")
     pedidoTabla =  JSON.parse(localStorage.getItem("pedidoTabla") || ["{}"]);
