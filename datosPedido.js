@@ -199,7 +199,7 @@ async function  savePedidoNew(button) {
     document.getElementById("spinner2").style.display = "inline"; // Muestra el spinner
     let cot = 0
     const session = JSON.parse(localStorage.getItem("session") || "{}");
-    let nom = document.getElementById("nombreCliente4").value || ""
+    let nom = (document.getElementById("nombreCliente4")?.value ?? "").trim();
     let sumaTotal = 0;
 for (let fila of pedidoTabla) {
     sumaTotal += fila.TOTAL;
@@ -214,7 +214,7 @@ document.getElementById("spinner2").style.display = "inline"; // Muestra el spin
     },
     body: JSON.stringify({
        
-        accion:"INSERT", usuario:session.user,  vendedor:session.vendedor || session.user ,  nombre:nom,  total:sumaTotal,jsonData:pedidoTabla })
+        accion:"INSERT", usuario:session.user,  vendedor:session.vendedor || session.user ,  nombre:nom,  total:sumaTotal,cliente:codCliente1,bd,empresa,jsonData:pedidoTabla })
 }) 
 .then(response => {
     // Verificar si la respuesta es exitosa
@@ -268,7 +268,7 @@ async function  savePedidoNew2(button) {
     button.disabled = true;
     let cot = 0
     const session = JSON.parse(localStorage.getItem("session") || "{}");
-    let nom = document.getElementById("nombreCliente6").value || ""
+    let nom = (document.getElementById("nombreCliente6")?.value ?? "").trim();
     let sumaTotal = 0;
 
 for (let fila of pedidoTabla2) {
@@ -284,7 +284,7 @@ document.getElementById("spinner3").style.display = "inline";
     },
     body: JSON.stringify({
        
-        accion:"INSERT", usuario:session.user,  vendedor:session.vendedor || session.user ,  nombre:nom,  total:sumaTotal,jsonData:pedidoTabla2 })
+        accion:"INSERT", usuario:session.user,  vendedor:session.vendedor || session.user ,  nombre:nom,  total:sumaTotal,cliente:codCliente2,bd,empresa,jsonData:pedidoTabla2 })
 }) 
 .then(response => {
     // Verificar si la respuesta es exitosa
@@ -338,7 +338,7 @@ async function  savePedidoNew3(button) {
 
     let cot = 0
     const session = JSON.parse(localStorage.getItem("session") || "{}");
-    let nom = document.getElementById("nombreCliente7").value || ""
+    let nom =(document.getElementById("nombreCliente7")?.value ?? "").trim();
     let sumaTotal = 0;
 
 for (let fila of pedidoTabla3) {
@@ -354,7 +354,7 @@ document.getElementById("spinner4").style.display = "inline";
     },
     body: JSON.stringify({
        
-        accion:"INSERT", usuario:session.user,  vendedor:session.vendedor || session.user ,  nombre:nom,  total:sumaTotal,jsonData:pedidoTabla3 })
+        accion:"INSERT", usuario:session.user,  vendedor:session.vendedor || session.user ,  nombre:nom,  total:sumaTotal,cliente:codCliente3,bd,empresa,jsonData:pedidoTabla3 })
 }) 
 .then(response => {
     // Verificar si la respuesta es exitosa
@@ -416,6 +416,7 @@ if (tab =="venta1") {
     document.getElementById("totalGeneral").textContent  =""
     document.getElementById("tablaDatos4").innerHTML = "";
     document.getElementById("nombreCliente4").value=""
+    codCliente1="CLIENTE"
    
 }
 if (tab =="venta2") {
@@ -427,6 +428,7 @@ if (tab =="venta2") {
     document.getElementById("totalGeneral6").textContent  =""
     document.getElementById("tablaDatos6").innerHTML = "";
     document.getElementById("nombreCliente6").value=""
+     codCliente2="CLIENTE"
 }
 
 if (tab =="venta3") {
@@ -438,6 +440,7 @@ if (tab =="venta3") {
     document.getElementById("totalGeneral7").textContent  =""
     document.getElementById("tablaDatos7").innerHTML = "";
     document.getElementById("nombreCliente7").value=""  
+    codCliente3="CLIENTE"
 }
 };
 

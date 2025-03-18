@@ -676,3 +676,7 @@ function eliminarFila3(enlace) {
     localStorage.setItem('pedidoTabla3', JSON.stringify(pedidoTabla3));
     recuperarTabla3(pedidoTabla3);
 }
+
+document.getElementById("filtroInputCliente").addEventListener("input", function() {
+    filtrarDatosClientes();
+});

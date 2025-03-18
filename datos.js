@@ -10,8 +10,8 @@ let pedidoTabla3 = [];
 let sucursalTabla = [];
 let categoriaTabla = [];
 let clientesTabla = [];
-let empresa ="FARMA";
-let bd ="FARMA";
+let empresa ="FUNNY";
+let bd ="FUNNY";
 let codCliente1,codCliente2,codCliente3
 let ventaTotal=0;
 
@@ -1526,6 +1526,23 @@ function filtrarDatos5() {
     });
     
     generarTabla5(resultados);
+}
+function filtrarDatosClientes() {
+    const filtro = document.getElementById("filtroInputCliente").value.toLowerCase();
+    const resultados = clientesTabla.filter(dat => {
+        const clienteTexto = (dat.CLIENTE || "").toLowerCase();
+        const nombreTexto = (dat.NOMBRE || "").toLowerCase();
+        const aliasTexto = (dat.ALIAS || "").toLowerCase();
+        const direccionTexto = (dat.ALIAS || "").toLowerCase();
+
+        return clienteTexto.includes(filtro) ||
+               nombreTexto.includes(filtro) ||
+               aliasTexto.includes(filtro)  ||
+               direccionTexto.includes(filtro)
+               ;
+    });
+    
+    generarTablaDatos(resultados,"contenedorTablaClientes","tablaClientes");
 }
 
 async function  saveRegistro(event) {
