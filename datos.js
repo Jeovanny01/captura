@@ -731,7 +731,7 @@ function generarTabla(datos) {
     // Inserta la tabla al final de la sección
     //section.appendChild(table);
     contenedorTabla.appendChild(table);
-    document.getElementById("filtroInput").value="";
+   // document.getElementById("filtroInput").value="";
 }
 
 function generarTabla2(datos) {
@@ -1133,7 +1133,7 @@ function generarTabla5(datos) {
     // Inserta la tabla al final de la sección
     //section.appendChild(table);
     contenedorTabla.appendChild(table);
-    document.getElementById("filtroInput5").value="";
+   // document.getElementById("filtroInput5").value="";
 }
 
 function generarTabla6(datos) {
@@ -1527,6 +1527,7 @@ const inventarioEdit = async (accion, id, cantidad,descripcion,item,articulo,bod
     });
     
     generarTabla(resultados);
+    document.getElementById("filtroInput").value="";
 }
 
 // Función para filtrar los datos
@@ -1559,6 +1560,7 @@ function filtrarDatos5() {
     });
     
     generarTabla5(resultados);
+    document.getElementById("filtroInput5").value="";
 }
 function filtrarDatosClientes() {
     const filtro = document.getElementById("filtroInputCliente").value.toLowerCase();

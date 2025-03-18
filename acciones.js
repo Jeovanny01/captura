@@ -695,3 +695,14 @@ function eliminarFila3(enlace) {
 document.getElementById("filtroInputCliente").addEventListener("input", function() {
     filtrarDatosClientes();
 });
+document.getElementById("filtroInput").addEventListener("keydown", function(event) {
+    if (event.key === "Enter") {
+        filtrarDatos();
+    }
+});
+
+document.getElementById("filtroInput5").addEventListener("keydown", function(event) {
+    if (event.key === "Enter") {
+        filtrarDatos5();
+    }
+});
