@@ -202,14 +202,19 @@ h2 {
 /* Estilo del contenido de la modal */
 .modal-content2 {
     background-color: #fefefe;
-    margin: auto; /* Centra horizontalmente */
-    padding: 20px;
+    position: fixed; /* Mantiene el modal en una posición fija */
+    top: 10px; /* Siempre en la parte superior */
+    left: 50%;
+    transform: translateX(-50%); /* Centra horizontalmente */
+    padding: 10px;
     border: 1px solid #888;
-    width: 100%; /* Ancho fijo */
+    width: 97%; /* Ajusta el ancho según necesidad */
+    /*max-width: 600px; /* Limita el ancho para evitar que sea muy grande */
     border-radius: 5px;
-    height: auto; /* Permite ajustar automáticamente */
-    max-height: 80%; /* Evita que sea demasiado alto */
+    height: auto; /* Ajusta automáticamente según el contenido */
+    max-height: 95vh; /* Evita que sea demasiado alto */
     overflow-y: auto; /* Habilita desplazamiento interno si es necesario */
+    z-index: 1000; /* Se asegura de que esté por encima de otros elementos */
 }
 
 /* Estilo del botón de cerrar */

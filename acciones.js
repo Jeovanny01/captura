@@ -377,10 +377,25 @@ buscarExistenciaBod.addEventListener('click', function () {
     alert ("Ingrese codigo")
     return;
   }
-
-
     cargarFormularioExist(document.getElementById("codigo4").value);
-
+});
+const buscarExistenciaBod6 = document.getElementById('buscarExistenciaBod6');
+buscarExistenciaBod6.addEventListener('click', function () {
+  if(document.getElementById("codigo6").value ==="")
+  {
+    alert ("Ingrese codigo")
+    return;
+  }
+    cargarFormularioExist(document.getElementById("codigo6").value);
+});
+const buscarExistenciaBod7 = document.getElementById('buscarExistenciaBod7');
+buscarExistenciaBod7.addEventListener('click', function () {
+  if(document.getElementById("codigo7").value ==="")
+  {
+    alert ("Ingrese codigo")
+    return;
+  }
+    cargarFormularioExist(document.getElementById("codigo7").value);
 });
 
 const lupa = document.getElementById('lupa');

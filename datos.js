@@ -11,7 +11,7 @@ let sucursalTabla = [];
 let categoriaTabla = [];
 let clientesTabla = [];
 let empresa ="FUNNY";
-let bd ="FUNNY";
+let bd ="FUNNY2";
 let codCliente1,codCliente2,codCliente3
 let ventaTotal=0;
 
@@ -943,7 +943,7 @@ function generarTablaDatos(datos,contenedor,tabla) {
                 enlace.textContent = valor;
                 enlace.onclick = (event) => {
                     event.preventDefault(); // Evita el comportamiento por defecto
-                  //  editarRegistro2(valor); // Llama a la función de edición
+                    seleccionarRegistro(valor); // Llama a la función de edición
                 };
                 td.appendChild(enlace);
             } else {
@@ -1342,6 +1342,39 @@ function generarTabla7(datos) {
 }
 
 
+function seleccionarRegistro(id) {
+    // const session = JSON.parse(localStorage.getItem("session") || "{}");
+    // if (!["1", "3"].includes(session.userRole)) {
+    //     return;
+    // }
+// Filtrar la tabla de datos para obtener el registro con el ID seleccionado
+let registroSeleccionado = clientesTabla.filter(item => item.CLIENTE === id);
+// Si encuentras el registro, puedes hacer algo con él, por ejemplo, mostrarlo en un formulario
+if (registroSeleccionado.length > 0) {
+
+    console.log("Registro encontrado:", registroSeleccionado[0]); 
+    let tab =   localStorage.getItem("ventana") || "venta1" 
+    let nombreCliente = registroSeleccionado[0].NOMBRE; // Acceder directamente a NOMBRE
+
+    if (tab =="venta1") {
+   codCliente1=id;
+   document.getElementById("nombreCliente4").value = nombreCliente; 
+    }
+    if (tab =="venta2") {
+        codCliente2=id;
+        document.getElementById("nombreCliente6").value= nombreCliente; 
+    }
+    if (tab =="venta3") {
+        codCliente3=id;
+        document.getElementById("nombreCliente7").value= nombreCliente; 
+    }
+
+    closeModal();
+} else {
+    console.log("Registro no encontrado");
+}
+}
+
 function editarRegistro(id) {
     const session = JSON.parse(localStorage.getItem("session") || "{}");
     if (!["1", "3"].includes(session.userRole)) {
@@ -1724,7 +1757,7 @@ function cargarFormularioExist(articulo) {
 function cargarFormularioClientes(control) {
     const modal = document.getElementById("formularioClientes");
     modal.style.display = "flex"; // Mostrar el modal
-    //fetchDataClientes()//obtener datos endpoint
+    document.getElementById("filtroInputCliente").value =""
     generarTablaDatos(clientesTabla,"contenedorTablaClientes","tablaClientes");
 
 }
@@ -1808,7 +1841,7 @@ async function fetchDataExist(articulo) {
         if (!response.ok) throw new Error('Error al obtener los datos.');
         const data = await response.json();
      
-        generarTablaExist(data);
+        if (data.length > 0) generarTablaExist(data); else closeModal();
 
     } catch (error) {
         console.error('Error al obtener los datos:', error);
