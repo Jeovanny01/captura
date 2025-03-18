@@ -10,8 +10,8 @@ let pedidoTabla3 = [];
 let sucursalTabla = [];
 let categoriaTabla = [];
 let clientesTabla = [];
-let empresa ="FUNNY";
-let bd ="FUNNY";
+let empresa ="DISPROSAL";
+let bd ="DISPROSAL";
 let codCliente1,codCliente2,codCliente3
 let ventaTotal=0;
 
