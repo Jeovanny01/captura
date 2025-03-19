@@ -214,7 +214,7 @@ document.getElementById("spinner2").style.display = "inline"; // Muestra el spin
     },
     body: JSON.stringify({
        
-        accion:"INSERT", usuario:session.user,  vendedor:session.vendedor || session.user ,  nombre:nom,  total:sumaTotal,cliente:codCliente1,bd,empresa,jsonData:pedidoTabla })
+        accion:"INSERT", usuario:session.user,  vendedor:session.vendedor || session.user ,  nombre:nom,  total:sumaTotal,cliente:codCliente1|| "CLIENTE",bd,empresa,jsonData:pedidoTabla })
 }) 
 .then(response => {
     // Verificar si la respuesta es exitosa
@@ -512,7 +512,7 @@ cant4.addEventListener('input', () => {
     let precio = parseFloat(document.getElementById("precio4").value) || 0;
     if (cantidad > 0){   
         let valorbusado = buscarProducto(codigo)
-        precio =  valorbusado.PRECIO_MAYOREO
+        precio =  valorbusado.PRECIO_MAYOREO || valorbusado.PRECIO ||  0;
         document.getElementById("precio4").value = precio
         formatear("precio4",precio)
     }  else 
@@ -543,7 +543,7 @@ cant6.addEventListener('input', () => {
     let precio = parseFloat(document.getElementById("precio6").value) || 0;
     if (cantidad > 0){   
         let valorbusado = buscarProducto(codigo)
-        precio =  valorbusado.PRECIO_MAYOREO
+        precio = valorbusado.PRECIO_MAYOREO || valorbusado.PRECIO ||  0;
         document.getElementById("precio6").value = precio
         formatear("precio6",precio)
     }  else 
@@ -575,7 +575,7 @@ cant7.addEventListener('input', () => {
     let precio = parseFloat(document.getElementById("precio7").value) || 0;
     if (cantidad > 0){   
         let valorbusado = buscarProducto(codigo)
-        precio =  valorbusado.PRECIO_MAYOREO
+        precio =  valorbusado.PRECIO_MAYOREO || valorbusado.PRECIO ||  0;
         document.getElementById("precio7").value = precio
         formatear("precio7",precio)
     }  else 

@@ -540,7 +540,7 @@ function actualizarCampos4(prod) {
     document.getElementById("codigo4").value = prod.ARTICULO || '';
     document.getElementById("descripcion4").value = prod.DESCRIPCION || '';
     document.getElementById("item4").value = prod.ITEM || '';
-    document.getElementById("precio4").value = prod.PRECIO_MAYOREO || 0;
+    document.getElementById("precio4").value = prod.PRECIO_MAYOREO || prod.PRECIO ||  0;
     document.getElementById("cantidad4").value = 1
     // Obtén los valores de los campos
 let precio = parseFloat(document.getElementById("precio4").value) || 0;
@@ -555,7 +555,7 @@ function actualizarCampos6(prod) {
     document.getElementById("codigo6").value = prod.ARTICULO || '';
     document.getElementById("descripcion6").value = prod.DESCRIPCION || '';
     document.getElementById("item6").value = prod.ITEM || '';
-    document.getElementById("precio6").value = prod.PRECIO_MAYOREO || 0;
+    document.getElementById("precio6").value = prod.PRECIO_MAYOREO || prod.PRECIO ||  0;;
     document.getElementById("cantidad6").value = 1
     // Obtén los valores de los campos
 let precio = parseFloat(document.getElementById("precio6").value) || 0;
@@ -570,7 +570,7 @@ function actualizarCampos7(prod) {
     document.getElementById("codigo7").value = prod.ARTICULO || '';
     document.getElementById("descripcion7").value = prod.DESCRIPCION || '';
     document.getElementById("item7").value = prod.ITEM || '';
-    document.getElementById("precio7").value = prod.PRECIO_MAYOREO || 0;
+    document.getElementById("precio7").value = prod.PRECIO_MAYOREO || prod.PRECIO ||  0;
     document.getElementById("cantidad7").value = 1
     // Obtén los valores de los campos
 let precio = parseFloat(document.getElementById("precio7").value) || 0;
