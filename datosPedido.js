@@ -214,7 +214,7 @@ document.getElementById("spinner2").style.display = "inline"; // Muestra el spin
     },
     body: JSON.stringify({
        
-        accion:"INSERT", usuario:session.user,  vendedor:session.vendedor || session.user ,  nombre:nom,  total:sumaTotal,cliente:codCliente1|| "CLIENTE",bd,empresa,jsonData:pedidoTabla })
+        accion:"INSERT", usuario:session.user,  vendedor:session.vend || session.user ,  nombre:nom,  total:sumaTotal,cliente:codCliente1|| "CLIENTE",bd,empresa,jsonData:pedidoTabla })
 }) 
 .then(response => {
     // Verificar si la respuesta es exitosa
