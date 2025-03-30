@@ -1,6 +1,7 @@
 //VENTA 1
 function guardarTabla(){
     localStorage.setItem("nombreCliente", document.getElementById("nombreCliente4").value);
+    localStorage.setItem("codCliente1", codCliente1);
     let numeroFilas = pedidoTabla.length+1; // Contar las filas actuales
 
    let nuevoPedido = {
@@ -35,7 +36,7 @@ window.scrollTo(0, 0);
 //VENTA2
 function guardarTabla6(){
     localStorage.setItem("nombreCliente2",document.getElementById("nombreCliente6").value);
-
+    localStorage.setItem("codCliente2", codCliente2);
     let numeroFilas = pedidoTabla2.length+1; // Contar las filas actuales
 
    let nuevoPedido = {
@@ -71,7 +72,7 @@ window.scrollTo(0, 0);
 //VENTA 3
 function guardarTabla7(){
     localStorage.setItem("nombreCliente3", document.getElementById("nombreCliente7").value);
-
+    localStorage.setItem("codCliente3", codCliente3);
     let numeroFilas = pedidoTabla3.length+1; // Contar las filas actuales
 
    let nuevoPedido = {
@@ -413,6 +414,7 @@ let confirmacion = confirm("¿Estás seguro de que deseas borrar la VENTA?");
 
 if (tab =="venta1") {
     localStorage.removeItem("nombreCliente"); 
+    localStorage.removeItem("codCliente1"); 
     localStorage.removeItem("pedidoTabla"); 
     pedidoTabla =  [];
     document.getElementById("btnGuardarPedido").style.display = "none";
@@ -425,6 +427,7 @@ if (tab =="venta1") {
 }
 if (tab =="venta2") {
     localStorage.removeItem("nombreCliente2"); 
+    localStorage.removeItem("codCliente2"); 
     localStorage.removeItem("pedidoTabla2"); 
     pedidoTabla2 =  [];
     document.getElementById("btnGuardarPedido2").style.display = "none";
@@ -437,6 +440,7 @@ if (tab =="venta2") {
 
 if (tab =="venta3") {
     localStorage.removeItem("nombreCliente3"); 
+    localStorage.removeItem("codCliente3"); 
     localStorage.removeItem("pedidoTabla3"); 
     pedidoTabla3 =  [];
     document.getElementById("btnGuardarPedido3").style.display = "none";
@@ -465,6 +469,7 @@ function recuperarTabla(nuevoPedido){
         
 
     document.getElementById('nombreCliente4').value= localStorage.getItem("nombreCliente");
+    codCliente1= localStorage.getItem("codCliente1");
     // window.scrollTo(0, 0);
     } catch (error) {
         console.log(error);        
@@ -486,6 +491,7 @@ function recuperarTabla(nuevoPedido){
        generarTabla6(nuevoPedido);
        //document.getElementById('formVentas').reset();  // 'miFormulario' es el ID del formulario
        document.getElementById('nombreCliente6').value= localStorage.getItem("nombreCliente2");
+       codCliente2= localStorage.getItem("codCliente2");
     //    window.scrollTo(0, 0);
    };
    
@@ -504,6 +510,7 @@ function recuperarTabla(nuevoPedido){
            generarTabla7(nuevoPedido);
           // document.getElementById('formVentas').reset();  // 'miFormulario' es el ID del formulario
            document.getElementById('nombreCliente7').value= localStorage.getItem("nombreCliente3");
+           codCliente3= localStorage.getItem("codCliente3");
         //    window.scrollTo(0, 0);
    };
 
