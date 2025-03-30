@@ -353,20 +353,21 @@ async function  descargarPdfCot(cot){
                 }
                         const pdfUrl = URL.createObjectURL(pdfBlob);
                 
-                        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-
-                        if (!isMobile) {
-                            window.open(pdfUrl, "_blank"); // Abre en nueva pestaña solo en escritorio
+                        const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+                        const isAndroid = /Android/i.test(navigator.userAgent);
+                        
+                        if (!isIOS && !isAndroid) {
+                            window.open(pdfUrl, "_blank"); // Solo abre en nueva pestaña si es escritorio
+                        } else {
+                            setTimeout(() => {
+                                const link = document.createElement("a");
+                                link.href = pdfUrl;
+                                link.download = "Cotizacion-" + cot + ".pdf";
+                                document.body.appendChild(link);
+                                link.click();
+                                document.body.removeChild(link);
+                            }, 0); // Descarga automática en iOS y Android
                         }
-                        if (isMobile) {
-                        setTimeout(() => {
-                            const link = document.createElement("a");
-                            link.href = pdfUrl;
-                            link.download = "Cotizacion-" + cot + ".pdf";
-                            document.body.appendChild(link);
-                            link.click();
-                            document.body.removeChild(link);
-                        }, 0); // Espera 1 segundo antes de descargarlo
                     }
             } else {
                 throw new Error(`Se recibió un contenido inesperado: ${contentType}`);
