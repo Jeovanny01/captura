@@ -358,6 +358,7 @@ async function  descargarPdfCot(cot){
                         if (!isMobile) {
                             window.open(pdfUrl, "_blank"); // Abre en nueva pestaña solo en escritorio
                         }
+                        if (isMobile) {
                         setTimeout(() => {
                             const link = document.createElement("a");
                             link.href = pdfUrl;
@@ -366,6 +367,7 @@ async function  descargarPdfCot(cot){
                             link.click();
                             document.body.removeChild(link);
                         }, 1000); // Espera 1 segundo antes de descargarlo
+                    }
             } else {
                 throw new Error(`Se recibió un contenido inesperado: ${contentType}`);
             }
