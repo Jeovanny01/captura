@@ -354,13 +354,15 @@ async function  descargarPdfCot(cot){
                         const pdfUrl = URL.createObjectURL(pdfBlob);
                 
                             
-                const link = document.createElement("a");
-                link.href = pdfUrl;
-                link.target = "_blank"; // Abrir en nueva ventana
-                link.download = "Cotizacion-"+ cot +".pdf"; // Nombre del archivo
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
+                        window.open(pdfUrl, "_blank"); // Abre en nueva pestaña
+                        setTimeout(() => {
+                            const link = document.createElement("a");
+                            link.href = pdfUrl;
+                            link.download = "Cotizacion-" + cot + ".pdf";
+                            document.body.appendChild(link);
+                            link.click();
+                            document.body.removeChild(link);
+                        }, 1000); // Espera 1 segundo antes de descargarlo
             } else {
                 throw new Error(`Se recibió un contenido inesperado: ${contentType}`);
             }
