@@ -231,11 +231,11 @@ document.getElementById("spinner2").style.display = "inline"; // Muestra el spin
         const result = JSON.parse(text);
         console.log(result);  // Ver el contenido del objeto JSON
         if (result.success) {
-        cot =result.cotizacion;             
+        cot =result.cotizacion;   
+           document.getElementById("spinner2").style.display = "none";           
            cancelarPedido(1);
             button.disabled = false;
-            document.getElementById("spinner2").style.display = "none"; 
-            alert('Cotizacion registrada con éxito No. ' + cot);
+             alert('Cotizacion registrada con éxito No. ' + cot);
             if(empresa !="FUNNY") {descargarPdfCot(cot);}
         } else {
             const errorMessage = result.data[0].ErrorMessage;
@@ -302,11 +302,11 @@ document.getElementById("spinner3").style.display = "inline";
         const result = JSON.parse(text);
         console.log(result);  // Ver el contenido del objeto JSON
         if (result.success) {
-        cot =result.cotizacion;             
+        cot =result.cotizacion; 
+            document.getElementById("spinner3").style.display = "none";             
             cancelarPedido(1)
             button.disabled = false;
-            document.getElementById("spinner3").style.display = "none"; 
-            alert('Cotizacion registrada con éxito No. ' + cot);
+             alert('Cotizacion registrada con éxito No. ' + cot);
             if(empresa !="FUNNY") {descargarPdfCot(cot);}
         } else {
             const errorMessage = result.data[0].ErrorMessage;
@@ -373,10 +373,10 @@ document.getElementById("spinner4").style.display = "inline";
         const result = JSON.parse(text);
         console.log(result);  // Ver el contenido del objeto JSON
         if (result.success) {
-        cot =result.cotizacion;             
+        cot =result.cotizacion;   
+        document.getElementById("spinner4").style.display = "none";           
             cancelarPedido(1)
             button.disabled = false;
-            document.getElementById("spinner4").style.display = "none"; 
             alert('Cotizacion registrada con éxito No. ' + cot);
             if(empresa !="FUNNY") {descargarPdfCot(cot);}
         } else {
