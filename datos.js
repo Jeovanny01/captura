@@ -10,6 +10,7 @@ let pedidoTabla3 = [];
 let sucursalTabla = [];
 let categoriaTabla = [];
 let clientesTabla = [];
+let cotizacionesTabla =[];
 let empresa ="DISPROSAL";
 let bd ="DISPROSAL";
 let codCliente1,codCliente2,codCliente3
@@ -117,6 +118,24 @@ async function cargarClientes() {
         console.error('Error al cargar los clientes:', error.message);
     
     }
+};
+async function cargarCotizaciones(fi,ff) {
+    try {
+        document.getElementById("filtroInputCot").value ="";
+        spinnerCot.style.display = "block"; // Mostrar spinner   
+        const dat = await fetchDataCotizaciones(fi,ff);
+      
+        if (dat && dat.length > 0) {
+        cotizacionesTabla =dat;
+        generarTablaDatos(cotizacionesTabla,"contenedorTablaCot","tablaDatosCot")
+        localStorage.setItem('cotizacionesTabla', JSON.stringify(cotizacionesTabla));
+        }
+       
+    } catch (error) {
+        console.error('Error al cargar cotizaciones:', error.message);
+    
+    }
+    spinnerCot.style.display = "none"; // Ocultar spinner
 };
 
 async function cargarSucursales() {
@@ -305,6 +324,61 @@ ventaTotal=0;
         }
     });
 }
+
+async function  descargarPdfCot(cot){
+   
+    try {
+            // Llama al endpoint con las fechas como parámetros
+            const response = await fetch("/api/ApiDatos/reporteCrystalCoti", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    bd,empresa,cot
+                })
+            });
+
+        if (!response.ok)  throw new Error(`Error al obtener los datos: ${response.statusText}`);
+        
+        const contentType = response.headers.get('Content-Type');
+        if (contentType && contentType.includes('application/pdf')) {
+            const contentType = response.headers.get('Content-Type');
+
+            if (contentType && contentType.includes('application/pdf')) {
+                const pdfBlob = await response.blob();
+        
+                if (pdfBlob.size === 0) {
+                    throw new Error('El archivo PDF recibido está vacío.');
+                }
+                        const pdfUrl = URL.createObjectURL(pdfBlob);
+                
+                            
+                const link = document.createElement("a");
+                link.href = pdfUrl;
+                link.target = "_blank"; // Abrir en nueva ventana
+                link.download = "Cotizacion-"+ cot +".pdf"; // Nombre del archivo
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            } else {
+                throw new Error(`Se recibió un contenido inesperado: ${contentType}`);
+            }
+        } else {
+            // Si no es un PDF, intenta procesar la respuesta como JSON (o lo que sea apropiado)
+            const data = await response.json();
+          
+            // if (data && data.length > 0) {
+            //     button.disabled = false;
+            // }
+        }
+    } catch (error) {
+        console.error('Error al obtener los datos:', error);
+        //button.disabled = false;
+        alert(error);
+    }
+    
+}
 async function  hacerCierre(button){
     if (ventaTotal==0) {
         alert("No se puede hacer cierre con valor cero!");
@@ -326,6 +400,7 @@ async function  hacerCierre(button){
             alert("Seleccione fecha!");
         return
         }
+    
         spinner.style.display = "block"; // Mostrar spinner
             // Llama al endpoint con las fechas como parámetros
             const response = await fetch("/api/ApiDatos/reporteCrystal", {
@@ -483,10 +558,7 @@ async function  saveArticulo(event) {
             alert('Hubo un error al procesar la solicitud');
         });
 };
-
-
-     
-   
+ 
 
 async function  saveInventario(event) {
     const session = JSON.parse(localStorage.getItem("session") || "{}");
@@ -609,7 +681,6 @@ async function  deleteArticulo(event) {
 
     
 };
-
 
 
 const procesarPedidoTabla = async (cot) => {
@@ -946,6 +1017,19 @@ function generarTablaDatos(datos,contenedor,tabla) {
                     seleccionarRegistro(valor); // Llama a la función de edición
                 };
                 td.appendChild(enlace);
+            } else if (columna === 'COTIZACION') {
+                // Convierte el ID en un enlace
+                const enlace = document.createElement('a');
+                enlace.href = `descargar.html?id=${valor}`; // URL para editar
+                enlace.textContent = valor;
+                enlace.onclick = (event) => {
+                    event.preventDefault(); // Evita el comportamiento por defecto
+                    descargarPdfCot(valor); // Llama a la función de edición
+                };
+                td.appendChild(enlace);
+            } else if (columna === "TOTAL") {
+                    td.textContent = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(valor);
+                
             } else {
                 td.textContent = valor;
             }
@@ -1341,7 +1425,6 @@ function generarTabla7(datos) {
     //document.getElementById("filtroInput7").value="";
 }
 
-
 function seleccionarRegistro(id) {
     // const session = JSON.parse(localStorage.getItem("session") || "{}");
     // if (!["1", "3"].includes(session.userRole)) {
@@ -1434,7 +1517,6 @@ if (registroSeleccionado.length > 0) {
     console.log("Registro no encontrado");
 }
 }
-
 
 const articuloEdit = async (accion, articulo, descripcion, items,empresa,cat1,cat2,precio=0,precioNormal=0,precioUnitario=0,artNvo="") => {
     try {
@@ -1580,6 +1662,27 @@ function filtrarDatosClientes() {
     generarTablaDatos(resultados,"contenedorTablaClientes","tablaClientes");
 }
 
+function filtrarDatosCot() {
+    const filtro = document.getElementById("filtroInputCot").value.toLowerCase();
+    const resultados = cotizacionesTabla.filter(dat => {
+        const clienteTexto = (dat.CODIGO || "").toLowerCase();
+        const nombreTexto = (dat.NOMBRE || "").toLowerCase();
+        const cot = (dat.COTIZACION ? String(dat.COTIZACION) : "").toLowerCase();
+        const vendedor = (dat["EJECUTIVO DE VENTAS"] || "").toLowerCase();
+        const estado = (dat.ESTADO || "").toLowerCase();
+
+        return clienteTexto.includes(filtro) ||
+               nombreTexto.includes(filtro) ||
+               cot.includes(filtro)  ||
+               vendedor.includes(filtro) ||
+               estado.includes(filtro)
+               ;
+    });
+    //if (resultados.length > 0) {  
+        generarTablaDatos(resultados, "contenedorTablaCot", "tablaDatosCot");  
+   // }
+    
+}
 async function  saveRegistro(event) {
     event.preventDefault(); // Evitar recarga de la página
     const articulo = document.getElementById("articulo").value;
@@ -1868,6 +1971,29 @@ async function fetchDataClientes() {
         return data;
         //clientesTabla = data;
        
+    } catch (error) {
+        console.error('Error al obtener los datos:', error);
+    }
+}
+async function fetchDataCotizaciones(fi,ff) {
+    const session = JSON.parse(localStorage.getItem("session") || "{}");
+    
+    try {
+        // Llama al endpoint con las fechas como parámetros
+        const response = await fetch(url + "ConsultarCotizaciones", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                bd,empresa,fi,ff,vendedor:session.vendedor || ""
+            })
+        });
+
+        if (!response.ok) throw new Error('Error al obtener los datos.');
+        const data = await response.json();
+        return data;
+          
     } catch (error) {
         console.error('Error al obtener los datos:', error);
     }

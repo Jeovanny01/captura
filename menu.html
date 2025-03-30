@@ -143,6 +143,7 @@
                 <li><a onclick="showSection('inventario')"> Inventario</a></li>
                 <li><a onclick="showSection('registrosInv')"> Registros Inv.</a></li>
                 <li><a onclick="showSection('ventas')">Pre-Venta</a></li>
+                <li id="cotizaciones1"><a onclick="showSection('cotizaciones')">Cotizaciones</a></li>
                 <li id="facturacion1"><a onclick="showSection('facturacion')"> Facturación</a></li>
                 <li id="cierre1"><a onclick="showSection('cierre')"> Cierre</a></li>
                            </ul>
@@ -203,6 +204,37 @@
        
         <div id="contenedorTabla2" class="tabla-contenedor">
             <table id="tablaDatos2">
+                <!-- La tabla se llenará dinámicamente -->
+            </table>
+        </div>
+    </section>
+
+       <!-- Sección de cotizaciones -->
+       <section id="cotizaciones" class="secciones">
+        <h2>Listado de cotizaciones</h2>
+        <!-- Contenedor para los filtros, organizado en una línea -->
+        
+        <!-- <label for="sucursal4">Sucursal:</label>
+        <select id="sucursal4" name="sucursal4" required>
+        </select> -->
+        <div class="form-groupFechas">
+        <label for="fiCot">Fecha Inicial:</label>
+        <input type="date" id="fiCot" name="ff" required>
+        <label for="ffCot">Fecha Final:</label>
+        <input type="date" id="ffCot" name="ff" required>
+    </div>
+        <button onclick="cargarCotizaciones(document.getElementById('fiCot').value, document.getElementById('ffCot').value)">Actualizar</button>
+        <div id="filtros">
+            <input type="text" id="filtroInputCot" placeholder="Escribe el dato filtrar...">
+        <!-- <br> -->
+        <div id="spinnerCot" class="spinner-container">
+            <div class="spinner"></div>
+            <p>Actualizado, por favor espere...</p>
+        
+        </div>
+       
+        <div id="contenedorTablaCot" class="tabla-contenedor">
+            <table id="tablaDatosCot">
                 <!-- La tabla se llenará dinámicamente -->
             </table>
         </div>

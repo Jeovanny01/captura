@@ -43,7 +43,10 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
     document.getElementById("ff").setAttribute("value", new Date().toISOString().split('T')[0]);
-   
+    document.getElementById("ffCot").setAttribute("value", new Date().toISOString().split('T')[0]);
+    document.getElementById("fiCot").value = new Date(new Date().setDate(new Date().getDate() - 1)).toISOString().split('T')[0];
+
+
   // Ocultar por defecto
   document.getElementById("facturacion1").style.display = "none";
   document.getElementById("cierre1").style.display = "none";
@@ -696,6 +699,9 @@ function eliminarFila3(enlace) {
 
 document.getElementById("filtroInputCliente").addEventListener("input", function() {
     filtrarDatosClientes();
+});
+document.getElementById("filtroInputCot").addEventListener("input", function() {
+    filtrarDatosCot();
 });
 document.getElementById("filtroInput").addEventListener("keydown", function(event) {
     if (event.key === "Enter") {
