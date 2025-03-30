@@ -356,7 +356,9 @@ async function  descargarPdfCot(cot){
                         const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
                         if (!isMobile) {
-                            window.open(pdfUrl, "_blank"); // Abre en nueva pestaña solo en escritorio
+                            const servidor = window.location.origin; // Ejemplo: https://tuservidor.com
+                            const pdfUrl = `${servidor}/Cotizacion-${cot}.pdf`;
+                            window.open(pdfUrl, "_blank");
                         }
                         if (isMobile) {
                         setTimeout(() => {
