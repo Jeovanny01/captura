@@ -352,11 +352,9 @@ async function  descargarPdfCot(cot){
                     throw new Error('El archivo PDF recibido está vacío.');
                 }
                         const pdfUrl = URL.createObjectURL(pdfBlob);
-                
-                        const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
-                        const isAndroid = /Android/i.test(navigator.userAgent);
-                        
-                        if (!isIOS && !isAndroid) {
+                        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth < 1024;
+
+                        if (!isMobile) {
                             window.open(pdfUrl, "_blank"); // Solo abre en nueva pestaña si es escritorio
                         } else {
                             setTimeout(() => {
@@ -367,8 +365,8 @@ async function  descargarPdfCot(cot){
                                 link.click();
                                 document.body.removeChild(link);
                             }, 0); // Descarga automática en iOS y Android
+                        }
                         
-                    }
             } else {
                 throw new Error(`Se recibió un contenido inesperado: ${contentType}`);
             }
