@@ -367,7 +367,7 @@ async function  descargarPdfCot(cot){
                                 link.click();
                                 document.body.removeChild(link);
                             }, 0); // Descarga automática en iOS y Android
-                        }
+                        
                     }
             } else {
                 throw new Error(`Se recibió un contenido inesperado: ${contentType}`);
