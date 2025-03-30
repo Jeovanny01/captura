@@ -352,8 +352,11 @@ async function  descargarPdfCot(cot){
                     throw new Error('El archivo PDF recibido está vacío.');
                 }
                         const pdfUrl = URL.createObjectURL(pdfBlob);
-                        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth < 1024;
-
+                        const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+                        const isAndroid = /Android/i.test(navigator.userAgent);
+                        const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+                        const isMobile = isIOS || isAndroid || window.innerWidth < 1024 || isSafari;
+                        
                         if (!isMobile) {
                             window.open(pdfUrl, "_blank"); // Solo abre en nueva pestaña si es escritorio
                         } else {
