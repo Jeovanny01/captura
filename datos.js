@@ -353,8 +353,11 @@ async function  descargarPdfCot(cot){
                 }
                         const pdfUrl = URL.createObjectURL(pdfBlob);
                 
-                            
-                        window.open(pdfUrl, "_blank"); // Abre en nueva pestaña
+                        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+                        if (!isMobile) {
+                            window.open(pdfUrl, "_blank"); // Abre en nueva pestaña solo en escritorio
+                        }
                         setTimeout(() => {
                             const link = document.createElement("a");
                             link.href = pdfUrl;
