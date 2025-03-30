@@ -326,7 +326,7 @@ ventaTotal=0;
 }
 
 async function  descargarPdfCot(cot){
-   
+    spinnerCot.style.display = "block"; // Mostrar spinner  
     try {
             // Llama al endpoint con las fechas como parámetros
             const response = await fetch("/api/ApiDatos/reporteCrystalCoti", {
@@ -366,7 +366,7 @@ async function  descargarPdfCot(cot){
                             document.body.appendChild(link);
                             link.click();
                             document.body.removeChild(link);
-                        }, 1000); // Espera 1 segundo antes de descargarlo
+                        }, 0); // Espera 1 segundo antes de descargarlo
                     }
             } else {
                 throw new Error(`Se recibió un contenido inesperado: ${contentType}`);
@@ -384,7 +384,8 @@ async function  descargarPdfCot(cot){
         //button.disabled = false;
         alert(error);
     }
-    
+    spinnerCot.style.display = "none"; // Ocultar spinner
+
 }
 async function  hacerCierre(button){
     if (ventaTotal==0) {
