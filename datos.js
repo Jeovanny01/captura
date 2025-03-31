@@ -11,8 +11,8 @@ let sucursalTabla = [];
 let categoriaTabla = [];
 let clientesTabla = [];
 let cotizacionesTabla =[];
-let empresa ="DISPROSAL";
-let bd ="DISPROSAL";
+let empresa ="MMAG";
+let bd ="MMAG";
 let codCliente1,codCliente2,codCliente3
 let ventaTotal=0;
 
@@ -356,7 +356,7 @@ async function  descargarPdfCot(cot){
                         const isAndroid = /Android/i.test(navigator.userAgent);
                         const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
                         const isMobile = isIOS || isAndroid || window.innerWidth < 1024 || isSafari;
-                        
+
                         if (!isMobile) {
                             window.open(pdfUrl, "_blank"); // Solo abre en nueva pestaña si es escritorio
                         } else {
