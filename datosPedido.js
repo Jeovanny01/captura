@@ -521,6 +521,7 @@ cant4.addEventListener('input', () => {
     let codigo = document.getElementById("codigo4").value
     let cantidad = parseFloat(document.getElementById("cantidad4").value.trim()) || 0;
     let precio = parseFloat(document.getElementById("precio4").value) || 0;
+    if( empresa =="FUNNY") {
     if (cantidad > 0){   
         let valorbusado = buscarProducto(codigo)
         precio =  valorbusado.PRECIO_MAYOREO || valorbusado.PRECIO ||  0;
@@ -533,6 +534,12 @@ cant4.addEventListener('input', () => {
         document.getElementById("precio4").value = precio
         formatear("precio4",precio)
     }
+}
+else
+{
+    precio = document.getElementById("precio4").value;
+    formatear("precio4",precio)
+}
 
     formatear("total4",precio*cantidad)
 
