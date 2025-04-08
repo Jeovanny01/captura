@@ -1996,7 +1996,7 @@ async function fetchDataCotizaciones(fi,ff) {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                bd,empresa,fi,ff,vendedor:session.vendedor || ""
+                bd,empresa,fi,ff,vendedor:session.vend || ""
             })
         });
 
