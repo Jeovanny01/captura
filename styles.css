@@ -750,6 +750,7 @@ body {
     align-items: center;
     gap: 10px; /* Espaciado entre los elementos */
 }
+
 select, input {
     padding: 5px;
     font-size: 16px;
@@ -759,6 +760,19 @@ select, input {
     align-items: center;
     width: 100%;
 }
+.containerRow {
+    display: flex;
+    gap: 20px; /* Espacio horizontal entre los grupos */
+}
+
+.input-groupColumn {
+    display: flex;
+    flex-direction: column; /* Para que el label esté arriba del input */
+    align-items: flex-start;
+    width: 100%; /* o un ancho fijo si querés */
+    gap: 6px;
+}
+
 .input-group input {
     margin-left: auto; /* Mueve el input a la derecha */
     padding: 5px;
