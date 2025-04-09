@@ -762,15 +762,23 @@ select, input {
 }
 .containerRow {
     display: flex;
-    gap: 20px; /* Espacio horizontal entre los grupos */
+    gap: 20px;
+    align-items: flex-end;
 }
 
 .input-groupColumn {
     display: flex;
-    flex-direction: column; /* Para que el label esté arriba del input */
+    flex-direction: column;
     align-items: flex-start;
-    width: 100%; /* o un ancho fijo si querés */
     gap: 6px;
+}
+
+.input-75 {
+    width: 75%;
+}
+
+.input-25 {
+    width: 25%;
 }
 
 .input-group input {
