@@ -1536,7 +1536,7 @@ const articuloEdit = async (accion, articulo, descripcion, items,empresa,cat1,ca
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                accion, articulo, descripcion, items,empresa,cat1,cat2,precio,precioNormal,precioUnitario,fotografia:IMAGENEDIT,artNvo,fardo
+                accion, articulo, descripcion, items,empresa,cat1,cat2,precio,precioNormal,precioUnitario,fotografia:IMAGENEDIT,artNvo,fardo,
             })
         });
 
@@ -1704,7 +1704,7 @@ async function  saveRegistro(event) {
     const precio = document.getElementById("precioEdit").value;
     const precioNormal = document.getElementById("precioNomalEdit").value;
     const precioUnitario = document.getElementById("precioUnitEdit").value;
-    const fardo = document.getElementById("piezasFardo").value || 0;
+    const fardo = document.getElementById("piezaFardoEdit").value || 0;
     const productoEncontrado = buscarProducto(artNvo);
 
     if (productoEncontrado) {
@@ -1833,7 +1833,7 @@ function cargarFormulario(registro) {
         document.getElementById("precioEdit").value = registro.PRECIO_MAYOREO;
         document.getElementById("precioNomalEdit").value = registro.PRECIO;
         document.getElementById("precioUnitEdit").value = registro.PRECIO_UNITARIO;
-        document.getElementById("piezasFardo").value = registro.UNIDADES_FARDO;
+        document.getElementById("piezaFardoEdit").value = registro.UNIDADES_FARDO;
 
     }
 }
