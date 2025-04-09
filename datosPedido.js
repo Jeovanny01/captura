@@ -287,7 +287,7 @@ document.getElementById("spinner3").style.display = "inline";
     },
     body: JSON.stringify({
        
-        accion:"INSERT", usuario:session.user,  vendedor:session.vendedor || session.user ,  nombre:nom,  total:sumaTotal,cliente:codCliente2,bd,empresa,jsonData:pedidoTabla2 })
+        accion:"INSERT", usuario:session.user,  vendedor:session.vendedor || session.user ,  nombre:nom,  total:sumaTotal,cliente:codCliente2|| "CLIENTE",bd,empresa,jsonData:pedidoTabla2 })
 }) 
 .then(response => {
     // Verificar si la respuesta es exitosa
@@ -358,7 +358,7 @@ document.getElementById("spinner4").style.display = "inline";
     },
     body: JSON.stringify({
        
-        accion:"INSERT", usuario:session.user,  vendedor:session.vendedor || session.user ,  nombre:nom,  total:sumaTotal,cliente:codCliente3,bd,empresa,jsonData:pedidoTabla3 })
+        accion:"INSERT", usuario:session.user,  vendedor:session.vendedor || session.user ,  nombre:nom,  total:sumaTotal,cliente:codCliente3|| "CLIENTE",bd,empresa,jsonData:pedidoTabla3 })
 }) 
 .then(response => {
     // Verificar si la respuesta es exitosa

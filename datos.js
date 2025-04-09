@@ -1528,7 +1528,7 @@ if (registroSeleccionado.length > 0) {
 }
 }
 
-const articuloEdit = async (accion, articulo, descripcion, items,empresa,cat1,cat2,precio=0,precioNormal=0,precioUnitario=0,artNvo="") => {
+const articuloEdit = async (accion, articulo, descripcion, items,empresa,cat1,cat2,precio=0,precioNormal=0,precioUnitario=0,artNvo="",fardo=0) => {
     try {
         const response = await fetch(url + "articuloEdit", {
             method: "POST",
@@ -1536,7 +1536,7 @@ const articuloEdit = async (accion, articulo, descripcion, items,empresa,cat1,ca
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                accion, articulo, descripcion, items,empresa,cat1,cat2,precio,precioNormal,precioUnitario,fotografia:IMAGENEDIT,artNvo,
+                accion, articulo, descripcion, items,empresa,cat1,cat2,precio,precioNormal,precioUnitario,fotografia:IMAGENEDIT,artNvo,fardo
             })
         });
 
@@ -1704,6 +1704,7 @@ async function  saveRegistro(event) {
     const precio = document.getElementById("precioEdit").value;
     const precioNormal = document.getElementById("precioNomalEdit").value;
     const precioUnitario = document.getElementById("precioUnitEdit").value;
+    const fardo = document.getElementById("piezasFardo").value || 0;
     const productoEncontrado = buscarProducto(artNvo);
 
     if (productoEncontrado) {
@@ -1715,7 +1716,7 @@ async function  saveRegistro(event) {
 
     if (document.getElementById("articulo").readOnly) {
             try {
-                const response = await articuloEdit("UPDATE2", articulo,descripcion,items,"FUNNY",cat1,cat2,precio,precioNormal,precioUnitario,artNvo);
+                const response = await articuloEdit("UPDATE2", articulo,descripcion,items,"FUNNY",cat1,cat2,precio,precioNormal,precioUnitario,artNvo,fardo);
                 console.log("Actualizado:", response); 
                 // Lógica para actualizar la fila correspondiente en la tabla
                 //updateTableRowVend(id, nombre); // Función para actualizar la fila
@@ -1832,6 +1833,7 @@ function cargarFormulario(registro) {
         document.getElementById("precioEdit").value = registro.PRECIO_MAYOREO;
         document.getElementById("precioNomalEdit").value = registro.PRECIO;
         document.getElementById("precioUnitEdit").value = registro.PRECIO_UNITARIO;
+        document.getElementById("piezasFardo").value = registro.UNIDADES_FARDO;
 
     }
 }
