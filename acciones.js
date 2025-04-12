@@ -47,30 +47,32 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById("fiCot").value = new Date(new Date().setDate(new Date().getDate() - 1)).toISOString().split('T')[0];
 
 
-  // Ocultar por defecto
-  document.getElementById("facturacion1").style.display = "none";
-  document.getElementById("cierre1").style.display = "none";
-  document.getElementById("register").style.display = "none";
-  document.getElementById("inventario").style.display = "none";
-  document.getElementById("registrosInv").style.display = "none";
-
-    if (session.userRole === "1" ) {
-        document.getElementById("facturacion1").style.display = "block";
-        document.getElementById("cierre1").style.display = "block";
-        document.getElementById("register").style.display = "block";
-        document.getElementById("inventario").style.display = "block";
-        document.getElementById("registrosInv").style.display = "block";
-    } 
-    if (session.userRole === "3" ) {
-        document.getElementById("register").style.display = "block";
-        document.getElementById("inventario").style.display = "block";
-        document.getElementById("registrosInv").style.display = "block";
-    } 
 
     if (empresa==="FARMA") showSection('inventario');
     if (empresa==="FUNNY") showSection('ventas');
     if (empresa==="DISPROSAL") showSection('ventas');
     if (empresa==="MMAG") showSection('ventas');
+
+    
+  // Ocultar por defecto
+  document.getElementById("facturacion1").style.display = "none";
+  document.getElementById("cierre1").style.display = "none";
+  document.getElementById("register1").style.display = "none";
+  document.getElementById("inventario1").style.display = "none";
+  document.getElementById("registrosInv1").style.display = "none";
+
+    if (session.userRole === "1" ) {
+        document.getElementById("facturacion1").style.display = "block";
+        document.getElementById("cierre1").style.display = "block";
+        document.getElementById("register1").style.display = "block";
+        document.getElementById("inventario1").style.display = "block";
+        document.getElementById("registrosInv1").style.display = "block";
+    } 
+    if (session.userRole === "3" ) {
+        document.getElementById("register1").style.display = "block";
+        document.getElementById("inventario1").style.display = "block";
+        document.getElementById("registrosInv1").style.display = "block";
+    } 
     localStorage.setItem("ventana", "venta1")
    // localStorage.removeItem("pedidoTabla2")
     pedidoTabla =  JSON.parse(localStorage.getItem("pedidoTabla") || ["{}"]);
