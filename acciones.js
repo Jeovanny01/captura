@@ -50,10 +50,21 @@ document.addEventListener('DOMContentLoaded', () => {
   // Ocultar por defecto
   document.getElementById("facturacion1").style.display = "none";
   document.getElementById("cierre1").style.display = "none";
+  document.getElementById("register").style.display = "none";
+  document.getElementById("inventario").style.display = "none";
+  document.getElementById("registrosInv").style.display = "none";
 
     if (session.userRole === "1" ) {
         document.getElementById("facturacion1").style.display = "block";
         document.getElementById("cierre1").style.display = "block";
+        document.getElementById("register").style.display = "block";
+        document.getElementById("inventario").style.display = "block";
+        document.getElementById("registrosInv").style.display = "block";
+    } 
+    if (session.userRole === "3" ) {
+        document.getElementById("register").style.display = "block";
+        document.getElementById("inventario").style.display = "block";
+        document.getElementById("registrosInv").style.display = "block";
     } 
 
     if (empresa==="FARMA") showSection('inventario');
