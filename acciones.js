@@ -81,7 +81,11 @@ document.addEventListener('DOMContentLoaded', () => {
     sucursalTabla =  JSON.parse(localStorage.getItem("sucursalTabla") || "{}");
     categoriaTabla =  JSON.parse(localStorage.getItem("categoriaTabla") || "{}");
     clienteTabla =  JSON.parse(localStorage.getItem("categoriaTabla") || "{}");
-    
+    codCliente1 = localStorage.getItem("codCliente1") || "CLIENTE"
+       codCliente2 = localStorage.getItem("codCliente2") || "CLIENTE"
+          codCliente3 = localStorage.getItem("codCliente3") || "CLIENTE"
+
+             
     try {
     if (pedidoTabla.length > 0) {
         // Si hay datos, recuperar y procesar la tabla
