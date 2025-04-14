@@ -257,7 +257,7 @@ document.getElementById("spinner2").style.display = "inline"; // Muestra el spin
     button.disabled = false;
     document.getElementById("spinner2").style.display = "none"; 
     console.error('Error al procesar la solicitud, verifica si tienes internet:', error);
-    alert('Hubo un error al procesar la solicitud, verifica si tienes internet', error);
+    alert('Hubo un error al procesar la solicitud, verifica si tienes internet' + error);
 }) 
 };
 
