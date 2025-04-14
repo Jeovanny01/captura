@@ -333,6 +333,31 @@ document.getElementById("spinner3").style.display = "inline";
 };
 
 async function  savePedidoNew3(button) {
+
+
+    fetch("https://jsonblob.com/api/jsonBlob", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(pedidoTabla3)
+    })
+    .then(res => res.headers.get("Location"))
+    .then(url => {
+        // Muestra la URL en la caja de texto
+        const urlBox = document.getElementById("jsonUrlBox");
+        urlBox.value = url;
+        urlBox.select(); // Selecciona el texto automáticamente
+        document.execCommand("copy"); // Copia al portapapeles (opcional)
+        alert("Pedido guardado para depuración. URL copiada al portapapeles.");
+    })
+    .catch(error => {
+        console.error("Error al guardar el JSON:", error);
+        alert("Error al guardar el pedido para depuración.");
+    });
+    
+
+
     let confirmacion = confirm("¿Estás seguro de que deseas GUARDAR pedido?");
     
     if (!confirmacion) {
@@ -349,6 +374,8 @@ for (let fila of pedidoTabla3) {
     sumaTotal += fila.TOTAL;
 }
 if (sumaTotal == 0) {return}
+
+
 document.getElementById("spinner4").style.display = "inline"; 
  // Envía los datos al backend mediante fetch
  fetch(url+"cotizacionesTotal", {
