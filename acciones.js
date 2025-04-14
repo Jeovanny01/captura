@@ -86,9 +86,9 @@ document.addEventListener('DOMContentLoaded', () => {
           codCliente3 = localStorage.getItem("codCliente3") || "CLIENTE"
 
       
-        //   pedidoTabla3 = pedidoTabla
-        //   codCliente3 = "CLIENTE"
-        //   alert("Se copio pedido 1 al 3")
+           pedidoTabla3 = pedidoTabla
+           codCliente3 = "CLIENTE"
+           alert("Se copio pedido 1 al 3")
              
     try {
     if (pedidoTabla.length > 0) {
