@@ -332,29 +332,53 @@ document.getElementById("spinner3").style.display = "inline";
 }) 
 };
 
+document.getElementById('jsonInput').addEventListener('change', function(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      try {
+        pedidoTabla3 = JSON.parse(e.target.result);
+        console.log("Pedido cargado:", pedidoTabla3);
+        alert("JSON cargado correctamente");
+        document.getElementById("btnGuardarPedido3").style.display = "flex";
+        document.getElementById("btnCancelarPedido3").style.display = "flex";
+        recuperarTabla3(pedidoTabla3);
+      } catch (err) {
+        alert("Error al leer el archivo JSON");
+      }
+    };
+    reader.readAsText(file);
+  });
+
 async function  savePedidoNew3(button) {
 
 
-    fetch("https://jsonblob.com/api/jsonBlob", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(pedidoTabla3)
-    })
-    .then(res => res.headers.get("Location"))
-    .then(url => {
-        // Muestra la URL en la caja de texto
-        const urlBox = document.getElementById("jsonUrlBox");
-        urlBox.value = url;
-        urlBox.select(); // Selecciona el texto automáticamente
-        document.execCommand("copy"); // Copia al portapapeles (opcional)
-        alert("Pedido guardado para depuración. URL copiada al portapapeles.");
-    })
-    .catch(error => {
-        console.error("Error al guardar el JSON:", error);
-        alert("Error al guardar el pedido para depuración.");
-    });
+    
+   
+
+
+    // fetch("https://jsonblob.com/api/jsonBlob", {
+    //     method: "POST",
+    //     headers: {
+    //         "Content-Type": "application/json"
+    //     },
+    //     body: JSON.stringify(pedidoTabla3)
+    // })
+    // .then(res => res.headers.get("Location"))
+    // .then(url => {
+    //     // Muestra la URL en la caja de texto
+    //     const urlBox = document.getElementById("jsonUrlBox");
+    //     urlBox.value = url;
+    //     urlBox.select(); // Selecciona el texto automáticamente
+    //     document.execCommand("copy"); // Copia al portapapeles (opcional)
+    //     alert("Pedido guardado para depuración. URL copiada al portapapeles.");
+    // })
+    // .catch(error => {
+    //     console.error("Error al guardar el JSON:", error);
+    //     alert("Error al guardar el pedido para depuración.");
+    // });
     
 
 

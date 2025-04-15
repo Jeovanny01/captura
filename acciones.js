@@ -60,6 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById("register1").style.display = "none";
   document.getElementById("inventario1").style.display = "none";
   document.getElementById("registrosInv1").style.display = "none";
+  document.getElementById("cotizaciones1").style.display = "none";
 
     if (session.userRole === "1" ) {
         document.getElementById("facturacion1").style.display = "block";
@@ -67,12 +68,13 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById("register1").style.display = "block";
         document.getElementById("inventario1").style.display = "block";
         document.getElementById("registrosInv1").style.display = "block";
+         document.getElementById("cotizaciones1").style.display = "block";
     } 
     if (session.userRole === "3" ) {
         document.getElementById("register1").style.display = "block";
         document.getElementById("inventario1").style.display = "block";
         document.getElementById("registrosInv1").style.display = "block";
-    } 
+         } 
     localStorage.setItem("ventana", "venta1")
    // localStorage.removeItem("pedidoTabla2")
     pedidoTabla =  JSON.parse(localStorage.getItem("pedidoTabla") || ["{}"]);

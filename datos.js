@@ -17,6 +17,28 @@ let codCliente1,codCliente2,codCliente3
 let ventaTotal=0;
 
 const session = JSON.parse(localStorage.getItem("session") || "{}");
+async function exportarAExcel() {
+    try {
+        const response = await fetch("https://jsonblob.com/api/jsonBlob/1361429202645213184");
+        const data = await response.json();
+
+        if (!Array.isArray(data)) {
+            alert("El JSON no es un arreglo.");
+            return;
+        }
+
+        // Crear hoja de Excel desde los datos
+        const worksheet = XLSX.utils.json_to_sheet(data);
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, "Pedido");
+
+        // Descargar archivo
+        XLSX.writeFile(workbook, "pedido.xlsx");
+    } catch (error) {
+        console.error("Error al exportar:", error);
+        alert("Error al generar el Excel: " + error.message);
+    }
+}
 
 const fetchEjecutar = async (funct) => {
     try {
