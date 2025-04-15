@@ -60,7 +60,7 @@ startScanButton.addEventListener("click", () => {
                                 inputCodigo.value = decodedText;
                                 inputDescripcion.value = productoEncontrado.DESCRIPCION
                                 inputItem.value = productoEncontrado.ITEM
-                                precio=productoEncontrado.PRECIO
+                                precio.value=productoEncontrado.PRECIO
                                // alert(`Producto encontrado: ${productoEncontrado.ARTICULO}, NOMBRE: ${productoEncontrado.DESCRIPCION}`);
                                 return; // Sale de la función para que no continúe
                             } 
