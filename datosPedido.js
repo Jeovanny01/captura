@@ -332,25 +332,25 @@ document.getElementById("spinner3").style.display = "inline";
 }) 
 };
 
-document.getElementById('jsonInput').addEventListener('change', function(event) {
-    const file = event.target.files[0];
-    if (!file) return;
+// document.getElementById('jsonInput').addEventListener('change', function(event) {
+//     const file = event.target.files[0];
+//     if (!file) return;
 
-    const reader = new FileReader();
-    reader.onload = function(e) {
-      try {
-        pedidoTabla3 = JSON.parse(e.target.result);
-        console.log("Pedido cargado:", pedidoTabla3);
-        alert("JSON cargado correctamente");
-        document.getElementById("btnGuardarPedido3").style.display = "flex";
-        document.getElementById("btnCancelarPedido3").style.display = "flex";
-        recuperarTabla3(pedidoTabla3);
-      } catch (err) {
-        alert("Error al leer el archivo JSON");
-      }
-    };
-    reader.readAsText(file);
-  });
+//     const reader = new FileReader();
+//     reader.onload = function(e) {
+//       try {
+//         pedidoTabla3 = JSON.parse(e.target.result);
+//         console.log("Pedido cargado:", pedidoTabla3);
+//         alert("JSON cargado correctamente");
+//         document.getElementById("btnGuardarPedido3").style.display = "flex";
+//         document.getElementById("btnCancelarPedido3").style.display = "flex";
+//         recuperarTabla3(pedidoTabla3);
+//       } catch (err) {
+//         alert("Error al leer el archivo JSON");
+//       }
+//     };
+//     reader.readAsText(file);
+//   });
 
 async function  savePedidoNew3(button) {
 
