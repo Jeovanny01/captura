@@ -216,7 +216,7 @@ document.getElementById("spinner2").style.display = "inline"; // Muestra el spin
     },
     body: JSON.stringify({
        
-        accion:"INSERT", usuario:session.user,  vendedor:session.vend || session.user ,  nombre:nom,  total:sumaTotal,cliente:codCliente1|| "CLIENTE",bd,empresa,jsonData:pedidoTabla })
+        accion:"INSERT", usuario:session.user,  vendedor:session.vend || session.user ,  nombre:nom,  total:sumaTotal,cliente:codCliente1|| "CLIENTE",bd,empresa,jsonData:JSON.stringify(pedidoTabla) })
 }) 
 .then(response => {
     // Verificar si la respuesta es exitosa
@@ -287,7 +287,7 @@ document.getElementById("spinner3").style.display = "inline";
     },
     body: JSON.stringify({
        
-        accion:"INSERT", usuario:session.user,  vendedor:session.vendedor || session.user ,  nombre:nom,  total:sumaTotal,cliente:codCliente2|| "CLIENTE",bd,empresa,jsonData:pedidoTabla2 })
+        accion:"INSERT", usuario:session.user,  vendedor:session.vendedor || session.user ,  nombre:nom,  total:sumaTotal,cliente:codCliente2|| "CLIENTE",bd,empresa,jsonData:JSON.stringify(pedidoTabla2) })
 }) 
 .then(response => {
     // Verificar si la respuesta es exitosa
