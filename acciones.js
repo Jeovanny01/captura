@@ -75,6 +75,10 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById("inventario1").style.display = "block";
         document.getElementById("registrosInv1").style.display = "block";
          } 
+
+         if (session.userRole === "2" ) {
+            if (empresa!=="FUNNY")  document.getElementById("cotizaciones1").style.display = "block";
+        }
     localStorage.setItem("ventana", "venta1")
    // localStorage.removeItem("pedidoTabla2")
     pedidoTabla =  JSON.parse(localStorage.getItem("pedidoTabla") || ["{}"]);
