@@ -3,6 +3,7 @@ let IMAGEN = null
 let IMAGENEDIT = null
 let user
 let productos = [];
+let productosTablaPrec = [];
 let inventarioTabla = [];
 let pedidoTabla = [];
 let pedidoTabla2 = [];
@@ -11,8 +12,8 @@ let sucursalTabla = [];
 let categoriaTabla = [];
 let clientesTabla = [];
 let cotizacionesTabla =[];
-let empresa ="DISPROSAL";
-let bd ="DISPROSAL";
+let empresa ="MMAG";
+let bd ="MMAG";
 let codCliente1,codCliente2,codCliente3
 let ventaTotal=0;
 
@@ -296,6 +297,11 @@ document.getElementById('archivoEdit').addEventListener('change', function (even
 function buscarProducto(codigo) {
 
     return productos.find(producto => producto.ARTICULO.toUpperCase() === codigo.trim().toUpperCase());
+}
+
+function buscarProductoPreacio(codigo) {
+
+    return productosTablaPrec.find(producto => producto.ARTICULO.toUpperCase() === codigo.trim().toUpperCase());
 }
 
 function buscarItems(codigo) {
@@ -1462,15 +1468,22 @@ function seleccionarRegistro(id) {
     // if (!["1", "3"].includes(session.userRole)) {
     //     return;
     // }
+
+    if (empresa === "MMAG") {fetchDataPrecios(id);}
 // Filtrar la tabla de datos para obtener el registro con el ID seleccionado
 let registroSeleccionado = clientesTabla.filter(item => item.CLIENTE === id);
 // Si encuentras el registro, puedes hacer algo con él, por ejemplo, mostrarlo en un formulario
+
+
+
 if (registroSeleccionado.length > 0) {
 
     console.log("Registro encontrado:", registroSeleccionado[0]); 
     let tab =   localStorage.getItem("ventana") || "venta1" 
     let nombreCliente = registroSeleccionado[0].NOMBRE; // Acceder directamente a NOMBRE
-    
+ 
+    // ACA LLENAR LA TABLA DE PRECIOS SEGUN EL CLIENTE
+
     if (tab =="venta1") {
    codCliente1=id;
    document.getElementById("nombreCliente4").value = nombreCliente; 
@@ -1882,6 +1895,13 @@ function cargarFormulario3(registro) {
     const modal = document.getElementById("formulario3");
     modal.style.display = "flex"; // Mostrar el modal
     document.getElementById("filtroInput").value = "";
+    
+    // IF (empresa ==="MMAG") {
+
+
+    // } 
+
+
     // // Obtener el registro con el ID correspondiente
     //     if (registro) {
     //     // Llenar los campos del formulario con los datos del registro
@@ -1940,13 +1960,41 @@ async function fetchData() {
         if (data && data.length > 0) {
         productos =data
         // Genera la tabla y la inserta en la sección "datos"
-        generarTabla(data);
-        generarTabla5(data)
+      
+            generarTabla(data);
+            generarTabla5(data);
+     
+
         }
     } catch (error) {
         console.error('Error al obtener los datos:', error);
     }
 }
+async function fetchDataPrecios(cliente) {
+    try {
+        // Llama al endpoint con las fechas como parámetros
+        const response = await fetch(url + "selectPrecios", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+              bd,  empresa,cliente
+            })
+        });
+
+        if (!response.ok) throw new Error('Error al obtener los datos.');
+        const data = await response.json();
+        if (data && data.length > 0) {
+         productosTablaPrec =data;
+         generarTabla5(productosTablaPrec)
+        }
+    } catch (error) {
+        console.error('Error al obtener los datos:', error);
+    }
+}
+
+
 async function fetchData2() {
     try {
         // Llama al endpoint con las fechas como parámetros

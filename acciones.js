@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
     pedidoTabla3 =  JSON.parse(localStorage.getItem("pedidoTabla3") || "{}");
     sucursalTabla =  JSON.parse(localStorage.getItem("sucursalTabla") || "{}");
     categoriaTabla =  JSON.parse(localStorage.getItem("categoriaTabla") || "{}");
-    clienteTabla =  JSON.parse(localStorage.getItem("categoriaTabla") || "{}");
+    clienteTabla =  JSON.parse(localStorage.getItem("clienteTabla") || "{}");
     codCliente1 = localStorage.getItem("codCliente1") || "CLIENTE"
        codCliente2 = localStorage.getItem("codCliente2") || "CLIENTE"
           codCliente3 = localStorage.getItem("codCliente3") || "CLIENTE"
@@ -497,6 +497,7 @@ buscar4.addEventListener('click', function () {
     const inputItem = document.getElementById("item4");
     // Intentar buscar con el valor de `txtcodigo2`
     const productoCodigo = buscarProducto(inputCodigo.value);
+
     if (productoCodigo) {
         // Si encuentra el producto por código
         actualizarCampos4(productoCodigo);
@@ -567,10 +568,16 @@ buscar7.addEventListener('click', function () {
 
 // Función para actualizar los campos del formulario
 function actualizarCampos4(prod) {
+    
+    const productoCodigo =  buscarProductoPreacio(prod.ARTICULO);
+
+
     document.getElementById("codigo4").value = prod.ARTICULO || '';
     document.getElementById("descripcion4").value = prod.DESCRIPCION || '';
     document.getElementById("item4").value = prod.ITEM || '';
-    document.getElementById("precio4").value = prod.PRECIO_MAYOREO || prod.PRECIO ||  0;
+
+    document.getElementById("precio4").value = productoCodigo.PRECIO  || prod.PRECIO_MAYOREO || prod.PRECIO ||  0;
+
     document.getElementById("cantidad4").value = 1
     document.getElementById("fardo4").value = prod.UNIDADES_FARDO ||  0;
     // Obtén los valores de los campos
