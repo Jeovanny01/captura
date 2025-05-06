@@ -216,7 +216,7 @@ document.getElementById("spinner2").style.display = "inline"; // Muestra el spin
     },
     body: JSON.stringify({
        
-        accion:"INSERT", usuario:session.user,  vendedor:session.vend || session.user ,  nombre:nom,  total:sumaTotal,cliente:codCliente1|| "CLIENTE",bd,empresa,jsonData:JSON.stringify(pedidoTabla) })
+        accion:"INSERT", usuario:session.user|| "sa",  vendedor:session.vend || session.user ,  nombre:nom,  total:sumaTotal,cliente:codCliente1|| "CLIENTE",bd,empresa,jsonData:JSON.stringify(pedidoTabla) })
 }) 
 .then(response => {
     // Verificar si la respuesta es exitosa
@@ -250,6 +250,7 @@ document.getElementById("spinner2").style.display = "inline"; // Muestra el spin
         document.getElementById("spinner2").style.display = "none"; 
         console.error('Error al procesar la respuesta JSON:', e);
         alert('Hubo un error al procesar la respuesta del servidor',e);
+
     }
 }
 )
@@ -258,6 +259,27 @@ document.getElementById("spinner2").style.display = "inline"; // Muestra el spin
     document.getElementById("spinner2").style.display = "none"; 
     console.error('Error al procesar la solicitud, verifica si tienes internet:', error);
     alert('Hubo un error al procesar la solicitud, verifica si tienes internet' + error);
+    fetch("https://jsonblob.com/api/jsonBlob", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(pedidoTabla)
+    })
+    .then(res => res.headers.get("Location"))
+    .then(url => {
+        // Muestra la URL en la caja de texto
+        //const urlBox = document.getElementById("jsonUrlBox");
+        //urlBox.value = url;
+        //urlBox.select(); // Selecciona el texto automáticamente
+        document.execCommand("copy"); // Copia al portapapeles (opcional)
+        alert("Pedido guardado para depuración. URL copiada al portapapeles.");
+    })
+    .catch(error => {
+        console.error("Error al guardar el JSON:", error);
+        alert("Error al guardar el pedido para depuración.");
+    });
+
 }) 
 };
 
