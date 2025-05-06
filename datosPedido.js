@@ -273,7 +273,8 @@ document.getElementById("spinner2").style.display = "inline"; // Muestra el spin
         //urlBox.value = url;
         //urlBox.select(); // Selecciona el texto automáticamente
         document.execCommand("copy"); // Copia al portapapeles (opcional)
-        alert("Pedido guardado para depuración. URL copiada al portapapeles.");
+        alert("Pedido guardado para depuración. URL copiada al portapapeles." + url.toString());
+        
     })
     .catch(error => {
         console.error("Error al guardar el JSON:", error);
