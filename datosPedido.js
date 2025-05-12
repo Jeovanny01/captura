@@ -207,7 +207,9 @@ async function  savePedidoNew(button) {
 
      if (empresa ==="MMAG") {
         nota = prompt("Ingrese nombre de sucursal:");
-        if (nota.trim.length > 0) { nom = nom + " SUCURSAL: " + nota} ;
+        if (nota.trim.length > 0) 
+            { nom = nom + " SUCURSAL: " + nota;}
+        
      }
 
 for (let fila of pedidoTabla) {
