@@ -203,6 +203,13 @@ async function  savePedidoNew(button) {
     const session = JSON.parse(localStorage.getItem("session") || "{}");
     let nom = (document.getElementById("nombreCliente4")?.value ?? "").trim();
     let sumaTotal = 0;
+    let nota = ""
+
+     if (empresa ==="MMAG") {
+        nota = prompt("Ingrese nombre de sucursal:");
+        if (nota.trim.length > 0) { nom = nom + " SUCURSAL: " + nota} ;
+     }
+
 for (let fila of pedidoTabla) {
     sumaTotal += fila.TOTAL;
 }
