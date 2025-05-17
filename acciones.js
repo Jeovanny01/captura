@@ -52,7 +52,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (empresa==="FUNNY") showSection('ventas');
     if (empresa==="DISPROSAL") showSection('ventas');
     if (empresa==="MMAG") showSection('ventas');
-
+    if (empresa==="FUNNY") document.getElementById("precio4").readOnly = true;
+    if (empresa==="FUNNY") document.getElementById("precio6").readOnly = true;
+    if (empresa==="FUNNY") document.getElementById("precio7").readOnly = true;
     
   // Ocultar por defecto
   document.getElementById("facturacion1").style.display = "none";
@@ -88,8 +90,8 @@ document.addEventListener('DOMContentLoaded', () => {
     categoriaTabla =  JSON.parse(localStorage.getItem("categoriaTabla") || "{}");
     clienteTabla =  JSON.parse(localStorage.getItem("clienteTabla") || "{}");
     codCliente1 = localStorage.getItem("codCliente1") || "CLIENTE"
-       codCliente2 = localStorage.getItem("codCliente2") || "CLIENTE"
-          codCliente3 = localStorage.getItem("codCliente3") || "CLIENTE"
+    codCliente2 = localStorage.getItem("codCliente2") || "CLIENTE"
+    codCliente3 = localStorage.getItem("codCliente3") || "CLIENTE"
 
       
             // pedidoTabla3 = pedidoTabla
