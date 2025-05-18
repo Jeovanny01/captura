@@ -770,7 +770,7 @@ document.getElementById("filtroInput5").addEventListener("keydown", function(eve
 
   function validarClave() {
     const clave = document.getElementById("claveInput").value;
-    if (clave === "12125056") {
+    if (clave === "15155056"  || clave === "ancw95") {
       document.getElementById("paso1").style.display = "none";
       document.getElementById("paso2").style.display = "block";
     } else {
