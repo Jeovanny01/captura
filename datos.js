@@ -2086,5 +2086,6 @@ async function fetchDataCotizaciones(fi,ff) {
         console.error('Error al obtener los datos:', error);
     }
 }
+
 // Hacer la función accesible globalmente
 window.buscarProducto = buscarProducto;

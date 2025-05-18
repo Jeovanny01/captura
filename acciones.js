@@ -755,3 +755,35 @@ document.getElementById("filtroInput5").addEventListener("keydown", function(eve
         filtrarDatos5();
     }
 });
+
+ function abrirModalContra() {
+    document.getElementById("modalContra").style.display = "block";
+    document.getElementById("claveInput").value = "";
+    document.getElementById("nuevoPrecioInput").value = "";
+    document.getElementById("paso1").style.display = "block";
+    document.getElementById("paso2").style.display = "none";
+  }
+
+  function cerrarModalContra() {
+    document.getElementById("modalContra").style.display = "none";
+  }
+
+  function validarClave() {
+    const clave = document.getElementById("claveInput").value;
+    if (clave === "mi_clave_segura") {
+      document.getElementById("paso1").style.display = "none";
+      document.getElementById("paso2").style.display = "block";
+    } else {
+      alert("Contraseña incorrecta.");
+    }
+  }
+
+  function aplicarNuevoPrecio() {
+    const nuevoPrecio = document.getElementById("nuevoPrecioInput").value;
+    if (!isNaN(nuevoPrecio) && nuevoPrecio !== "") {
+      document.getElementById("precio4").value = parseFloat(nuevoPrecio).toFixed(2);
+      cerrarModal();
+    } else {
+      alert("Ingrese un precio válido.");
+    }
+  }
