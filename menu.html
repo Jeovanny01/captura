@@ -411,6 +411,23 @@
                         </div>
                     </div>
                 </div>
+
+                <div id="modalContra">
+                    <div id="modal-contentContra">
+                        <h3>Autorización requerida</h3>
+                        <div id="paso1">
+                        <label>Contraseña:</label>
+                        <input type="password" id="claveInput">
+                        <button onclick="validarClave()">Validar</button>
+                        </div>
+                        <div id="paso2" style="display: none;">
+                        <label>Nuevo precio:</label>
+                        <input type="number" id="nuevoPrecioInput" step="0.01">
+                        <button onclick="aplicarNuevoPrecio()">Aplicar</button>
+                        </div>
+                        <button onclick="cerrarModal()" style="background-color:#ccc;">Cancelar</button>
+                    </div>
+                    </div>
          
         <!-- Sección del formulario de registro de alumnos -->
     <section id="register" class="secciones">
@@ -796,24 +813,10 @@
             </form>
             </div>
         </section>
+        <!-- Modal personalizado -->
+
     </main>
-<!-- Modal personalizado -->
-<div id="modalContra">
-  <div id="modal-contentContra">
-    <h3>Autorización requerida</h3>
-    <div id="paso1">
-      <label>Contraseña:</label>
-      <input type="password" id="claveInput">
-      <button onclick="validarClave()">Validar</button>
-    </div>
-    <div id="paso2" style="display: none;">
-      <label>Nuevo precio:</label>
-      <input type="number" id="nuevoPrecioInput" step="0.01">
-      <button onclick="aplicarNuevoPrecio()">Aplicar</button>
-    </div>
-    <button onclick="cerrarModal()" style="background-color:#ccc;">Cancelar</button>
-  </div>
-</div>
+
 
  <!-- <script src="cargarSucursales.js"></script> Tu archivo de scripts principal, si existe -->
  <script src="script.js"></script> 

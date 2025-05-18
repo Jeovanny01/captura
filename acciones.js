@@ -764,7 +764,7 @@ document.getElementById("filtroInput5").addEventListener("keydown", function(eve
     document.getElementById("paso2").style.display = "none";
   }
 
-  function cerrarModalContra() {
+  function cerrarModal() {
     document.getElementById("modalContra").style.display = "none";
   }
 
