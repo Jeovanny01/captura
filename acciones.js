@@ -55,6 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (empresa==="FUNNY") document.getElementById("precio4").readOnly = true;
     if (empresa==="FUNNY") document.getElementById("precio6").readOnly = true;
     if (empresa==="FUNNY") document.getElementById("precio7").readOnly = true;
+     if (empresa==="FUNNY") document.getElementById("precioPe").readOnly = true;
         document.getElementById("modalContra").style.display = "none";
   // Ocultar por defecto
   document.getElementById("facturacion1").style.display = "none";
