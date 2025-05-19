@@ -780,8 +780,35 @@ document.getElementById("filtroInput5").addEventListener("keydown", function(eve
 
   function aplicarNuevoPrecio() {
     const nuevoPrecio = document.getElementById("nuevoPrecioInput").value;
+      let tab =   localStorage.getItem("ventana") || "venta1" 
     if (!isNaN(nuevoPrecio) && nuevoPrecio !== "") {
-      document.getElementById("precio4").value = parseFloat(nuevoPrecio).toFixed(2);
+    if (tab =="venta1") {
+          document.getElementById("precio4").value = parseFloat(nuevoPrecio).toFixed(2) || 0;
+          let precio = parseFloat(document.getElementById("precio4").value) || 0;
+          let cantidad = parseFloat(document.getElementById("cantidad4").value) || 0;
+            // Calcula el total
+          let total = precio * cantidad;
+          formatear("precio4",precio)
+          formatear("total4",total)
+     }
+      if (tab =="venta2") {
+          document.getElementById("precio6").value = parseFloat(nuevoPrecio).toFixed(2);
+          let precio = parseFloat(document.getElementById("precio6").value) || 0;
+          let cantidad = parseFloat(document.getElementById("cantidad6").value) || 0;
+            // Calcula el total
+          let total = precio * cantidad;
+          formatear("precio6",precio)
+          formatear("total6",total)
+     }
+      if (tab =="venta3") {
+          document.getElementById("precio7").value = parseFloat(nuevoPrecio).toFixed(2);
+          let precio = parseFloat(document.getElementById("precio7").value) || 0;
+          let cantidad = parseFloat(document.getElementById("cantidad7").value) || 0;
+            // Calcula el total
+          let total = precio * cantidad;
+          formatear("precio7",precio)
+          formatear("total7",total)
+     }
       cerrarModal();
     } else {
       alert("Ingrese un precio válido.");
