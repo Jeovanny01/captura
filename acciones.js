@@ -579,7 +579,7 @@ function actualizarCampos4(prod) {
     document.getElementById("descripcion4").value = prod.DESCRIPCION || '';
     document.getElementById("item4").value = prod.ITEM || '';
 
- if (empresa =="MMAG" && typeof productoCodigo !== "undefined" && productoCodigo.length > 0)
+ if (empresa.trim()  ==="MMAG"  && productoCodigo)
  {    document.getElementById("precio4").value = productoCodigo.PRECIO  || prod.PRECIO_MAYOREO || prod.PRECIO ||  0; } else
  {  document.getElementById("precio4").value =  prod.PRECIO_MAYOREO || prod.PRECIO ||  0;}
 
