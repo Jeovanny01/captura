@@ -55,6 +55,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (empresa==="FUNNY") document.getElementById("precio4").readOnly = true;
     if (empresa==="FUNNY") document.getElementById("precio6").readOnly = true;
     if (empresa==="FUNNY") document.getElementById("precio7").readOnly = true;
+    if (empresa==="FUNNY") document.getElementById("precioPe").readOnly = true;
+    
     // if (empresa==="FUNNY") document.getElementById("precioPe").readOnly = true;
         document.getElementById("modalContra").style.display = "none";
   // Ocultar por defecto
@@ -771,7 +773,7 @@ document.getElementById("filtroInput5").addEventListener("keydown", function(eve
 
   function validarClave() {
     const clave = document.getElementById("claveInput").value;
-    if (clave === "15155056"  || clave === "ancw95"  || clave === "77745" || clave === "64344" ) {
+    if (clave === "15155056"  || clave === "ancw95"  || clave === "77745" || clave === "64344"  || clave === "164" || clave === "945" ) {
       document.getElementById("paso1").style.display = "none";
       document.getElementById("paso2").style.display = "block";
     } else {
@@ -783,7 +785,21 @@ document.getElementById("filtroInput5").addEventListener("keydown", function(eve
     const nuevoPrecio = document.getElementById("nuevoPrecioInput").value;
       let tab =   localStorage.getItem("ventana") || "venta1" 
     if (!isNaN(nuevoPrecio) && nuevoPrecio !== "") {
-    if (tab =="venta1") {
+
+ const modal = document.getElementById("formularioPedido");
+
+const isVisible = modal.style.display !== "none" && modal.offsetParent !== null;
+if (isVisible) {
+          document.getElementById("precioPe").value = parseFloat(nuevoPrecio).toFixed(2) || 0;
+          let precio = parseFloat(document.getElementById("precioPe").value) || 0;
+          let cantidad = parseFloat(document.getElementById("cantidadPe").value) || 0;
+            // Calcula el total
+          let total = precio * cantidad;
+          formatear("precioPe",precio)
+          formatear("totalPe",total)
+
+}else {
+if (tab =="venta1") {
           document.getElementById("precio4").value = parseFloat(nuevoPrecio).toFixed(2) || 0;
           let precio = parseFloat(document.getElementById("precio4").value) || 0;
           let cantidad = parseFloat(document.getElementById("cantidad4").value) || 0;
@@ -810,6 +826,7 @@ document.getElementById("filtroInput5").addEventListener("keydown", function(eve
           formatear("precio7",precio)
           formatear("total7",total)
      }
+    }
       cerrarModal();
     } else {
       alert("Ingrese un precio válido.");
