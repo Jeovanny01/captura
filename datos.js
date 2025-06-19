@@ -1748,11 +1748,11 @@ async function  saveRegistro(event) {
     const fardo = document.getElementById("piezaFardoEdit").value || 0;
     const productoEncontrado = buscarProducto(artNvo);
 
-    if (productoEncontrado) {
-        // Si el producto existe, detén el escáner y muestra un mensaje
-        alert(`Producto encontrado en la base de datos, no se puede cambiar: ${artNvo}`);
-        return; // Sale de la función para que no continúe
-    } 
+    // if (productoEncontrado) {
+    //     // Si el producto existe, detén el escáner y muestra un mensaje
+    //     alert(`Producto encontrado en la base de datos, no se puede cambiar: ${artNvo}`);
+    //     return; // Sale de la función para que no continúe
+    // } 
 
 
     if (document.getElementById("articulo").readOnly) {
