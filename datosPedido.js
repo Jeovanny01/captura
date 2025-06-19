@@ -14,7 +14,7 @@ function guardarTabla(){
     };
 
     if (empresa == "FUNNY"){
-        if (PRECIO==0) {
+        if (parseFloat(document.getElementById("precio4").value)==0) {
 
             alert("No se puede guardar a precio cero!!!") ;
             return
@@ -57,7 +57,7 @@ function guardarTabla6(){
     };
 
     if (empresa == "FUNNY"){
-        if (PRECIO==0) {
+        if (parseFloat(document.getElementById("precio6").value)==0) {
 
             alert("No se puede guardar a precio cero!!!") ;
             return
@@ -101,7 +101,7 @@ function guardarTabla7(){
     };
 
     if (empresa == "FUNNY"){
-        if (PRECIO==0) {
+        if (parseFloat(document.getElementById("precio7").value)==0) {
 
             alert("No se puede guardar a precio cero!!!") ;
             return
