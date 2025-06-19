@@ -13,6 +13,14 @@ function guardarTabla(){
     ACCION: numeroFilas + "Eliminar"
     };
 
+    if (empresa == "FUNNY"){
+        if (PRECIO==0) {
+
+            alert("No se puede guardar a precio cero!!!") ;
+            return
+        }
+    }
+
 // Agregar el nuevo pedido al arreglo
 pedidoTabla.unshift(nuevoPedido);
 localStorage.setItem('pedidoTabla', JSON.stringify(pedidoTabla));
@@ -47,6 +55,14 @@ function guardarTabla6(){
     TOTAL: parseFloat(document.getElementById("total6").value), 
     ACCION: numeroFilas + "Eliminar"
     };
+
+    if (empresa == "FUNNY"){
+        if (PRECIO==0) {
+
+            alert("No se puede guardar a precio cero!!!") ;
+            return
+        }
+    }
 
 // Agregar el nuevo pedido al arreglo
 pedidoTabla2.unshift(nuevoPedido);
@@ -84,6 +100,13 @@ function guardarTabla7(){
     ACCION: numeroFilas + "Eliminar"
     };
 
+    if (empresa == "FUNNY"){
+        if (PRECIO==0) {
+
+            alert("No se puede guardar a precio cero!!!") ;
+            return
+        }
+    }
 // Agregar el nuevo pedido al arreglo
 try {
     
