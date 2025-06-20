@@ -13,7 +13,7 @@ let categoriaTabla = [];
 let clientesTabla = [];
 let cotizacionesTabla =[];
 let empresa ="DISPROAGRO";
-let bd ="DISPROAGRO";
+let bd ="DISPROSAL";
 let codCliente1,codCliente2,codCliente3
 let ventaTotal=0;
 
