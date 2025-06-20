@@ -8,12 +8,12 @@ let inventarioTabla = [];
 let pedidoTabla = [];
 let pedidoTabla2 = [];
 let pedidoTabla3 = [];
-let sucursalTabla = [];
+let sucursalTabla = []; 
 let categoriaTabla = [];
 let clientesTabla = [];
 let cotizacionesTabla =[];
-let empresa ="FUNNY";
-let bd ="FUNNY";
+let empresa ="DISPROAGRO";
+let bd ="DISPROAGRO";
 let codCliente1,codCliente2,codCliente3
 let ventaTotal=0;
 
