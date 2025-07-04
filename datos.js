@@ -1130,12 +1130,13 @@ function generarTablaDatos(datos,contenedor,tabla) {
                 td.appendChild(enlace);
               } else if (columna === 'CODIGO') {
                 // Convierte el ID en un enlace
+                const cotiza = fila['COTIZACION']; // 🔸 Aquí obtienes el valor de COTIZACION
                 const enlace = document.createElement('a');
-                enlace.href = `descargarTicket.html?id=${valor}`; // URL para editar
+                enlace.href = `descargarTicket.html?id=${cotiza}`; // URL para editar
                 enlace.textContent = valor;
                 enlace.onclick = (event) => {
                     event.preventDefault(); // Evita el comportamiento por defecto
-                    descargarPdfCotTicket(valor); // Llama a la función de edición
+                    descargarPdfCotTicket(cotiza); // Llama a la función de edición
                 };
                 td.appendChild(enlace);
             } else if (columna === "TOTAL") {
