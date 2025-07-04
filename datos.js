@@ -12,8 +12,8 @@ let sucursalTabla = [];
 let categoriaTabla = [];
 let clientesTabla = [];
 let cotizacionesTabla =[];
-let empresa ="DISPROAGRO";
-let bd ="DISPROSAL";
+let empresa ="MMAG";
+let bd ="MMAG";
 let codCliente1,codCliente2,codCliente3
 let ventaTotal=0;
 
@@ -367,6 +367,69 @@ async function  descargarPdfCot(cot){
                 })
             });
 
+        if (!response.ok)  throw new Error(`Error al obtener los datos: ${response.statusText}`);
+        
+        const contentType = response.headers.get('Content-Type');
+        if (contentType && contentType.includes('application/pdf')) {
+            const contentType = response.headers.get('Content-Type');
+
+            if (contentType && contentType.includes('application/pdf')) {
+                const pdfBlob = await response.blob();
+        
+                if (pdfBlob.size === 0) {
+                    throw new Error('El archivo PDF recibido está vacío.');
+                }
+                        const pdfUrl = URL.createObjectURL(pdfBlob);
+                        const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+                        const isAndroid = /Android/i.test(navigator.userAgent);
+                        const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+                        const isMobile = isIOS || isAndroid || window.innerWidth < 1024 || isSafari;
+
+                        if (!isMobile) {
+                            window.open(pdfUrl, "_blank"); // Solo abre en nueva pestaña si es escritorio
+                        } else {
+                            setTimeout(() => {
+                                const link = document.createElement("a");
+                                link.href = pdfUrl;
+                                link.download = "Cotizacion-" + cot + ".pdf";
+                                document.body.appendChild(link);
+                                link.click();
+                                document.body.removeChild(link);
+                            }, 0); // Descarga automática en iOS y Android
+                        }
+                        
+            } else {
+                throw new Error(`Se recibió un contenido inesperado: ${contentType}`);
+            }
+        } else {
+            // Si no es un PDF, intenta procesar la respuesta como JSON (o lo que sea apropiado)
+            const data = await response.json();
+          
+            // if (data && data.length > 0) {
+            //     button.disabled = false;
+            // }
+        }
+    } catch (error) {
+        console.error('Error al obtener los datos:', error);
+        //button.disabled = false;
+        alert(error);
+    }
+    spinnerCot.style.display = "none"; // Ocultar spinner
+
+}
+async function  descargarPdfCotTicket(cot){
+    spinnerCot.style.display = "block"; // Mostrar spinner  
+    try {
+            // Llama al endpoint con las fechas como parámetros
+            const response = await fetch("/api/ApiDatos/reporteCrystalCotiTicket", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    bd,empresa,cot
+                })
+            });
         if (!response.ok)  throw new Error(`Error al obtener los datos: ${response.statusText}`);
         
         const contentType = response.headers.get('Content-Type');
@@ -1063,6 +1126,16 @@ function generarTablaDatos(datos,contenedor,tabla) {
                 enlace.onclick = (event) => {
                     event.preventDefault(); // Evita el comportamiento por defecto
                     descargarPdfCot(valor); // Llama a la función de edición
+                };
+                td.appendChild(enlace);
+              } else if (columna === 'CODIGO') {
+                // Convierte el ID en un enlace
+                const enlace = document.createElement('a');
+                enlace.href = `descargarTicket.html?id=${valor}`; // URL para editar
+                enlace.textContent = valor;
+                enlace.onclick = (event) => {
+                    event.preventDefault(); // Evita el comportamiento por defecto
+                    descargarPdfCotTicket(valor); // Llama a la función de edición
                 };
                 td.appendChild(enlace);
             } else if (columna === "TOTAL") {
