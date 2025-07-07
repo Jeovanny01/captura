@@ -486,15 +486,10 @@ const renderContext = {
 
 await page.render(renderContext).promise;
 
-// Obtener base64 sin encabezado "data:image/png;base64,"
-const base64Image = canvas.toDataURL("image/png").split(',')[1];
-
-// Codificar para URL
-const encodedImage = encodeURIComponent(base64Image);
-
-// Enviar a RawBT
-const rawbtUrl = `rawbt://print?data=${encodedImage}`;
-window.location.href = rawbtUrl;
+canvas.toBlob((blob) => {
+  const blobUrl = URL.createObjectURL(blob);
+  window.open(blobUrl, "_blank"); // Usuario selecciona imprimir desde RawBT
+}, "image/png");
 
             } else {
                 // Otro caso móvil: descarga automática
