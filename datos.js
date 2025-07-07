@@ -453,14 +453,10 @@ async function  descargarPdfCotTicket(cot){
                         } else {
 
                             if (empresa ==="MMAG") {
-                                        setTimeout(() => {
-                                const link = document.createElement("a");
-                                link.href = pdfUrl;
-                                link.download = "Cotizacion-" + cot + ".pdf";
-                                document.body.appendChild(link);
-                                link.click();
-                                document.body.removeChild(link);
-                            }, 0); // Descarga automática en iOS y Android
+                            const pdfBlob = await response.blob(); // ya lo tienes
+                            const blobUrl = URL.createObjectURL(pdfBlob);
+                            window.location.href = blobUrl; // NokoPrint lo interceptará si es PDF
+
                             } else {
                                 setTimeout(() => {
                                 const link = document.createElement("a");
