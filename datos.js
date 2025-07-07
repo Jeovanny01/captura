@@ -417,6 +417,11 @@ async function  descargarPdfCot(cot){
     spinnerCot.style.display = "none"; // Ocultar spinner
 
 }
+canvas.toBlob((blob) => {
+  const blobUrl = URL.createObjectURL(blob);
+  window.location.href = blobUrl; // RawBT lo intercepta como imagen y lo imprime
+}, "image/png");
+
 async function descargarPdfCotTicket(cot) {
     spinnerCot.style.display = "block"; // Mostrar spinner
 
@@ -456,28 +461,28 @@ async function descargarPdfCotTicket(cot) {
         } else {
             if (empresa === "MMAG") {
                 // Convertir PDF a imagen e imprimir con RawBT
-        const pdf = await pdfjsLib.getDocument(URL.createObjectURL(pdfBlob)).promise;
-        const page = await pdf.getPage(1); // Primera página
+       const pdf = await pdfjsLib.getDocument(URL.createObjectURL(pdfBlob)).promise;
+const page = await pdf.getPage(1); // Primera página
 
-        const viewport = page.getViewport({ scale: 2 });
-        const canvas = document.createElement("canvas");
-        const context = canvas.getContext("2d");
+const viewport = page.getViewport({ scale: 2 });
+const canvas = document.createElement("canvas");
+const context = canvas.getContext("2d");
 
-        canvas.width = 384; // Ancho típico 58mm en 203dpi
-        canvas.height = (viewport.height / viewport.width) * 384;
+canvas.width = 384;
+canvas.height = (viewport.height / viewport.width) * 384;
 
-        const renderContext = {
-          canvasContext: context,
-          viewport: page.getViewport({ scale: canvas.width / viewport.width })
-        };
+const renderContext = {
+  canvasContext: context,
+  viewport: page.getViewport({ scale: canvas.width / viewport.width })
+};
 
-        await page.render(renderContext).promise;
+await page.render(renderContext).promise;
 
-        const base64Image = canvas.toDataURL("image/png");
-        const encodedImage = encodeURIComponent(base64Image);
-        const rawbtUrl = `rawbt://print?data=${encodedImage}`;
-
-        window.location.href = rawbtUrl; // Imprime directo con RawBT
+// Generar blob PNG y enviarlo a RawBT (que lo interceptará desde una URL blob)
+canvas.toBlob((blob) => {
+  const imageUrl = URL.createObjectURL(blob);
+  window.location.href = imageUrl; // RawBT debe interceptar esto y enviar a imprimir
+}, "image/png");
 
             } else {
                 // Otro caso móvil: descarga automática
