@@ -486,11 +486,15 @@ const renderContext = {
 
 await page.render(renderContext).promise;
 
-// Generar blob PNG y enviarlo a RawBT (que lo interceptará desde una URL blob)
-canvas.toBlob((blob) => {
-  const imageUrl = URL.createObjectURL(blob);
-  window.location.href = imageUrl; // RawBT debe interceptar esto y enviar a imprimir
-}, "image/png");
+// Obtener base64 sin encabezado "data:image/png;base64,"
+const base64Image = canvas.toDataURL("image/png").split(',')[1];
+
+// Codificar para URL
+const encodedImage = encodeURIComponent(base64Image);
+
+// Enviar a RawBT
+const rawbtUrl = `rawbt://print?data=${encodedImage}`;
+window.location.href = rawbtUrl;
 
             } else {
                 // Otro caso móvil: descarga automática
