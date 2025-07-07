@@ -419,8 +419,16 @@ async function  descargarPdfCot(cot){
 }
 canvas.toBlob((blob) => {
   const blobUrl = URL.createObjectURL(blob);
-  window.location.href = blobUrl; // RawBT lo intercepta como imagen y lo imprime
+
+  const link = document.createElement("a");
+  link.href = blobUrl;
+  link.download = "ticket.png"; // Esto le da nombre y extensión .png
+
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
 }, "image/png");
+
 
 async function descargarPdfCotTicket(cot) {
     spinnerCot.style.display = "block"; // Mostrar spinner
