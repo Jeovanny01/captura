@@ -455,31 +455,30 @@ async function descargarPdfCotTicket(cot) {
             window.open(pdfUrl, "_blank");
         } else {
             if (empresa === "MMAG") {
-                // ✅ Convertir PDF a imagen e imprimir con RawBT
-                const pdf = await pdfjsLib.getDocument(pdfUrl).promise;
-                const page = await pdf.getPage(1); // Primera página
+                // Convertir PDF a imagen e imprimir con RawBT
+        const pdf = await pdfjsLib.getDocument(URL.createObjectURL(pdfBlob)).promise;
+        const page = await pdf.getPage(1); // Primera página
 
-                const viewport = page.getViewport({ scale: 2 });
-                const canvas = document.createElement("canvas");
-                const context = canvas.getContext("2d");
+        const viewport = page.getViewport({ scale: 2 });
+        const canvas = document.createElement("canvas");
+        const context = canvas.getContext("2d");
 
-                canvas.width = 384; // Ancho típico 58mm en 203dpi
-                canvas.height = (viewport.height / viewport.width) * 384;
+        canvas.width = 384; // Ancho típico 58mm en 203dpi
+        canvas.height = (viewport.height / viewport.width) * 384;
 
-                const renderContext = {
-                    canvasContext: context,
-                    viewport: page.getViewport({ scale: canvas.width / viewport.width })
-                };
+        const renderContext = {
+          canvasContext: context,
+          viewport: page.getViewport({ scale: canvas.width / viewport.width })
+        };
 
-                await page.render(renderContext).promise;
+        await page.render(renderContext).promise;
 
-                // const base64Image = canvas.toDataURL("image/png");
-                // const encodedImage = encodeURIComponent(base64Image);
-                // const rawbtUrl = `rawbt://print?data=${encodedImage}`;
+        const base64Image = canvas.toDataURL("image/png");
+        const encodedImage = encodeURIComponent(base64Image);
+        const rawbtUrl = `rawbt://print?data=${encodedImage}`;
 
-                // window.location.href = rawbtUrl;
-                const base64Image = canvas.toDataURL("image/png");
-                window.open(base64Image, "_blank"); // RawBT puede interceptar esto
+        window.location.href = rawbtUrl; // Imprime directo con RawBT
+
             } else {
                 // Otro caso móvil: descarga automática
                 setTimeout(() => {
