@@ -832,5 +832,15 @@
 <script type="module" src="cam3.js"></script>
 <script type="module" src="cam6.js"></script>
 <script type="module" src="cam7.js"></script>
+<!-- PDF.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
+<script>
+  // Esto asigna pdfjsLib como variable global
+  const pdfjsLib = window['pdfjs-dist/build/pdf'];
+
+  // Opcional: Establecer el worker (para evitar advertencias)
+  pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
+</script>
+
 </body>
 </html>
