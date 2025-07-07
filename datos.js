@@ -473,11 +473,13 @@ async function descargarPdfCotTicket(cot) {
 
                 await page.render(renderContext).promise;
 
-                const base64Image = canvas.toDataURL("image/png");
-                const encodedImage = encodeURIComponent(base64Image);
-                const rawbtUrl = `rawbt://print?data=${encodedImage}`;
+                // const base64Image = canvas.toDataURL("image/png");
+                // const encodedImage = encodeURIComponent(base64Image);
+                // const rawbtUrl = `rawbt://print?data=${encodedImage}`;
 
-                window.location.href = rawbtUrl;
+                // window.location.href = rawbtUrl;
+                const base64Image = canvas.toDataURL("image/png");
+                window.open(base64Image, "_blank"); // RawBT puede interceptar esto
             } else {
                 // Otro caso móvil: descarga automática
                 setTimeout(() => {
