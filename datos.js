@@ -451,7 +451,14 @@ async function  descargarPdfCotTicket(cot){
                         if (!isMobile) {
                             window.open(pdfUrl, "_blank"); // Solo abre en nueva pestaña si es escritorio
                         } else {
-                            setTimeout(() => {
+
+                            if (empresa ==="MMAG") {
+            // Redirige a RAWBT para imprimir directamente
+                            const encodedUrl = encodeURIComponent(pdfUrl);
+                            window.location.href = `intent://${encodedUrl}#Intent;scheme=http;package=ru.a402d.rawbtprinter;end`;
+                    
+                            } else {
+                                setTimeout(() => {
                                 const link = document.createElement("a");
                                 link.href = pdfUrl;
                                 link.download = "Cotizacion-" + cot + ".pdf";
@@ -459,6 +466,8 @@ async function  descargarPdfCotTicket(cot){
                                 link.click();
                                 document.body.removeChild(link);
                             }, 0); // Descarga automática en iOS y Android
+                            }
+                            
                         }
                         
             } else {
