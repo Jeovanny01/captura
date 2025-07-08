@@ -269,7 +269,16 @@ document.getElementById("spinner2").style.display = "inline"; // Muestra el spin
            cancelarPedido(1);
             button.disabled = false;
              alert('Cotizacion registrada con éxito No. ' + cot);
-            if(empresa !="FUNNY") {descargarPdfCot(cot);}
+            if(empresa !="FUNNY") {
+              if (empresa ==="MMAG" && session.vend ==="16") {
+                 descargarPdfCotTicket(cot);
+                }else 
+                {
+                   descargarPdfCot(cot);  
+                }
+               
+            
+            }
         } else {
             const errorMessage = result.data[0].ErrorMessage;
             button.disabled = false;
