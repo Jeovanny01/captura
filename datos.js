@@ -354,6 +354,11 @@ ventaTotal=0;
 }
 
 async function  descargarPdfCot(cot){
+  if (empresa ==="MMAG" && session.vend ==="16") {
+  return
+}
+
+
     spinnerCot.style.display = "block"; // Mostrar spinner  
     try {
             // Llama al endpoint con las fechas como parámetros
