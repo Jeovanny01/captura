@@ -836,9 +836,10 @@ function guardar(datos) {
 
 }
 
-function generarTabla(datos) {
-    const contenedorTabla = document.getElementById('contenedorTabla'); // Obtiene el contenedor de la tabla
-    const tablaExistente = document.getElementById('tablaDatos'); // Identifica la tabla existente
+function generarTabla(datos) { // Usaremos 'empresaActual' consistentemente para el parámetro
+
+    const contenedorTabla = document.getElementById('contenedorTabla');
+    const tablaExistente = document.getElementById('tablaDatos');
 
     // Elimina la tabla anterior, si existe
     if (tablaExistente) {
@@ -848,7 +849,6 @@ function generarTabla(datos) {
     const section = document.getElementById('datos');
 
     if (!datos.length) {
-        // Verifica si ya existe el mensaje "No hay datos disponibles"
         if (!document.getElementById('mensajeNoDatos')) {
             const mensaje = document.createElement('p');
             mensaje.textContent = 'No hay datos disponibles.';
@@ -857,20 +857,30 @@ function generarTabla(datos) {
         }
         return;
     } else {
-        // Elimina el mensaje si los datos están disponibles
         const mensajeNoDatos = document.getElementById('mensajeNoDatos');
         if (mensajeNoDatos) mensajeNoDatos.remove();
     }
-    
 
     const table = document.createElement('table');
-    table.id = 'tablaDatos'; // Asigna un ID único a la tabla
+    table.id = 'tablaDatos';
     table.border = '1';
 
     // Genera el encabezado de la tabla dinámicamente
     const thead = document.createElement('thead');
     const headerRow = document.createElement('tr');
-    Object.keys(datos[0]).forEach((columna) => {
+    
+    // === CAMBIO CLAVE AQUÍ PARA FILTRAR EL ENCABEZADO ESPECÍFICAMENTE ===
+    // Primero, determinamos qué columnas SE VAN A MOSTRAR en el encabezado.
+    const columnasAMostrar = Object.keys(datos[0]).filter(columna => {
+        // Si la empresa es 'MMAG' Y la columna es 'COSTO_PROMEDIO', la excluimos (retornamos false)
+        if (empresa === 'MMAG' && columna === 'COSTO_PROMEDIO') {
+            return false; 
+        }
+        return true; // Incluir todas las demás columnas
+    });
+
+    // Ahora iteramos sobre las columnas que decidimos mostrar para crear los th
+    columnasAMostrar.forEach((columna) => {
         const th = document.createElement('th');
         th.textContent = columna;
         headerRow.appendChild(th);
@@ -882,33 +892,40 @@ function generarTabla(datos) {
     const tbody = document.createElement('tbody');
     datos.forEach((fila) => {
         const tr = document.createElement('tr');
-        Object.entries(fila).forEach(([columna, valor]) => {
+
+        // === CAMBIO CLAVE AQUÍ PARA FILTRAR EL CUERPO IGUAL QUE EL ENCABEZADO ===
+        // Iteramos sobre las MISMAS columnas que decidimos mostrar en el encabezado
+        columnasAMostrar.forEach((columna) => { 
             const td = document.createElement('td');
-            // Si la columna es una fecha en formato /Date(...)/, la convertimos
+            const valor = fila[columna]; // Obtiene el valor de la fila para la columna actual
+
+            // Lógica existente para formato de fecha
             if (typeof valor === 'string' && valor.includes('/Date(') && valor.includes(')/')) {
                 const timestamp = valor.match(/\/Date\((\d+)\)\//)[1];
-                const fecha = new Date(parseInt(timestamp)); // Convierte el timestamp a una fecha
+                const fecha = new Date(parseInt(timestamp));
                 
-                // Formatea la fecha y hora en el formato dd/MM/yyyy hh:mm AM/PM
                 const dia = fecha.getDate().toString().padStart(2, '0');
                 const mes = (fecha.getMonth() + 1).toString().padStart(2, '0');
                 const anio = fecha.getFullYear();
                 let horas = fecha.getHours();
                 const minutos = fecha.getMinutes().toString().padStart(2, '0');
                 const ampm = horas >= 12 ? 'PM' : 'AM';
-                horas = horas % 12 || 12; // Convierte a formato de 12 horas
+                horas = horas % 12 || 12;
                 td.textContent = `${dia}/${mes}/${anio} ${horas}:${minutos} ${ampm}`;
-            } else if (columna === 'ARTICULO') {
-                // Convierte el ID en un enlace
+            }
+            // Lógica existente para la columna 'ARTICULO'
+            else if (columna === 'ARTICULO') {
                 const enlace = document.createElement('a');
-                enlace.href = `editar.html?id=${valor}`; // URL para editar
+                enlace.href = `editar.html?id=${valor}`;
                 enlace.textContent = valor;
                 enlace.onclick = (event) => {
-                    event.preventDefault(); // Evita el comportamiento por defecto
-                    editarRegistro(valor); // Llama a la función de edición
+                    event.preventDefault();
+                    editarRegistro(valor);
                 };
                 td.appendChild(enlace);
-            } else {
+            }
+            // Para todas las demás columnas (incluyendo COSTO_PROMEDIO si NO es MMAG)
+            else {
                 td.textContent = valor;
             }
 
@@ -918,10 +935,7 @@ function generarTabla(datos) {
     });
     table.appendChild(tbody);
 
-    // Inserta la tabla al final de la sección
-    //section.appendChild(table);
     contenedorTabla.appendChild(table);
-   // document.getElementById("filtroInput").value="";
 }
 
 function generarTabla2(datos) {
@@ -959,9 +973,11 @@ function generarTabla2(datos) {
     const thead = document.createElement('thead');
     const headerRow = document.createElement('tr');
     Object.keys(datos[0]).forEach((columna) => {
+        if(empresa != "MMAG") {
         const th = document.createElement('th');
         th.textContent = columna;
         headerRow.appendChild(th);
+        }
     });
     thead.appendChild(headerRow);
     table.appendChild(thead);
@@ -971,6 +987,7 @@ function generarTabla2(datos) {
     datos.forEach((fila) => {
         const tr = document.createElement('tr');
         Object.entries(fila).forEach(([columna, valor]) => {
+            
             const td = document.createElement('td');
             // Si la columna es una fecha en formato /Date(...)/, la convertimos
             if (typeof valor === 'string' && valor.includes('/Date(') && valor.includes(')/')) {
@@ -1287,7 +1304,11 @@ function generarTabla5(datos) {
         tablaExistente.remove();
     }
 
-    
+    // Nota: La sección para el mensaje "No hay datos disponibles" y su eliminación
+    // no está presente en tu función original generarTabla5.
+    // Si la necesitas, deberías reincorporarla aquí.
+    // Asumo que solo quieres la lógica de tabla.
+
 
     const table = document.createElement('table');
     table.id = 'tablaDatos5'; // Asigna un ID único a la tabla
@@ -1296,7 +1317,18 @@ function generarTabla5(datos) {
     // Genera el encabezado de la tabla dinámicamente
     const thead = document.createElement('thead');
     const headerRow = document.createElement('tr');
-    Object.keys(datos[0]).forEach((columna) => {
+    
+    // === Lógica para el encabezado: Filtrar la columna 'COSTO_PROMEDIO' si empresa es 'MMAG' ===
+    // Utiliza la variable global 'empresa' aquí
+    const columnasAMostrar = Object.keys(datos[0]).filter(columna => {
+        // Si la empresa global es 'MMAG' Y la columna es 'COSTO_PROMEDIO', la saltamos (no la incluimos)
+        if (empresa === 'MMAG' && columna === 'COSTO_PROMEDIO') {
+            return false; // Excluir esta columna
+        }
+        return true; // Incluir todas las demás columnas
+    });
+
+    columnasAMostrar.forEach((columna) => {
         const th = document.createElement('th');
         th.textContent = columna;
         headerRow.appendChild(th);
@@ -1308,8 +1340,13 @@ function generarTabla5(datos) {
     const tbody = document.createElement('tbody');
     datos.forEach((fila) => {
         const tr = document.createElement('tr');
-        Object.entries(fila).forEach(([columna, valor]) => {
+
+        // === Lógica para el cuerpo: Iterar solo sobre las columnas que decidimos mostrar ===
+        // Utiliza el mismo array de columnas filtradas para asegurar la consistencia con el encabezado
+        columnasAMostrar.forEach((columna) => { 
             const td = document.createElement('td');
+            const valor = fila[columna]; 
+
             // Si la columna es una fecha en formato /Date(...)/, la convertimos
             if (typeof valor === 'string' && valor.includes('/Date(') && valor.includes(')/')) {
                 const timestamp = valor.match(/\/Date\((\d+)\)\//)[1];
@@ -1331,7 +1368,7 @@ function generarTabla5(datos) {
                 enlace.textContent = valor;
                 enlace.onclick = (event) => {
                     event.preventDefault(); // Evita el comportamiento por defecto
-                    selccionarDato4(valor); // Llama a la función de edición
+                    selccionarDato4(valor); // Llama a la función de edición (asegúrate de que selccionarDato4 esté definida)
                 };
                 td.appendChild(enlace);
             } else {
@@ -1344,10 +1381,9 @@ function generarTabla5(datos) {
     });
     table.appendChild(tbody);
 
-    // Inserta la tabla al final de la sección
-    //section.appendChild(table);
+    // Inserta la tabla al final del contenedor específico
     contenedorTabla.appendChild(table);
-   // document.getElementById("filtroInput5").value="";
+    // document.getElementById("filtroInput5").value=""; // Línea comentada en tu original
 }
 
 function generarTabla6(datos) {

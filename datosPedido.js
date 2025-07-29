@@ -372,7 +372,7 @@ document.getElementById("spinner3").style.display = "inline";
     },
     body: JSON.stringify({
        
-        accion:"INSERT", usuario:session.user,  vendedor:session.vendedor || session.user ,  nombre:nom,  total:sumaTotal,cliente:codCliente2|| "CLIENTE",bd,empresa,jsonData:JSON.stringify(pedidoTabla2) })
+        accion:"INSERT", usuario:session.user,  vendedor:session.vend || session.user ,  nombre:nom,  total:sumaTotal,cliente:codCliente2|| "CLIENTE",bd,empresa,jsonData:JSON.stringify(pedidoTabla2) })
 }) 
 .then(response => {
     // Verificar si la respuesta es exitosa
@@ -417,25 +417,25 @@ document.getElementById("spinner3").style.display = "inline";
 }) 
 };
 
-// document.getElementById('jsonInput').addEventListener('change', function(event) {
-//     const file = event.target.files[0];
-//     if (!file) return;
+//  document.getElementById('jsonInput').addEventListener('change', function(event) {
+//      const file = event.target.files[0];
+//      if (!file) return;
 
-//     const reader = new FileReader();
-//     reader.onload = function(e) {
-//       try {
-//         pedidoTabla3 = JSON.parse(e.target.result);
-//         console.log("Pedido cargado:", pedidoTabla3);
-//         alert("JSON cargado correctamente");
-//         document.getElementById("btnGuardarPedido3").style.display = "flex";
-//         document.getElementById("btnCancelarPedido3").style.display = "flex";
-//         recuperarTabla3(pedidoTabla3);
-//       } catch (err) {
-//         alert("Error al leer el archivo JSON");
-//       }
-//     };
-//     reader.readAsText(file);
-//   });
+//      const reader = new FileReader();
+//      reader.onload = function(e) {
+//        try {
+//          pedidoTabla3 = JSON.parse(e.target.result);
+//          console.log("Pedido cargado:", pedidoTabla3);
+//          alert("JSON cargado correctamente");
+//          document.getElementById("btnGuardarPedido3").style.display = "flex";
+//          document.getElementById("btnCancelarPedido3").style.display = "flex";
+//          recuperarTabla3(pedidoTabla3);
+//        } catch (err) {
+//          alert("Error al leer el archivo JSON");
+//        }
+//      };
+//      reader.readAsText(file);
+//    });
 
 async function  savePedidoNew3(button) {
 
@@ -494,7 +494,7 @@ document.getElementById("spinner4").style.display = "inline";
     },
     body: JSON.stringify({
        
-        accion:"INSERT", usuario:session.user,  vendedor:session.vendedor || session.user ,  nombre:nom,  total:sumaTotal,cliente:codCliente3|| "CLIENTE",bd,empresa,jsonData:JSON.stringify(pedidoTabla3) })
+        accion:"INSERT", usuario:session.user,  vendedor:session.vend || session.user ,  nombre:nom,  total:sumaTotal,cliente:codCliente3|| "CLIENTE",bd,empresa,jsonData:JSON.stringify(pedidoTabla3) })
 }) 
 .then(response => {
     // Verificar si la respuesta es exitosa

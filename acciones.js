@@ -367,8 +367,14 @@ document.getElementById('formVentas').addEventListener('submit', function(event)
     const productoCodigo = buscarProducto(document.getElementById("codigo4").value);
     if (productoCodigo) {
         // Si encuentra el producto por código
-        guardarTabla(); // Llama a la función para registrar al alumno
+        if(empresa =="MMAG") {
+            if(parseFloat(productoCodigo.COSTO_PROMEDIO)-(parseFloat(document.getElementById("precio4").value)/1.13) > 0){
+                alert('Producto no se puede ofertar abajo del costo');
+            } else  guardarTabla();
 
+        } else  guardarTabla(); // Llama a la función para registrar al alumno
+
+       
     } else {
         alert('Producto no existe en la base de datos');
     }
@@ -379,9 +385,15 @@ document.getElementById('formVentas2').addEventListener('submit', function(event
     document.getElementById("btnGuardarPedido2").style.display = "flex";
     document.getElementById("btnCancelarPedido2").style.display = "flex";
     const productoCodigo = buscarProducto(document.getElementById("codigo6").value);
-    if (productoCodigo) {
+       if (productoCodigo) {
         // Si encuentra el producto por código
-        guardarTabla6(); // Llama a la función para registrar al alumno
+        if(empresa =="MMAG") {
+            if(parseFloat(productoCodigo.COSTO_PROMEDIO)-(parseFloat(document.getElementById("precio6").value)/1.13) > 0){
+                alert('Producto no se puede ofertar abajo del costo');
+            } else  guardarTabla6();
+
+        } else  guardarTabla6(); // Llama a la función para registrar al alumno
+
 
     } else {
         alert('Producto no existe en la base de datos');
@@ -395,7 +407,12 @@ document.getElementById('formVentas3').addEventListener('submit', function(event
     const productoCodigo = buscarProducto(document.getElementById("codigo7").value);
     if (productoCodigo) {
         // Si encuentra el producto por código
-        guardarTabla7(); // Llama a la función para registrar al alumno
+        if(empresa =="MMAG") {
+            if(parseFloat(productoCodigo.COSTO_PROMEDIO)-(parseFloat(document.getElementById("precio7").value)/1.13) > 0){
+                alert('Producto no se puede ofertar abajo del costo');
+            } else  guardarTabl7();
+
+        } else  guardarTabla7(); // Llama a la función para registrar al alumno
 
     } else {
         alert('Producto no existe en la base de datos');
