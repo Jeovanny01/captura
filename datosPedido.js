@@ -9,7 +9,7 @@ function guardarTabla(){
     DESCRIPCION: document.getElementById("descripcion4").value, 
     CANTIDAD: parseFloat(document.getElementById("cantidad4").value), 
     PRECIO: parseFloat(document.getElementById("precio4").value), 
-    TOTAL: parseFloat(document.getElementById("total4").value), 
+    TOTAL:  parseFloat(document.getElementById("cantidad4").value)* parseFloat(document.getElementById("precio4").value), // parseFloat(document.getElementById("total4").value), 
     ACCION: numeroFilas + "Eliminar"
     };
 
@@ -52,7 +52,7 @@ function guardarTabla6(){
     DESCRIPCION: document.getElementById("descripcion6").value, 
     CANTIDAD: parseFloat(document.getElementById("cantidad6").value), 
     PRECIO: parseFloat(document.getElementById("precio6").value), 
-    TOTAL: parseFloat(document.getElementById("total6").value), 
+    TOTAL: parseFloat(document.getElementById("precio6").value)*parseFloat(document.getElementById("precio6").value), 
     ACCION: numeroFilas + "Eliminar"
     };
 
@@ -96,7 +96,7 @@ function guardarTabla7(){
     DESCRIPCION: document.getElementById("descripcion7").value, 
     CANTIDAD: parseFloat(document.getElementById("cantidad7").value), 
     PRECIO: parseFloat(document.getElementById("precio7").value), 
-    TOTAL: parseFloat(document.getElementById("total7").value), 
+    TOTAL: parseFloat(document.getElementById("precio7").value)*parseFloat(document.getElementById("cantidad7").value), 
     ACCION: numeroFilas + "Eliminar"
     };
 
