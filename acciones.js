@@ -882,3 +882,6 @@ if (tab =="venta1") {
       alert("Ingrese un precio válido.");
     }
   }
+window.actualizarCampos4 = actualizarCampos4;
+window.actualizarCampos6 = actualizarCampos6;
+window.actualizarCampos7 = actualizarCampos7;

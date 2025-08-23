@@ -128,6 +128,3 @@ function emitirPitido() {
     oscillator.start(audioContext.currentTime); // Inicia el sonido
     oscillator.stop(audioContext.currentTime + 0.2); // Detiene el sonido después de 0.2 segundos
 }
-window.actualizarCampos4 = actualizarCampos4;
-window.actualizarCampos6 = actualizarCampos6;
-window.actualizarCampos7 = actualizarCampos7;
