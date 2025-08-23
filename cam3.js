@@ -58,9 +58,10 @@ startScanButton.addEventListener("click", () => {
                                 // Si el producto existe, detén el escáner y muestra un mensaje
                                 detener(); // Detiene el escáner
                                 inputCodigo.value = decodedText;
-                                inputDescripcion.value = productoEncontrado.DESCRIPCION
-                                inputItem.value = productoEncontrado.ITEM
-                                precio.value= productoEncontrado.PRECIO_MAYOREO  || productoEncontrado.PRECIO ||  0
+                                inputDescripcion.value = productoEncontrado.DESCRIPCION;
+                                inputItem.value = productoEncontrado.ITEM;
+                                precio.value= productoEncontrado.PRECIO_MAYOREO  || productoEncontrado.PRECIO ||  0;
+                                actualizarCampos4(productoEncontrado);
                                // alert(`Producto encontrado: ${productoEncontrado.ARTICULO}, NOMBRE: ${productoEncontrado.DESCRIPCION}`);
                                 return; // Sale de la función para que no continúe
                             } 
@@ -127,3 +128,6 @@ function emitirPitido() {
     oscillator.start(audioContext.currentTime); // Inicia el sonido
     oscillator.stop(audioContext.currentTime + 0.2); // Detiene el sonido después de 0.2 segundos
 }
+window.actualizarCampos4 = actualizarCampos4;
+window.actualizarCampos6 = actualizarCampos6;
+window.actualizarCampos7 = actualizarCampos7;

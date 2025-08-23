@@ -169,7 +169,7 @@ try {
     if (["1", "3"].includes(session.userRole)) {
         fetchData2();
     }
-  
+      document.title = 'Evolution-- Usuario: ' + session.user;
 
 
     document.getElementById("ubicacion").value =  localStorage.getItem("ubicacion")
@@ -619,7 +619,7 @@ function actualizarCampos4(prod) {
  {  
     document.getElementById("precio4").value =  prod.PRECIO_MAYOREO || prod.PRECIO ||  0;
 
-   if (empresa.trim()  ==="FUNNY" && tipoPrecio ==="NORMAL")  {
+   if (empresa.trim()  ==="FUNNY" && tipoPrecio ==="DETALLE")  {
         document.getElementById("precio4").value =   prod.PRECIO ||  0
     } 
 
@@ -645,7 +645,7 @@ function actualizarCampos6(prod) {
     document.getElementById("cantidad6").value = 1
     document.getElementById("fardo6").value = prod.UNIDADES_FARDO ||  0;
 
-   if (empresa.trim()  ==="FUNNY" && tipoPrecio ==="NORMAL")  {
+   if (empresa.trim()  ==="FUNNY" && tipoPrecio ==="DETALLE")  {
         document.getElementById("precio6").value =   prod.PRECIO ||  0
     } 
 
@@ -666,7 +666,7 @@ function actualizarCampos7(prod) {
     document.getElementById("precio7").value = prod.PRECIO_MAYOREO || prod.PRECIO ||  0;
     document.getElementById("cantidad7").value = 1
     document.getElementById("fardo7").value = prod.UNIDADES_FARDO ||  0;
-    if (empresa.trim()  ==="FUNNY" && tipoPrecio ==="NORMAL")  {
+    if (empresa.trim()  ==="FUNNY" && tipoPrecio ==="DETALLE")  {
         document.getElementById("precio7").value =   prod.PRECIO ||  0
     } 
     // Obtén los valores de los campos
