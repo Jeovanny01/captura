@@ -2,6 +2,7 @@
 function guardarTabla(){
     localStorage.setItem("nombreCliente", document.getElementById("nombreCliente4").value);
     localStorage.setItem("codCliente1", codCliente1);
+    localStorage.setItem("tipoPrecio4", document.getElementById("tipoPrecio4").value);
     let numeroFilas = pedidoTabla.length+1; // Contar las filas actuales
 
    let nuevoPedido = {
@@ -39,12 +40,14 @@ document.getElementById("totalGeneral").textContent  = " Total $ " + sumaFormate
 generarTabla4(pedidoTabla);
 document.getElementById('formVentas').reset();  // 'miFormulario' es el ID del formulario
 document.getElementById("nombreCliente4").value =    localStorage.getItem("nombreCliente");
+document.getElementById("tipoPrecio4").value=localStorage.getItem("tipoPrecio4");
 window.scrollTo(0, 0);
 };
 //VENTA2
 function guardarTabla6(){
     localStorage.setItem("nombreCliente2",document.getElementById("nombreCliente6").value);
     localStorage.setItem("codCliente2", codCliente2);
+     localStorage.setItem("tipoPrecio6", document.getElementById("tipoPrecio6").value);
     let numeroFilas = pedidoTabla2.length+1; // Contar las filas actuales
 
    let nuevoPedido = {
@@ -83,12 +86,14 @@ document.getElementById("totalGeneral6").textContent  = " Total $ " + sumaFormat
 generarTabla6(pedidoTabla2);
 document.getElementById('formVentas2').reset();  // 'miFormulario' es el ID del formulario
 document.getElementById("nombreCliente6").value =    localStorage.getItem("nombreCliente2");
+document.getElementById("tipoPrecio6").value=localStorage.getItem("tipoPrecio6");
 window.scrollTo(0, 0);
 };
 //VENTA 3
 function guardarTabla7(){
     localStorage.setItem("nombreCliente3", document.getElementById("nombreCliente7").value);
     localStorage.setItem("codCliente3", codCliente3);
+     localStorage.setItem("tipoPrecio7", document.getElementById("tipoPrecio7").value);
     let numeroFilas = pedidoTabla3.length+1; // Contar las filas actuales
 
    let nuevoPedido = {
@@ -131,12 +136,9 @@ document.getElementById("totalGeneral7").textContent  = " Total $ " + sumaFormat
 generarTabla7(pedidoTabla3);
 document.getElementById('formVentas3').reset();  // 'miFormulario' es el ID del formulario
 document.getElementById("nombreCliente7").value =    localStorage.getItem("nombreCliente3");
+document.getElementById("tipoPrecio7").value=localStorage.getItem("tipoPrecio7");
 window.scrollTo(0, 0);
 };
-
-
-
-
 
 // tablas
 async function  savePedido(button) {

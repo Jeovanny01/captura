@@ -145,8 +145,11 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById("loteL").style.display = "none";
         document.getElementById("precioPublicoL").style.display = "none";
         document.getElementById("precioPublico").style.display = "none";
-
-    } 
+    } else{
+        document.getElementById("tipoPrecio4").style.display = "none";
+        document.getElementById("tipoPrecio6").style.display = "none";
+        document.getElementById("tipoPrecio7").style.display = "none";
+    }
 
 } catch (error) {
     // Código para manejar el error
@@ -360,6 +363,20 @@ document.getElementById('formInventario').addEventListener('submit', function(ev
     saveInventario(); // Llama a la función para registrar al alumno
 });
 
+// Añadir un "event listener" para el evento 'change'
+tipoPrecio4.addEventListener('change', function() {
+    const productoCodigo =  buscarProducto(document.getElementById("codigo4").value );
+    actualizarCampos4(productoCodigo)
+   
+});
+tipoPrecio6.addEventListener('change', function() {
+    const productoCodigo =  buscarProducto(document.getElementById("codigo6").value );
+    actualizarCampos6(productoCodigo)
+});
+tipoPrecio7.addEventListener('change', function() {
+    const productoCodigo =  buscarProducto(document.getElementById("codigo7").value );
+    actualizarCampos7(productoCodigo)
+});
 document.getElementById('formVentas').addEventListener('submit', function(event) {
     event.preventDefault(); // Evita el envío tradicional del formulario
     document.getElementById("btnGuardarPedido").style.display = "flex";
@@ -592,15 +609,21 @@ buscar7.addEventListener('click', function () {
 function actualizarCampos4(prod) {
     
     const productoCodigo =  buscarProductoPreacio(prod.ARTICULO);
-
-
+    const tipoPrecio =  document.getElementById("tipoPrecio4").value;
     document.getElementById("codigo4").value = prod.ARTICULO || '';
     document.getElementById("descripcion4").value = prod.DESCRIPCION || '';
     document.getElementById("item4").value = prod.ITEM || '';
 
- if (empresa.trim()  ==="MMAG"  && productoCodigo)
- {    document.getElementById("precio4").value = productoCodigo.PRECIO  || prod.PRECIO_MAYOREO || prod.PRECIO ||  0; } else
- {  document.getElementById("precio4").value =  prod.PRECIO_MAYOREO || prod.PRECIO ||  0;}
+ if (empresa.trim()  ==="MMAG"  && productoCodigo) {
+    document.getElementById("precio4").value = productoCodigo.PRECIO  || prod.PRECIO_MAYOREO || prod.PRECIO ||  0; } else
+ {  
+    document.getElementById("precio4").value =  prod.PRECIO_MAYOREO || prod.PRECIO ||  0;
+
+   if (empresa.trim()  ==="FUNNY" && tipoPrecio ==="NORMAL")  {
+        document.getElementById("precio4").value =   prod.PRECIO ||  0
+    } 
+
+ }
 
     document.getElementById("cantidad4").value = 1
     document.getElementById("fardo4").value = prod.UNIDADES_FARDO ||  0;
@@ -614,12 +637,18 @@ formatear("total4",total)
 }
 // Función para actualizar los campos del formulario
 function actualizarCampos6(prod) {
+      const tipoPrecio =  document.getElementById("tipoPrecio6").value;
     document.getElementById("codigo6").value = prod.ARTICULO || '';
     document.getElementById("descripcion6").value = prod.DESCRIPCION || '';
     document.getElementById("item6").value = prod.ITEM || '';
     document.getElementById("precio6").value = prod.PRECIO_MAYOREO || prod.PRECIO ||  0;;
     document.getElementById("cantidad6").value = 1
     document.getElementById("fardo6").value = prod.UNIDADES_FARDO ||  0;
+
+   if (empresa.trim()  ==="FUNNY" && tipoPrecio ==="NORMAL")  {
+        document.getElementById("precio6").value =   prod.PRECIO ||  0
+    } 
+
     // Obtén los valores de los campos
 let precio = parseFloat(document.getElementById("precio6").value) || 0;
 let cantidad = parseFloat(document.getElementById("cantidad6").value) || 0;
@@ -630,12 +659,16 @@ formatear("total6",total)
 }
 
 function actualizarCampos7(prod) {
+    const tipoPrecio =  document.getElementById("tipoPrecio7").value;
     document.getElementById("codigo7").value = prod.ARTICULO || '';
     document.getElementById("descripcion7").value = prod.DESCRIPCION || '';
     document.getElementById("item7").value = prod.ITEM || '';
     document.getElementById("precio7").value = prod.PRECIO_MAYOREO || prod.PRECIO ||  0;
     document.getElementById("cantidad7").value = 1
     document.getElementById("fardo7").value = prod.UNIDADES_FARDO ||  0;
+    if (empresa.trim()  ==="FUNNY" && tipoPrecio ==="NORMAL")  {
+        document.getElementById("precio7").value =   prod.PRECIO ||  0
+    } 
     // Obtén los valores de los campos
 let precio = parseFloat(document.getElementById("precio7").value) || 0;
 let cantidad = parseFloat(document.getElementById("cantidad7").value) || 0;
