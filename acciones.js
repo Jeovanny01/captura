@@ -386,7 +386,8 @@ document.getElementById('formVentas').addEventListener('submit', function(event)
         // Si encuentra el producto por código
         if(empresa =="MMAG") {
             if(parseFloat(productoCodigo.COSTO_PROMEDIO)-(parseFloat(document.getElementById("precio4").value)/1.13) > 0){
-                alert('Producto no se puede ofertar abajo del costo');
+                alert('Producto ESTA abajo del costo');
+                guardarTabla();
             } else  guardarTabla();
 
         } else  guardarTabla(); // Llama a la función para registrar al alumno
@@ -406,7 +407,8 @@ document.getElementById('formVentas2').addEventListener('submit', function(event
         // Si encuentra el producto por código
         if(empresa =="MMAG") {
             if(parseFloat(productoCodigo.COSTO_PROMEDIO)-(parseFloat(document.getElementById("precio6").value)/1.13) > 0){
-                alert('Producto no se puede ofertar abajo del costo');
+                 alert('Producto ESTA abajo del costo');
+                 guardarTabla6();
             } else  guardarTabla6();
 
         } else  guardarTabla6(); // Llama a la función para registrar al alumno
@@ -426,7 +428,8 @@ document.getElementById('formVentas3').addEventListener('submit', function(event
         // Si encuentra el producto por código
         if(empresa =="MMAG") {
             if(parseFloat(productoCodigo.COSTO_PROMEDIO)-(parseFloat(document.getElementById("precio7").value)/1.13) > 0){
-                alert('Producto no se puede ofertar abajo del costo');
+                 alert('Producto ESTA abajo del costo');
+                  guardarTabl7();
             } else  guardarTabl7();
 
         } else  guardarTabla7(); // Llama a la función para registrar al alumno
