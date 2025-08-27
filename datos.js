@@ -12,8 +12,8 @@ let sucursalTabla = [];
 let categoriaTabla = [];
 let clientesTabla = [];
 let cotizacionesTabla =[];
-let empresa ="MMAG";
-let bd ="MMAG";
+let empresa ="FUNNY";
+let bd ="FUNNY";
 let codCliente1,codCliente2,codCliente3
 let ventaTotal=0;
 

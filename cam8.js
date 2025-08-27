@@ -9,7 +9,7 @@ let html5QrCode;
    const qrboxSize = Math.min(screenWidth * 0.6, screenHeight * 0.6);
 
 startScanButton.addEventListener("click", () => {
-    const qrCodeRegionId = "reader7";
+    const qrCodeRegionId = "reader8";
     html5QrCode = new Html5Qrcode(qrCodeRegionId);
 
     // Configuración para leer códigos de barras y QR
