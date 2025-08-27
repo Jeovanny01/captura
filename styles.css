@@ -792,3 +792,19 @@ select, input {
     align-items: center;
     gap: 10px; /* Espacio entre los elementos */
 }
+/* This is for all screen sizes by default (mobile first) */
+.scan-buttons {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap; /* Allows buttons to wrap to a new line on small screens */
+    width: 100%;
+}
+
+/* This media query applies only to screens larger than 768px (common breakpoint for tablets/desktops) */
+@media (min-width: 768px) {
+    .scan-buttons {
+        flex-wrap: nowrap; /* Prevents wrapping on desktop */
+        justify-content: flex-start; /* Aligns items to the left */
+        width: auto; /* Buttons will only take up the space they need */
+    }
+}
