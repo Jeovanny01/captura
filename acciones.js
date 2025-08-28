@@ -628,7 +628,7 @@ function actualizarCampos4(prod) {
 
  }
 
-    document.getElementById("cantidad4").value = 1
+   // document.getElementById("cantidad4").value = 1
     document.getElementById("fardo4").value = prod.UNIDADES_FARDO ||  0;
     // Obtén los valores de los campos
 let precio = parseFloat(document.getElementById("precio4").value) || 0;
@@ -645,7 +645,7 @@ function actualizarCampos6(prod) {
     document.getElementById("descripcion6").value = prod.DESCRIPCION || '';
     document.getElementById("item6").value = prod.ITEM || '';
     document.getElementById("precio6").value = prod.PRECIO_MAYOREO || prod.PRECIO ||  0;;
-    document.getElementById("cantidad6").value = 1
+   // document.getElementById("cantidad6").value = 1
     document.getElementById("fardo6").value = prod.UNIDADES_FARDO ||  0;
 
    if (empresa.trim()  ==="FUNNY" && tipoPrecio ==="DETALLE")  {
@@ -667,7 +667,7 @@ function actualizarCampos7(prod) {
     document.getElementById("descripcion7").value = prod.DESCRIPCION || '';
     document.getElementById("item7").value = prod.ITEM || '';
     document.getElementById("precio7").value = prod.PRECIO_MAYOREO || prod.PRECIO ||  0;
-    document.getElementById("cantidad7").value = 1
+   // document.getElementById("cantidad7").value = 1
     document.getElementById("fardo7").value = prod.UNIDADES_FARDO ||  0;
     if (empresa.trim()  ==="FUNNY" && tipoPrecio ==="DETALLE")  {
         document.getElementById("precio7").value =   prod.PRECIO ||  0

@@ -55,7 +55,7 @@ function guardarTabla6(){
     DESCRIPCION: document.getElementById("descripcion6").value, 
     CANTIDAD: parseFloat(document.getElementById("cantidad6").value), 
     PRECIO: parseFloat(document.getElementById("precio6").value), 
-    TOTAL: parseFloat(document.getElementById("precio6").value)*parseFloat(document.getElementById("precio6").value), 
+    TOTAL: parseFloat(document.getElementById("precio6").value)*parseFloat(document.getElementById("cantidad6").value), 
     ACCION: numeroFilas + "Eliminar"
     };
 

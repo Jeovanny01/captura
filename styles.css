@@ -569,13 +569,31 @@ body {
 }
 
 /* Contenedor para los filtros */
+/* 🔹 Contenedor de filtros */
 #filtros {
     display: flex;
-    flex-wrap: wrap; /* Permite que los elementos pasen a una nueva línea si no caben */
-    gap: 10px; /* Espaciado entre los elementos */
+    flex-wrap: wrap;
+    gap: 10px;
     align-items: center;
     justify-content: flex-start;
     margin-bottom: 20px;
+    width: 100%;
+}
+
+/* 🔹 Campo de texto */
+#filtros input[type="text"] {
+    flex: 1 1 auto;
+    min-width: 150px;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+/* 🔹 Botón Filtrar */
+#filtros button {
+    flex: 0 0 auto;
+    padding: 5px 5px;
+    font-size: 14px;
+    cursor: pointer;
 }
 
 #filtros label {
@@ -591,12 +609,6 @@ body {
     width: 200px; /* Establece un ancho uniforme */
 }
 
-#filtros button {
-    flex: 0 0 auto; /* Evita que el botón se estire */
-    padding: 10px 15px;
-    font-size: 14px;
-    cursor: pointer;
-}
 
 /* Estilos de la tabla */
 #tablaDatos {
@@ -793,18 +805,36 @@ select, input {
     gap: 10px; /* Espacio entre los elementos */
 }
 /* This is for all screen sizes by default (mobile first) */
+
+/* Mobile Styles */
+/* Estilo base (para móvil y pantallas pequeñas) */
 .scan-buttons {
     display: flex;
+    flex-direction: row;
     gap: 10px;
-    flex-wrap: wrap; /* Allows buttons to wrap to a new line on small screens */
     width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 20px;
 }
 
-/* This media query applies only to screens larger than 768px (common breakpoint for tablets/desktops) */
+.scan-buttons button {
+    flex: 1 1 calc(50% - 5px); /* Restamos la mitad del gap */
+    max-width: calc(50% - 5px);
+    min-width: 0;
+    box-sizing: border-box;
+    padding: 10px;
+    font-size: 14px;
+}
+
+/* Estilo para pantallas grandes (escritorio) */
 @media (min-width: 768px) {
     .scan-buttons {
-        flex-wrap: nowrap; /* Prevents wrapping on desktop */
-        justify-content: flex-start; /* Aligns items to the left */
-        width: auto; /* Buttons will only take up the space they need */
+        justify-content: flex-start;
+        width: auto;
+    }
+
+    .scan-buttons button {
+        flex: 0 0 auto;
+        width: auto;
     }
 }
