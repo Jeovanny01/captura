@@ -43,7 +43,7 @@ document.getElementById("nombreCliente4").value =    localStorage.getItem("nombr
 document.getElementById("tipoPrecio4").value=localStorage.getItem("tipoPrecio4");
 window.scrollTo(0, 0);
 };
-//VENTA2
+//VENTA 2
 function guardarTabla6(){
     localStorage.setItem("nombreCliente2",document.getElementById("nombreCliente6").value);
     localStorage.setItem("codCliente2", codCliente2);
@@ -662,16 +662,16 @@ cant4.addEventListener('input', () => {
 
     if( empresa =="FUNNY") {
     if (cantidad > 0){   
-        let valorbusado = buscarProducto(codigo)
-        precio =  valorbusado.PRECIO_MAYOREO || valorbusado.PRECIO ||  0;
-        document.getElementById("precio4").value = precio
+       // let valorbusado = buscarProducto(codigo)
+       // precio =  valorbusado.PRECIO_MAYOREO || valorbusado.PRECIO ||  0;
+        //document.getElementById("precio4").value = precio
         formatear("precio4",precio)
     }  else 
     {
-        
-        let valorbusado = buscarProducto(codigo)
-        precio =  valorbusado.PRECIO
-        document.getElementById("precio4").value = precio
+
+        //let valorbusado = buscarProducto(codigo)
+        //precio =  valorbusado.PRECIO
+        //document.getElementById("precio4").value = precio
         formatear("precio4",precio)
     }
 }
@@ -684,6 +684,7 @@ else
     formatear("total4",precio*cantidad)
 
 });
+
 const prec4 = document.getElementById('precio4');
 prec4.addEventListener('input', () => {
     let cantidad = parseFloat(document.getElementById("cantidad4").value.trim()) || 0;
@@ -700,15 +701,15 @@ cant6.addEventListener('input', () => {
     let cantidad = parseFloat(document.getElementById("cantidad6").value.trim()) || 0;
     let precio = parseFloat(document.getElementById("precio6").value) || 0;
     if (cantidad > 0){   
-        let valorbusado = buscarProducto(codigo)
-        precio = valorbusado.PRECIO_MAYOREO || valorbusado.PRECIO ||  0;
-        document.getElementById("precio6").value = precio
+        // let valorbusado = buscarProducto(codigo)
+        // precio = valorbusado.PRECIO_MAYOREO || valorbusado.PRECIO ||  0;
+        // document.getElementById("precio6").value = precio
         formatear("precio6",precio)
     }  else 
     {
-        let valorbusado = buscarProducto(codigo)
-        precio =  valorbusado.PRECIO
-        document.getElementById("precio6").value = precio
+        // let valorbusado = buscarProducto(codigo)
+        // precio =  valorbusado.PRECIO
+        // document.getElementById("precio6").value = precio
         formatear("precio6",precio)
     }
 
@@ -732,15 +733,15 @@ cant7.addEventListener('input', () => {
     let cantidad = parseFloat(document.getElementById("cantidad7").value.trim()) || 0;
     let precio = parseFloat(document.getElementById("precio7").value) || 0;
     if (cantidad > 0){   
-        let valorbusado = buscarProducto(codigo)
-        precio =  valorbusado.PRECIO_MAYOREO || valorbusado.PRECIO ||  0;
-        document.getElementById("precio7").value = precio
+        // let valorbusado = buscarProducto(codigo)
+        // precio =  valorbusado.PRECIO_MAYOREO || valorbusado.PRECIO ||  0;
+        // document.getElementById("precio7").value = precio
         formatear("precio7",precio)
     }  else 
     {
-        let valorbusado = buscarProducto(codigo)
-        precio =  valorbusado.PRECIO
-        document.getElementById("precio7").value = precio
+        // let valorbusado = buscarProducto(codigo)
+        // precio =  valorbusado.PRECIO
+        // document.getElementById("precio7").value = precio
         formatear("precio7",precio)
     }
 
