@@ -6,7 +6,7 @@
   },
   "name": "captura",
   "version": "1.0.0",
-  "main": "acciones.js",
+  "main": "index.html",
   "devDependencies": {
     "parcel": "^2.13.3"
   },
