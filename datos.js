@@ -62,7 +62,7 @@ const fetchEjecutar = async (funct) => {
         console.error('Error en la petición:', error.message);
         throw error;
     }
-    
+
 }; 
 
 const fetchEjecutarSelect = async (funct) => {
@@ -597,6 +597,7 @@ async function  saveArticulo(event) {
     const precioNomal = document.getElementById("precioNomal").value;
     const session = JSON.parse(localStorage.getItem("session") || "{}");
     const itemInsert = document.getElementById("item").value ;
+    const fardo =0;
 
     const productoEncontrado = buscarProducto(articulo);
 
@@ -618,7 +619,7 @@ async function  saveArticulo(event) {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                accion:"INSERT",  articulo,  descripcion,  clasi1,  clasi2,  bulto,  precio,  precioUnit,  fotografia:IMAGEN,  usuario:session.user,precioNomal,itemInsert })
+                accion:"INSERT",  articulo,  descripcion,  clasi1,  clasi2,  bulto,  precio,  precioUnit,  fotografia:IMAGEN,  usuario:session.user,precioNomal,itemInsert,fardo,bd,empresa })
     }) 
         .then(response => {
             // Verificar si la respuesta es exitosa
