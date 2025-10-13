@@ -3,6 +3,9 @@
   to = "http://131.100.140.45:8082/:splat"
   status = 200
   
-  [build]
+[build]
   command = "npm run build"
   publish = "dist"
+
+[build.environment]
+  NODE_ENV = "production"
