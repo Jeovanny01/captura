@@ -12,8 +12,8 @@ let sucursalTabla = [];
 let categoriaTabla = [];
 let clientesTabla = [];
 let cotizacionesTabla =[];
-let empresa ="FUNNY";
-let bd ="FUNNY";
+let empresa ="AMIGO";
+let bd ="AMIGO";
 let codCliente1,codCliente2,codCliente3
 let ventaTotal=0;
 
@@ -62,7 +62,8 @@ const fetchEjecutar = async (funct) => {
         console.error('Error en la petición:', error.message);
         throw error;
     }
-};
+}; 
+
 const fetchEjecutarSelect = async (funct) => {
     try {
         const response = await fetch(url+funct, {
