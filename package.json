@@ -4,12 +4,6 @@
     "html5-qrcode": "^2.3.8",
     "node-fetch": "^2.6.1"  
   },
-  "name": "captura",
-  "version": "1.0.0",
-  "main": "index.html",
-  "devDependencies": {
-    "parcel": "^2.13.3"
-  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "parcel index.html",
