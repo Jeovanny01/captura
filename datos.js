@@ -62,6 +62,7 @@ const fetchEjecutar = async (funct) => {
         console.error('Error en la petición:', error.message);
         throw error;
     }
+    
 }; 
 
 const fetchEjecutarSelect = async (funct) => {
