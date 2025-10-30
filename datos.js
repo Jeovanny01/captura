@@ -12,8 +12,8 @@ let sucursalTabla = [];
 let categoriaTabla = [];
 let clientesTabla = [];
 let cotizacionesTabla =[];
-let empresa ="AMIGO";
-let bd ="AMIGO";
+let empresa ="FUNNY";
+let bd ="FUNNY";
 let codCliente1,codCliente2,codCliente3
 let ventaTotal=0;
 
@@ -593,11 +593,11 @@ async function  saveArticulo(event) {
     const clasi2 = document.getElementById("categoria").value;
     const bulto = document.getElementById("cantidad").value;
     const precio = document.getElementById("precio").value;
-    const precioUnit = parseFloat(document.getElementById("precioUnit").value) || 0;
+    const precioUnit = 0;//parseFloat(document.getElementById("precioUnit").value) || 0;
     const precioNomal = document.getElementById("precioNomal").value;
     const session = JSON.parse(localStorage.getItem("session") || "{}");
     const itemInsert = document.getElementById("item").value ;
-    const fardo =0;
+    const fardo =parseFloat(document.getElementById("piezaFardo").value) || 0;
 
     const productoEncontrado = buscarProducto(articulo);
 
