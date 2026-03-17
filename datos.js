@@ -1,5 +1,5 @@
 const url = "https://apitest.grupocarosa.com/ApiDatos/"
-let empresa ="DISPROSAL";
+let empresa ="DISPROAGRO";
 let bd ="DISPROSAL";
 let IMAGEN = null
 let IMAGENEDIT = null

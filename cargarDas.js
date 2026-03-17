@@ -3,10 +3,10 @@
    let cuentasCxP =[];
 
 document.addEventListener("DOMContentLoaded", () => {
-    cargarDatos2(document.getElementById('startDate').value,
-    document.getElementById('endDate').value) 
-actualizar();
+
 Promise.all([
+   cargarDatos2(document.getElementById('startDate').value,
+    document.getElementById('endDate').value),
     fetchDataExistenciaTotal(),
     fetchDataCxC(),
     fetchDataCxP()
