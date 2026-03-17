@@ -27,7 +27,6 @@ async function exportarAExcel() {
             alert("El JSON no es un arreglo.");
             return;
         }
-
         // Crear hoja de Excel desde los datos
         const worksheet = XLSX.utils.json_to_sheet(data);
         const workbook = XLSX.utils.book_new();
