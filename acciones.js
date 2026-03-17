@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (empresa==="FARMA") showSection('inventario');
     if (empresa==="FUNNY") showSection('ventas');
     if (empresa==="DISPROSAL") showSection('ventas');
-    if (empresa==="DISPROARO") showSection('ventas');
+    if (empresa==="DISPROAGRO") showSection('ventas');
     if (empresa==="AMIGO") showSection('register');
     if (empresa==="MMAG") showSection('ventas');
     if (empresa==="FUNNY") document.getElementById("precio4").readOnly = true;
