@@ -4,6 +4,14 @@
 
 document.addEventListener("DOMContentLoaded", () => {
 
+ const session = JSON.parse(localStorage.getItem("session") || "{}");
+
+    if (!session.isLoggedIn) {
+        window.location.href = "index.html";
+        return;
+    }
+    
+
 Promise.all([
    cargarDatos2(document.getElementById('startDate').value,
     document.getElementById('endDate').value),
