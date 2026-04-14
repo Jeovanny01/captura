@@ -37,6 +37,7 @@ document.getElementById('sucursal').addEventListener('change', function() {
 // Mostrar la sección de bienvenida por defecto cuando se carga la página
 document.addEventListener('DOMContentLoaded', () => {
     const session = JSON.parse(localStorage.getItem("session") || "{}");
+    user = session.user;
 
     if (!session.isLoggedIn) {
         window.location.href = "index.html";
@@ -77,7 +78,12 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById("inventario1").style.display = "block";
         document.getElementById("registrosInv1").style.display = "block";
         document.getElementById("cotizaciones1").style.display = "block";
-        document.getElementById("das").style.display = "block";
+
+        if(empresa == "DISPROSAL" || empresa == "DISPROAGRO" ) {
+
+            
+        }
+        else{        document.getElementById("das").style.display = "block"; }
         
     } 
     if (session.userRole === "3" ) {
@@ -171,12 +177,14 @@ document.addEventListener('DOMContentLoaded', () => {
 }
 
 try {
+   
     cargarCategorias();
     fetchData();
+    fetchPrivilegios();
    cargarSucursales();
    cargarClientes();
 
-    const session = JSON.parse(localStorage.getItem("session") || "{}");
+   
     if (["1", "3"].includes(session.userRole)) {
         fetchData2();
     }

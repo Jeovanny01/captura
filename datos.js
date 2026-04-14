@@ -1,6 +1,6 @@
 const url = "https://apitest.grupocarosa.com/ApiDatos/"
-let empresa ="DISPROAGRO";
-let bd ="DISPROSAL";
+let empresa ="FUNNY";
+let bd ="FUNNY";
 let IMAGEN = null
 let IMAGENEDIT = null
 let user
@@ -16,6 +16,7 @@ let clientesTabla = [];
 let cotizacionesTabla =[];
 let codCliente1,codCliente2,codCliente3
 let ventaTotal=0;
+let privilegios = [];
 
 const session = JSON.parse(localStorage.getItem("session") || "{}");
 async function exportarAExcel() {
@@ -2119,6 +2120,30 @@ async function fetchData() {
         }
     } catch (error) {
         console.error('Error al obtener los datos:', error);
+    }
+}
+
+async function fetchPrivilegios() {
+    try {
+        // Llama al endpoint con las fechas como parámetros
+        const response = await fetch(url + "loginPrivilegios", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+             user,  bd,  empresa
+            })
+        });
+
+        if (!response.ok) throw new Error('Error al obtener los datos.');
+        const data = await response.json();
+        if (data && data.length > 0) {
+        privilegios =data
+        
+        }
+    } catch (error) {
+        console.error('Error al obtener los datos de privilegios:', error);
     }
 }
 
