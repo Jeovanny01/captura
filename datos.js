@@ -604,6 +604,7 @@ async function  saveArticulo(event) {
     const session = JSON.parse(localStorage.getItem("session") || "{}");
     const itemInsert = document.getElementById("item").value ;
     const fardo =parseFloat(document.getElementById("piezaFardo").value) || 0;
+    const minimo =parseFloat(document.getElementById("piezaMinimo").value) || 0;
 
     const productoEncontrado = buscarProducto(articulo);
 
@@ -640,7 +641,7 @@ async function  saveArticulo(event) {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                accion:"INSERT",  articulo,  descripcion,  clasi1,  clasi2,  bulto,  precio,  precioUnit,  fotografia:IMAGEN,  usuario:session.user,precioNomal,itemInsert,fardo,bd,empresa })
+                accion:"INSERT",  articulo,  descripcion,  clasi1,  clasi2,  bulto,  precio,  precioUnit,  fotografia:IMAGEN,  usuario:session.user,precioNomal,itemInsert,fardo,bd,empresa,minimo })
     }) 
         .then(response => {
             // Verificar si la respuesta es exitosa
@@ -1721,7 +1722,7 @@ if (registroSeleccionado.length > 0) {
 }
 }
 
-const articuloEdit = async (accion, articulo, descripcion, items,empresa,cat1,cat2,precio=0,precioNormal=0,precioUnitario=0,artNvo="",fardo=0) => {
+const articuloEdit = async (accion, articulo, descripcion, items,empresa,cat1,cat2,precio=0,precioNormal=0,precioUnitario=0,artNvo="",fardo=0,minimo=0) => {
     try {
         const response = await fetch(url + "articuloEdit", {
             method: "POST",
@@ -1729,7 +1730,7 @@ const articuloEdit = async (accion, articulo, descripcion, items,empresa,cat1,ca
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                accion, articulo, descripcion, items,empresa,cat1,cat2,precio,precioNormal,precioUnitario,fotografia:IMAGENEDIT,artNvo,fardo,
+                accion, articulo, descripcion, items,empresa,cat1,cat2,precio,precioNormal,precioUnitario,fotografia:IMAGENEDIT,artNvo,fardo,minimo
             })
         });
 
@@ -1898,6 +1899,7 @@ async function  saveRegistro(event) {
     const precioNormal = document.getElementById("precioNomalEdit").value;
     const precioUnitario = document.getElementById("precioUnitEdit").value;
     const fardo = document.getElementById("piezaFardoEdit").value || 0;
+    const minimo =parseFloat(document.getElementById("piezaMinimoEdit").value) || 0;
     const productoEncontrado = buscarProducto(artNvo);
 
     // if (productoEncontrado) {
@@ -1909,7 +1911,7 @@ async function  saveRegistro(event) {
 
     if (document.getElementById("articulo").readOnly) {
             try {
-                const response = await articuloEdit("UPDATE2", articulo,descripcion,items,"FUNNY",cat1,cat2,precio,precioNormal,precioUnitario,artNvo,fardo);
+                const response = await articuloEdit("UPDATE2", articulo,descripcion,items,"FUNNY",cat1,cat2,precio,precioNormal,precioUnitario,artNvo,fardo,minimo);
                 console.log("Actualizado:", response); 
                 // Lógica para actualizar la fila correspondiente en la tabla
                 //updateTableRowVend(id, nombre); // Función para actualizar la fila
@@ -2023,10 +2025,12 @@ function cargarFormulario(registro) {
                // Seleccionar el estado actual del registro
         document.getElementById("items").value = registro.ITEM;
         document.getElementById("categoriaEdit").value = registro.CODIGO;
-        document.getElementById("precioEdit").value = registro.PRECIO_MAYOREO;
-        document.getElementById("precioNomalEdit").value = registro.PRECIO;
-        document.getElementById("precioUnitEdit").value = registro.PRECIO_UNITARIO;
-        document.getElementById("piezaFardoEdit").value = registro.UNIDADES_FARDO;
+        document.getElementById("precioEdit").value = registro.PRECIO_MAYOREO ?? 0;
+        document.getElementById("precioNomalEdit").value = registro.PRECIO ?? 0;
+        document.getElementById("precioUnitEdit").value = registro.PRECIO_UNITARIO ?? 0;
+        document.getElementById("piezaFardoEdit").value = registro.UNIDADES_FARDO ?? 0;
+        document.getElementById("piezaMinimoEdit").value = registro.PUNTO_DE_REORDEN ?? 0;
+        
 
     }
 }
