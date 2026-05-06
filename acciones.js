@@ -845,7 +845,7 @@ document.getElementById("filtroInput5").addEventListener("keydown", function(eve
 
   function validarClave() {
     const clave = document.getElementById("claveInput").value;
-    if (clave === "L211081"  || clave === "ancw95"  || clave === "Y199415" || clave === "S12125056"  || clave === "SL748826" || clave === "2020" ) {
+    if (clave === "L211081"  || clave === "ancw95"  || clave === "Y199415" || clave === "S12125056"  || clave === "SL748826" || clave === "987" ) {
       document.getElementById("paso1").style.display = "none";
       document.getElementById("paso2").style.display = "block";
     } else {
