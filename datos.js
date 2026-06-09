@@ -1897,7 +1897,7 @@ async function  saveRegistro(event) {
     const cat2 = document.getElementById("categoriaEdit").value;
     const precio = document.getElementById("precioEdit").value;
     const precioNormal = document.getElementById("precioNomalEdit").value;
-    const precioUnitario = document.getElementById("precioUnitEdit").value;
+    //const precioUnitario = document.getElementById("precioUnitEdit").value;
     const fardo = document.getElementById("piezaFardoEdit").value || 0;
     const minimo =parseFloat(document.getElementById("piezaMinimoEdit").value) || 0;
     const productoEncontrado = buscarProducto(artNvo);
@@ -1911,7 +1911,7 @@ async function  saveRegistro(event) {
 
     if (document.getElementById("articulo").readOnly) {
             try {
-                const response = await articuloEdit("UPDATE2", articulo,descripcion,items,"FUNNY",cat1,cat2,precio,precioNormal,precioUnitario,artNvo,fardo,minimo);
+                const response = await articuloEdit("UPDATE2", articulo,descripcion,items,"FUNNY",cat1,cat2,precio,precioNormal,0,artNvo,fardo,minimo);
                 console.log("Actualizado:", response); 
                 // Lógica para actualizar la fila correspondiente en la tabla
                 //updateTableRowVend(id, nombre); // Función para actualizar la fila
@@ -2027,7 +2027,7 @@ function cargarFormulario(registro) {
         document.getElementById("categoriaEdit").value = registro.CODIGO;
         document.getElementById("precioEdit").value = registro.PRECIO_MAYOREO ?? 0;
         document.getElementById("precioNomalEdit").value = registro.PRECIO ?? 0;
-        document.getElementById("precioUnitEdit").value = registro.PRECIO_UNITARIO ?? 0;
+        // document.getElementById("precioUnitEdit").value = registro.PRECIO_UNITARIO ?? 0;
         document.getElementById("piezaFardoEdit").value = registro.UNIDADES_FARDO ?? 0;
         document.getElementById("piezaMinimoEdit").value = registro.PUNTO_DE_REORDEN ?? 0;
         
