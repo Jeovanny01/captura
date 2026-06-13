@@ -448,8 +448,8 @@ document.getElementById('formVentas3').addEventListener('submit', function(event
         if(empresa =="MMAG") {
             if(parseFloat(productoCodigo.COSTO_PROMEDIO)-(parseFloat(document.getElementById("precio7").value)/1.13) > 0){
                  alert('Producto ESTA abajo del costo');
-                  guardarTabl7();
-            } else  guardarTabl7();
+                  guardarTabla7();
+            } else  guardarTabla7();
 
         } else  guardarTabla7(); // Llama a la función para registrar al alumno
 
@@ -629,7 +629,7 @@ buscar7.addEventListener('click', function () {
 
 // Función para actualizar los campos del formulario
 function actualizarCampos4(prod) {
-    
+    if (!prod) return;
     const productoCodigo =  buscarProductoPreacio(prod.ARTICULO);
     const tipoPrecio =  document.getElementById("tipoPrecio4").value;
     document.getElementById("codigo4").value = prod.ARTICULO || '';
@@ -659,6 +659,7 @@ formatear("total4",total)
 }
 // Función para actualizar los campos del formulario
 function actualizarCampos6(prod) {
+      if (!prod) return;
       const tipoPrecio =  document.getElementById("tipoPrecio6").value;
     document.getElementById("codigo6").value = prod.ARTICULO || '';
     document.getElementById("descripcion6").value = prod.DESCRIPCION || '';
@@ -681,6 +682,7 @@ formatear("total6",total)
 }
 
 function actualizarCampos7(prod) {
+    if (!prod) return;
     const tipoPrecio =  document.getElementById("tipoPrecio7").value;
     document.getElementById("codigo7").value = prod.ARTICULO || '';
     document.getElementById("descripcion7").value = prod.DESCRIPCION || '';

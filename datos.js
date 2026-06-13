@@ -297,13 +297,15 @@ document.getElementById('archivoEdit').addEventListener('change', function (even
 });
 
 function buscarProducto(codigo) {
-
-    return productos.find(producto => producto.ARTICULO.toUpperCase() === codigo.trim().toUpperCase());
+    if (!codigo) return null;
+    const cod = codigo.trim().toUpperCase();
+    return productos.find(producto => producto.ARTICULO?.trim().toUpperCase() === cod);
 }
 
 function buscarProductoPreacio(codigo) {
-
-    return productosTablaPrec.find(producto => producto.ARTICULO.toUpperCase() === codigo.trim().toUpperCase());
+    if (!codigo) return null;
+    const cod = codigo.trim().toUpperCase();
+    return productosTablaPrec.find(producto => producto.ARTICULO?.trim().toUpperCase() === cod);
 }
 
 function buscarItems(codigo) {
@@ -311,8 +313,9 @@ function buscarItems(codigo) {
     if (!codigo) return null;
 
     // 2. Uso de Optional Chaining (?.) para proteger la propiedad del producto
-    return productos.find(producto => 
-        producto.ITEM?.toUpperCase() === codigo.trim().toUpperCase()
+    const cod = codigo.trim().toUpperCase();
+    return productos.find(producto =>
+        producto.ITEM?.trim().toUpperCase() === cod
     );
 }
 
@@ -1329,11 +1332,20 @@ function generarTabla5(datos) {
         tablaExistente.remove();
     }
 
-    // Nota: La sección para el mensaje "No hay datos disponibles" y su eliminación
-    // no está presente en tu función original generarTabla5.
-    // Si la necesitas, deberías reincorporarla aquí.
-    // Asumo que solo quieres la lógica de tabla.
-
+    // Si no hay datos (ej. la búsqueda no encontró el producto),
+    // mostramos un mensaje y salimos para evitar el error de Object.keys(datos[0]).
+    if (!datos || !datos.length) {
+        if (!document.getElementById('mensajeNoDatos5')) {
+            const mensaje = document.createElement('p');
+            mensaje.textContent = 'No se encontró el producto.';
+            mensaje.id = 'mensajeNoDatos5';
+            contenedorTabla.appendChild(mensaje);
+        }
+        return;
+    } else {
+        const mensajeNoDatos = document.getElementById('mensajeNoDatos5');
+        if (mensajeNoDatos) mensajeNoDatos.remove();
+    }
 
     const table = document.createElement('table');
     table.id = 'tablaDatos5'; // Asigna un ID único a la tabla
