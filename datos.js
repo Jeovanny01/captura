@@ -1,6 +1,6 @@
 const url = "https://api.evolutiontech-sv.com/ApiDatos/"
-let empresa ="FUNNY";
-let bd ="FUNNY";
+let empresa ="PSS";
+let bd ="PSS";
 let IMAGEN = null
 let IMAGENEDIT = null
 let user
