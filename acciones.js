@@ -60,7 +60,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (empresa==="FUNNY") document.getElementById("precio6").readOnly = true;
     if (empresa==="FUNNY") document.getElementById("precio7").readOnly = true;
     if (empresa==="FUNNY") document.getElementById("precioPe").readOnly = true;
-    
+    if (empresa==="PSS") configurarPSSVentas();
+
     // if (empresa==="FUNNY") document.getElementById("precioPe").readOnly = true;
         document.getElementById("modalContra").style.display = "none";
   // Ocultar por defecto
@@ -163,10 +164,13 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById("loteL").style.display = "none";
         document.getElementById("precioPublicoL").style.display = "none";
         document.getElementById("precioPublico").style.display = "none";
-    } else{
+    } else if (empresa !== "PSS"){
         document.getElementById("tipoPrecio4").style.display = "none";
         document.getElementById("tipoPrecio6").style.display = "none";
         document.getElementById("tipoPrecio7").style.display = "none";
+        document.getElementById("lblTipo4").style.display = "none";
+        document.getElementById("lblTipo6").style.display = "none";
+        document.getElementById("lblTipo7").style.display = "none";
     }
 
 } catch (error) {
@@ -385,15 +389,18 @@ document.getElementById('formInventario').addEventListener('submit', function(ev
 
 // Añadir un "event listener" para el evento 'change'
 tipoPrecio4.addEventListener('change', function() {
+    if (empresa === "PSS") { sincronizarDescuento("4"); return; }
     const productoCodigo =  buscarProducto(document.getElementById("codigo4").value );
     actualizarCampos4(productoCodigo)
-   
+
 });
 tipoPrecio6.addEventListener('change', function() {
+    if (empresa === "PSS") { sincronizarDescuento("6"); return; }
     const productoCodigo =  buscarProducto(document.getElementById("codigo6").value );
     actualizarCampos6(productoCodigo)
 });
 tipoPrecio7.addEventListener('change', function() {
+    if (empresa === "PSS") { sincronizarDescuento("7"); return; }
     const productoCodigo =  buscarProducto(document.getElementById("codigo7").value );
     actualizarCampos7(productoCodigo)
 });
@@ -502,7 +509,7 @@ const cantPe = document.getElementById('cantidadPe');
 cantPe.addEventListener('input', () => {
     let cantidad = parseFloat(document.getElementById("cantidadPe").value.trim()) || 0;
     let precio = parseFloat(document.getElementById("precioPe").value) || 0;
-   document.getElementById("totalPe").value = cantidad*precio
+   document.getElementById("totalPe").value = Math.round(cantidad * precio * 1e6) / 1e6
 
 
 });
@@ -511,7 +518,7 @@ const precioPe = document.getElementById('precioPe');
 precioPe.addEventListener('input', () => {
     let cantidad = parseFloat(document.getElementById("cantidadPe").value.trim()) || 0;
     let precio = parseFloat(document.getElementById("precioPe").value) || 0;
-   document.getElementById("totalPe").value = cantidad*precio
+   document.getElementById("totalPe").value = Math.round(cantidad * precio * 1e6) / 1e6
 
 
 });
@@ -656,7 +663,8 @@ let cantidad = parseFloat(document.getElementById("cantidad4").value) || 0;
 // Calcula el total
 let total = precio * cantidad;
 formatear("precio4",precio)
-formatear("total4",total)
+if (empresa === "PSS") document.getElementById("descuento4").value = descuentoProducto("4");
+recalcularTotal("4")
 }
 // Función para actualizar los campos del formulario
 function actualizarCampos6(prod) {
@@ -679,7 +687,8 @@ let cantidad = parseFloat(document.getElementById("cantidad6").value) || 0;
 // Calcula el total
 let total = precio * cantidad;
 formatear("precio6",precio)
-formatear("total6",total)
+if (empresa === "PSS") document.getElementById("descuento6").value = descuentoProducto("6");
+recalcularTotal("6")
 }
 
 function actualizarCampos7(prod) {
@@ -700,7 +709,8 @@ let cantidad = parseFloat(document.getElementById("cantidad7").value) || 0;
 // Calcula el total
 let total = precio * cantidad;
 formatear("precio7",precio)
-formatear("total7",total)
+if (empresa === "PSS") document.getElementById("descuento7").value = descuentoProducto("7");
+recalcularTotal("7")
 }
 
 

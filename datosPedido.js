@@ -1,3 +1,59 @@
+// ====================== DESCUENTO POR LÍNEA (solo PSS) ======================
+// El descuento (%) se toma del producto según el tipo de precio seleccionado:
+//   EFECTIVO -> DESCUENTO1   |   TARJETA -> DESCUENTO2
+// Se autocompleta al buscar el producto y al cambiar la selección; el usuario puede editarlo.
+// El TOTAL de la línea = cantidad * precio * (1 - descuento/100).
+
+// Descuento del producto actual (por código) según EFECTIVO/TARJETA.
+function descuentoProducto(suf) {
+    const prod = buscarProducto(document.getElementById("codigo" + suf).value);
+    if (!prod) return 0;
+    const tipo = document.getElementById("tipoPrecio" + suf)?.value;
+    const d = (tipo === "TARJETA") ? prod.DESCUENTO2 : prod.DESCUENTO1;
+    return parseFloat(d) || 0;
+}
+
+// Descuento que está actualmente en el campo (lo que se aplica al total).
+function descuentoAplicado(suf) {
+    const inp = document.getElementById("descuento" + suf);
+    return inp ? (parseFloat(inp.value) || 0) : 0;
+}
+
+function totalLinea(suf) {
+    const cantidad = parseFloat((document.getElementById("cantidad" + suf).value || "").trim()) || 0;
+    const precio = parseFloat(document.getElementById("precio" + suf).value) || 0;
+    const total = cantidad * precio * (1 - descuentoAplicado(suf) / 100);
+    return Math.round(total * 1e6) / 1e6;
+}
+
+function recalcularTotal(suf) {
+    formatear("total" + suf, totalLinea(suf));
+}
+
+// Al cambiar EFECTIVO/TARJETA, recarga el descuento del producto según la selección.
+function sincronizarDescuento(suf) {
+    const inp = document.getElementById("descuento" + suf);
+    if (inp) inp.value = descuentoProducto(suf);
+    recalcularTotal(suf);
+}
+
+// Configura las 3 ventas para PSS: muestra el descuento y cambia el combo a EFECTIVO/TARJETA.
+function configurarPSSVentas() {
+    ["4", "6", "7"].forEach(suf => {
+        const sel = document.getElementById("tipoPrecio" + suf);
+        if (sel) sel.innerHTML = '<option value="EFECTIVO">EFECTIVO</option><option value="TARJETA">TARJETA</option>';
+
+        const inp = document.getElementById("descuento" + suf);
+        const lbl = document.getElementById("lblDescuento" + suf);
+        if (inp) {
+            inp.style.display = "";
+            inp.addEventListener('input', () => recalcularTotal(suf));
+        }
+        if (lbl) lbl.style.display = "";
+    });
+}
+// ============================================================================
+
 //VENTA 1
 function guardarTabla(){
     localStorage.setItem("nombreCliente", document.getElementById("nombreCliente4").value);
@@ -9,8 +65,9 @@ function guardarTabla(){
     ARTICULO: document.getElementById("codigo4").value.toUpperCase(),        
     DESCRIPCION: document.getElementById("descripcion4").value, 
     CANTIDAD: parseFloat(document.getElementById("cantidad4").value), 
-    PRECIO: parseFloat(document.getElementById("precio4").value), 
-    TOTAL:  parseFloat(document.getElementById("cantidad4").value)* parseFloat(document.getElementById("precio4").value), // parseFloat(document.getElementById("total4").value), 
+    PRECIO: parseFloat(document.getElementById("precio4").value),
+    ...(empresa === "PSS" ? { DESCUENTO: descuentoAplicado("4") } : {}),
+    TOTAL:  totalLinea("4"),
     ACCION: numeroFilas + "Eliminar"
     };
 
@@ -54,8 +111,9 @@ function guardarTabla6(){
     ARTICULO: document.getElementById("codigo6").value.toUpperCase(),        
     DESCRIPCION: document.getElementById("descripcion6").value, 
     CANTIDAD: parseFloat(document.getElementById("cantidad6").value), 
-    PRECIO: parseFloat(document.getElementById("precio6").value), 
-    TOTAL: parseFloat(document.getElementById("precio6").value)*parseFloat(document.getElementById("cantidad6").value), 
+    PRECIO: parseFloat(document.getElementById("precio6").value),
+    ...(empresa === "PSS" ? { DESCUENTO: descuentoAplicado("6") } : {}),
+    TOTAL: totalLinea("6"),
     ACCION: numeroFilas + "Eliminar"
     };
 
@@ -100,8 +158,9 @@ function guardarTabla7(){
     ARTICULO: document.getElementById("codigo7").value.toUpperCase(),        
     DESCRIPCION: document.getElementById("descripcion7").value, 
     CANTIDAD: parseFloat(document.getElementById("cantidad7").value), 
-    PRECIO: parseFloat(document.getElementById("precio7").value), 
-    TOTAL: parseFloat(document.getElementById("precio7").value)*parseFloat(document.getElementById("cantidad7").value), 
+    PRECIO: parseFloat(document.getElementById("precio7").value),
+    ...(empresa === "PSS" ? { DESCUENTO: descuentoAplicado("7") } : {}),
+    TOTAL: totalLinea("7"),
     ACCION: numeroFilas + "Eliminar"
     };
 
@@ -681,7 +740,7 @@ else
     formatear("precio4",precio)
 }
 
-    formatear("total4",precio*cantidad)
+    recalcularTotal("4")
 
 });
 
@@ -691,7 +750,7 @@ prec4.addEventListener('input', () => {
     let precio = parseFloat(document.getElementById("precio4").value) || 0;
 
 
-    formatear("total4",precio*cantidad)
+    recalcularTotal("4")
 
 });
 // venta 2
@@ -713,7 +772,7 @@ cant6.addEventListener('input', () => {
         formatear("precio6",precio)
     }
 
-    formatear("total6",precio*cantidad)
+    recalcularTotal("6")
 
 });
 const prec6 = document.getElementById('precio6');
@@ -722,7 +781,7 @@ prec6.addEventListener('input', () => {
     let precio = parseFloat(document.getElementById("precio6").value) || 0;
 
 
-    formatear("total6",precio*cantidad)
+    recalcularTotal("6")
 
 });
 
@@ -745,7 +804,7 @@ cant7.addEventListener('input', () => {
         formatear("precio7",precio)
     }
 
-    formatear("total7",precio*cantidad)
+    recalcularTotal("7")
 
 });
 const prec7 = document.getElementById('precio7');
@@ -754,6 +813,6 @@ prec7.addEventListener('input', () => {
     let precio = parseFloat(document.getElementById("precio7").value) || 0;
 
 
-    formatear("total7",precio*cantidad)
+    recalcularTotal("7")
 
 });
