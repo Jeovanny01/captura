@@ -5,6 +5,16 @@ let IMAGEN = null
 let IMAGENEDIT = null
 let user
 let productos = [];
+// Precarga productos desde el último fetch exitoso, para que la búsqueda/escaneo
+// no falle con "no encontrado" mientras la petición fresca sigue en camino.
+try {
+    const productosCache = localStorage.getItem("productosCache");
+    if (productosCache) {
+        productos = JSON.parse(productosCache);
+    }
+} catch (e) {
+    console.error("Error al leer caché de productos:", e);
+}
 let productosTablaPrec = [];
 let inventarioTabla = [];
 let pedidoTabla = [];
@@ -262,12 +272,15 @@ function reducirYConvertirImagen(archivo) {
     });
 }
 
-// Uso:
-document.getElementById('archivo').addEventListener('change', function (event) {
+// Uso: (estos inputs solo existen en menu.html; en otras páginas que cargan
+// datos.js, como das.html o index.html, el elemento no existe)
+const archivoInput = document.getElementById('archivo');
+if (archivoInput) {
+archivoInput.addEventListener('change', function (event) {
     const archivo = event.target.files[0];
 
     if (!archivo) return;
- 
+
     reducirYConvertirImagen(archivo)
         .then(base64 => {
             IMAGEN = base64.replace(/^data:.+;base64,/, '');
@@ -278,13 +291,16 @@ document.getElementById('archivo').addEventListener('change', function (event) {
             console.error("Error al redimensionar o convertir la imagen:", error);
         });
 });
+}
 
 // Uso:
-document.getElementById('archivoEdit').addEventListener('change', function (event) {
+const archivoEditInput = document.getElementById('archivoEdit');
+if (archivoEditInput) {
+archivoEditInput.addEventListener('change', function (event) {
     const archivo = event.target.files[0];
 
     if (!archivo) return;
- 
+
     reducirYConvertirImagen(archivo)
         .then(base64 => {
             IMAGENEDIT = base64.replace(/^data:.+;base64,/, '');
@@ -295,6 +311,7 @@ document.getElementById('archivoEdit').addEventListener('change', function (even
             console.error("Error al redimensionar o convertir la imagen:", error);
         });
 });
+}
 
 function buscarProducto(codigo) {
     if (!codigo) return null;
@@ -2013,6 +2030,13 @@ closeModal();
 
 
 function closeModal() {
+    (window._scanners || []).forEach(fn => {
+        try {
+            fn();
+        } catch (e) {
+            console.error("Error al detener escáner:", e);
+        }
+    });
     const modal= document.getElementById("formulario");
     modal.style.display = "none";
     const modal2= document.getElementById("formulario2");
@@ -2123,45 +2147,54 @@ async function fetchData() {
             })
         });
 
-        if (!response.ok) throw new Error('Error al obtener los datos.');
+        if (!response.ok) {
+            const textoError = await response.text().catch(() => '');
+            throw new Error(`Error al obtener los datos. Status: ${response.status}. Respuesta del servidor: ${textoError}`);
+        }
         const data = await response.json();
         if (data && data.length > 0) {
         productos =data
+        try {
+            localStorage.setItem("productosCache", JSON.stringify(data));
+        } catch (e) {
+            console.error("Error al guardar caché de productos:", e);
+        }
         // Genera la tabla y la inserta en la sección "datos"
-      
+
             generarTabla(data);
             generarTabla5(data);
-     
+
 
         }
     } catch (error) {
         console.error('Error al obtener los datos:', error);
+        alert('Error al cargar productos: ' + error.message);
     }
 }
 
-async function fetchPrivilegios() {
-    try {
-        // Llama al endpoint con las fechas como parámetros
-        const response = await fetch(url + "loginPrivilegios", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-             user,  bd,  empresa
-            })
-        });
+// async function fetchPrivilegios() {
+//     try {
+//         // Llama al endpoint con las fechas como parámetros
+//         const response = await fetch(url + "loginPrivilegios", {
+//             method: "POST",
+//             headers: {
+//                 "Content-Type": "application/json"
+//             },
+//             body: JSON.stringify({
+//              user,  bd,  empresa
+//             })
+//         });
 
-        if (!response.ok) throw new Error('Error al obtener los datos.');
-        const data = await response.json();
-        if (data && data.length > 0) {
-        privilegios =data
+//         if (!response.ok) throw new Error('Error al obtener los datos.');
+//         const data = await response.json();
+//         if (data && data.length > 0) {
+//         privilegios =data
         
-        }
-    } catch (error) {
-        console.error('Error al obtener los datos de privilegios:', error);
-    }
-}
+//         }
+//     } catch (error) {
+//         console.error('Error al obtener los datos de privilegios:', error);
+//     }
+// }
 
 
 

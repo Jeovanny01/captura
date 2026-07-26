@@ -1,5 +1,18 @@
 
+// Detiene cualquier escáner de cámara que haya quedado activo (evita que se quede
+// usando la cámara al cambiar de sección/tab y bloquee el siguiente escaneo)
+function detenerTodosLosEscaneres() {
+    (window._scanners || []).forEach(fn => {
+        try {
+            fn();
+        } catch (e) {
+            console.error("Error al detener escáner:", e);
+        }
+    });
+}
+
 function showSection(sectionId) {
+    detenerTodosLosEscaneres();
     document.querySelectorAll('section').forEach(section => section.style.display = 'none');
     document.getElementById(sectionId).style.display = 'block';
 }
@@ -774,6 +787,7 @@ function agregarTitulosTabla() {
     tabla.appendChild(filaEncabezado);
 }
 function switchTab(event, tabId) {
+   detenerTodosLosEscaneres();
    // Ocultar todas las pestañas
    const tabs = document.querySelectorAll('.tab-content');
    tabs.forEach(tab => tab.classList.remove('active-tab'));

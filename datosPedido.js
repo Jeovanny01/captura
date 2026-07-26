@@ -245,8 +245,8 @@ for (let fila of pedidoTabla) {
 
        }
 
-      
-         cancelarPedido(1);
+
+         cancelarPedido(1, 'venta1');
             alert('Cotizacion registrada con éxito No. ' + cot);
             button.disabled = false;
             if(empresa !="FUNNY") {descargarPdfCot(cot);}
@@ -326,8 +326,8 @@ document.getElementById("spinner2").style.display = "inline"; // Muestra el spin
         console.log(result);  // Ver el contenido del objeto JSON
         if (result.success) {
         cot =result.cotizacion;   
-           document.getElementById("spinner2").style.display = "none";           
-           cancelarPedido(1);
+           document.getElementById("spinner2").style.display = "none";
+           cancelarPedido(1, 'venta1');
             button.disabled = false;
              alert('Cotizacion registrada con éxito No. ' + cot);
             if(empresa !="FUNNY") {
@@ -450,15 +450,15 @@ document.getElementById("spinner3").style.display = "inline";
         console.log(result);  // Ver el contenido del objeto JSON
         if (result.success) {
         cot =result.cotizacion; 
-            document.getElementById("spinner3").style.display = "none";             
-            cancelarPedido(1)
+            document.getElementById("spinner3").style.display = "none";
+            cancelarPedido(1, 'venta2')
             button.disabled = false;
              alert('Cotizacion registrada con éxito No. ' + cot);
             if(empresa !="FUNNY") {descargarPdfCot(cot);}
         } else {
             const errorMessage = result.data[0].ErrorMessage;
             button.disabled = false;
-            document.getElementById("spinner3").style.display = "none"; 
+            document.getElementById("spinner3").style.display = "none";
             console.error('Error:', errorMessage);
             alert('Hubo un error al registrar: ' + errorMessage);          
         }
@@ -572,8 +572,8 @@ document.getElementById("spinner4").style.display = "inline";
         console.log(result);  // Ver el contenido del objeto JSON
         if (result.success) {
         cot =result.cotizacion;   
-        document.getElementById("spinner4").style.display = "none";           
-            cancelarPedido(1)
+        document.getElementById("spinner4").style.display = "none";
+            cancelarPedido(1, 'venta3')
             button.disabled = false;
             alert('Cotizacion registrada con éxito No. ' + cot);
             if(empresa !="FUNNY") {descargarPdfCot(cot);}
@@ -599,8 +599,11 @@ document.getElementById("spinner4").style.display = "inline";
 }) 
 };
 
-async function  cancelarPedido(guardar = 0) {
-let tab =   localStorage.getItem("ventana") || "venta1"
+async function  cancelarPedido(guardar = 0, tabForzado = null) {
+// tabForzado permite indicar explícitamente qué pedido limpiar (venta1/venta2/venta3)
+// en vez de confiar en localStorage.getItem("ventana"), que puede quedar desactualizado
+// si el usuario cambió de pestaña o tiene otra pestaña del navegador abierta.
+let tab =   tabForzado || localStorage.getItem("ventana") || "venta1"
 if (guardar ==0) {
 let confirmacion = confirm("¿Estás seguro de que deseas borrar la VENTA?");
 

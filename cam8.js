@@ -72,6 +72,7 @@ startScanButton.addEventListener("click", () => {
                     )
                     .catch((err) => {
                         console.error("Error al iniciar el escáner:", err);
+                        alert("No se pudo iniciar la cámara. Verifica que no esté siendo usada en otra pestaña y que hayas dado permiso de cámara.\n\n" + err);
                     });
 
                 stopScanButton.disabled = false;
@@ -82,6 +83,7 @@ startScanButton.addEventListener("click", () => {
         })
         .catch((err) => {
             console.error("Error al obtener cámaras:", err);
+            alert("No se pudo acceder a las cámaras del dispositivo.\n\n" + err);
         });
 });
 
@@ -102,6 +104,14 @@ function detener() {
         console.error("Error al detener el escáner automáticamente:", err);
     });
 }
+
+// Permite que otras partes de la app (cambio de sección/tab) detengan este scanner si quedó activo
+window._scanners = window._scanners || [];
+window._scanners.push(() => {
+    if (html5QrCode && !stopScanButton.disabled) {
+        detener();
+    }
+});
 
 
 
