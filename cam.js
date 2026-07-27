@@ -26,65 +26,71 @@ startScanButton.addEventListener("click", () => {
         ],
     };
 
-    // Obtener las cámaras disponibles
-    Html5Qrcode.getCameras()
-        .then((devices) => {
-            if (devices && devices.length) {
-                // Intentar usar la cámara trasera primero
-                let cameraId;
-      // Priorizar la cámara trasera si el dispositivo es iOS
- const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+    function onScanSuccess(decodedText, decodedResult) {
+        // Muestra el resultado
+        // Busca el producto en el arreglo
+       // decodedText = inputCodigo&decodedText;
+        const productoEncontrado = buscarProducto(decodedText);
 
- if (isIOS) {
-     cameraId = devices[devices.length - 1].id; // Selecciona la última cámara (generalmente es la trasera en iOS)
- } else {
-     const backCamera = devices.find(device => device.label.toLowerCase().includes("back"));
-     cameraId = backCamera ? backCamera.id : devices[0].id; // Usa la cámara trasera si está disponible
- }
+        if (productoEncontrado) {
+            // Si el producto existe, detén el escáner y muestra un mensaje
+            detener(); // Detiene el escáner
+            alert(`Producto encontrado: ${productoEncontrado.ARTICULO}, NOMBRE: ${productoEncontrado.DESCRIPCION}`);
+            return; // Sale de la función para que no continúe
+        }
 
-                // Iniciar el escáner
-                html5QrCode
-                    .start(
-                        cameraId,
-                        config,
-                        (decodedText, decodedResult) => {
-                            // Muestra el resultado
-                            // Busca el producto en el arreglo
-                           // decodedText = inputCodigo&decodedText;
-                            const productoEncontrado = buscarProducto(decodedText);
+            emitirPitido();
 
-                            if (productoEncontrado) {
-                                // Si el producto existe, detén el escáner y muestra un mensaje
-                                detener(); // Detiene el escáner
-                                alert(`Producto encontrado: ${productoEncontrado.ARTICULO}, NOMBRE: ${productoEncontrado.DESCRIPCION}`);
-                                return; // Sale de la función para que no continúe
-                            } 
-                            
-                                emitirPitido();
-                            
 
-                            inputCodigo.value = decodedText;
-                            console.log("Resultado completo:", decodedResult);
-                            setTimeout(() => {
-                                detener();
-                            }, 300);
-                            
-                        }
-                    )
-                    .catch((err) => {
-                        console.error("Error al iniciar el escáner:", err);
-                        alert("No se pudo iniciar la cámara. Verifica que no esté siendo usada en otra pestaña y que hayas dado permiso de cámara.\n\n" + err);
-                    });
+        inputCodigo.value = decodedText;
+        console.log("Resultado completo:", decodedResult);
+        setTimeout(() => {
+            detener();
+        }, 300);
+    }
 
-                stopScanButton.disabled = false;
-                startScanButton.disabled = true;
-            } else {
-                alert("No se encontraron cámaras.");
-            }
+    // Se pide directamente la cámara trasera con facingMode "environment" en vez de
+    // elegir un deviceId por índice: en iPhones con varios lentes traseros (gran
+    // angular, ultra gran angular, teleobjetivo) elegir por índice a veces selecciona
+    // el ultra gran angular, que no tiene autoenfoque y sale borroso. facingMode deja
+    // que el sistema elija el lente principal correcto, tanto en iOS como en Android.
+    html5QrCode
+        .start(
+            { facingMode: { exact: "environment" } },
+            config,
+            onScanSuccess
+        )
+        .then(() => {
+            stopScanButton.disabled = false;
+            startScanButton.disabled = true;
         })
         .catch((err) => {
-            console.error("Error al obtener cámaras:", err);
-            alert("No se pudo acceder a las cámaras del dispositivo.\n\n" + err);
+            console.error("Error al iniciar con facingMode environment, probando por lista de cámaras:", err);
+            // Respaldo para navegadores/dispositivos que no soportan facingMode exact
+            Html5Qrcode.getCameras()
+                .then((devices) => {
+                    if (devices && devices.length) {
+                        const backCamera = devices.find(device => device.label.toLowerCase().includes("back"));
+                        const cameraId = backCamera ? backCamera.id : devices[devices.length - 1].id;
+
+                        html5QrCode
+                            .start(cameraId, config, onScanSuccess)
+                            .then(() => {
+                                stopScanButton.disabled = false;
+                                startScanButton.disabled = true;
+                            })
+                            .catch((err2) => {
+                                console.error("Error al iniciar el escáner:", err2);
+                                alert("No se pudo iniciar la cámara. Verifica que no esté siendo usada en otra pestaña y que hayas dado permiso de cámara.\n\n" + err2);
+                            });
+                    } else {
+                        alert("No se encontraron cámaras.");
+                    }
+                })
+                .catch((err2) => {
+                    console.error("Error al obtener cámaras:", err2);
+                    alert("No se pudo acceder a las cámaras del dispositivo.\n\n" + err2);
+                });
         });
 });
 
