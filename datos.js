@@ -2169,29 +2169,29 @@ async function fetchData() {
     }
 }
 
-// async function fetchPrivilegios() {
-//     try {
-//         // Llama al endpoint con las fechas como parámetros
-//         const response = await fetch(url + "loginPrivilegios", {
-//             method: "POST",
-//             headers: {
-//                 "Content-Type": "application/json"
-//             },
-//             body: JSON.stringify({
-//              user,  bd,  empresa
-//             })
-//         });
+ async function fetchPrivilegios() {
+     try {
+         // Llama al endpoint con las fechas como parámetros
+         const response = await fetch(url + "loginPrivilegios", {
+             method: "POST",
+             headers: {
+                 "Content-Type": "application/json"
+             },
+             body: JSON.stringify({
+              user,  bd,  empresa
+             })
+         });
 
-//         if (!response.ok) throw new Error('Error al obtener los datos.');
-//         const data = await response.json();
-//         if (data && data.length > 0) {
-//         privilegios =data
+         if (!response.ok) throw new Error('Error al obtener los datos.');
+         const data = await response.json();
+         if (data && data.length > 0) {
+         privilegios =data
         
-//         }
-//     } catch (error) {
-//         console.error('Error al obtener los datos de privilegios:', error);
-//     }
-// }
+         }
+     } catch (error) {
+         console.error('Error al obtener los datos de privilegios:', error);
+     }
+ }
 
 
 
