@@ -92,6 +92,30 @@ function actualizarTituloPedido(tabId) {
     }
 }
 
+// Si el usuario borra a mano el nombre del cliente (después de haber seleccionado uno),
+// se entiende que quiere quitarlo, así que el código vuelve a "CLIENTE" por defecto.
+document.getElementById('nombreCliente4').addEventListener('input', function () {
+    if (this.value.trim() === '' && codCliente1 !== 'CLIENTE') {
+        codCliente1 = 'CLIENTE';
+        localStorage.setItem('codCliente1', codCliente1);
+        actualizarTituloPedido('venta1');
+    }
+});
+document.getElementById('nombreCliente6').addEventListener('input', function () {
+    if (this.value.trim() === '' && codCliente2 !== 'CLIENTE') {
+        codCliente2 = 'CLIENTE';
+        localStorage.setItem('codCliente2', codCliente2);
+        actualizarTituloPedido('venta2');
+    }
+});
+document.getElementById('nombreCliente7').addEventListener('input', function () {
+    if (this.value.trim() === '' && codCliente3 !== 'CLIENTE') {
+        codCliente3 = 'CLIENTE';
+        localStorage.setItem('codCliente3', codCliente3);
+        actualizarTituloPedido('venta3');
+    }
+});
+
 const codigoInput = document.getElementById('codigo');
 const internoCheckbox = document.getElementById('interno');
 const boton1 = document.getElementById('start-scan');
