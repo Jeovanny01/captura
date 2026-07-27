@@ -626,6 +626,7 @@ if (tab =="venta1") {
     document.getElementById("nombreCliente4").value=""
     codCliente1="CLIENTE"
     actualizarBadgePedido('venta1', 0);
+    actualizarTituloPedido('venta1');
 }
 if (tab =="venta2") {
     localStorage.removeItem("nombreCliente2"); 
@@ -639,6 +640,7 @@ if (tab =="venta2") {
     document.getElementById("nombreCliente6").value=""
      codCliente2="CLIENTE"
     actualizarBadgePedido('venta2', 0);
+    actualizarTituloPedido('venta2');
 }
 
 if (tab =="venta3") {
@@ -653,6 +655,7 @@ if (tab =="venta3") {
     document.getElementById("nombreCliente7").value=""
     codCliente3="CLIENTE"
     actualizarBadgePedido('venta3', 0);
+    actualizarTituloPedido('venta3');
 }
 };
 

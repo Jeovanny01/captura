@@ -78,6 +78,20 @@ function actualizarBadgePedido(tab, cantidad) {
     }
 }
 
+// Actualiza el título "Pedido de Cliente X" agregando el código del cliente
+// seleccionado (codCliente1/2/3), o "CLIENTE" si todavía no se ha elegido ninguno.
+function actualizarTituloPedido(tabId) {
+    const tituloPedido = document.getElementById('tituloPedido');
+    if (!tituloPedido) return;
+    if (tabId === 'venta1') {
+        tituloPedido.textContent = 'Pedido de Cliente 1 - ' + (codCliente1 || 'CLIENTE');
+    } else if (tabId === 'venta2') {
+        tituloPedido.textContent = 'Pedido de Cliente 2 - ' + (codCliente2 || 'CLIENTE');
+    } else if (tabId === 'venta3') {
+        tituloPedido.textContent = 'Pedido de Cliente 3 - ' + (codCliente3 || 'CLIENTE');
+    }
+}
+
 const codigoInput = document.getElementById('codigo');
 const internoCheckbox = document.getElementById('interno');
 const boton1 = document.getElementById('start-scan');
@@ -183,6 +197,7 @@ document.addEventListener('DOMContentLoaded', () => {
     codCliente1 = localStorage.getItem("codCliente1") || "CLIENTE"
     codCliente2 = localStorage.getItem("codCliente2") || "CLIENTE"
     codCliente3 = localStorage.getItem("codCliente3") || "CLIENTE"
+    actualizarTituloPedido(localStorage.getItem("ventana") || "venta1");
 
 //   if (session.userRole === "1" ) {
 //         fetchDataExistenciaTotal();
@@ -866,20 +881,8 @@ function switchTab(event, tabId) {
    document.getElementById(tabId).classList.add('active-tab');
 
    // Cambiar el título según la pestaña seleccionada
-   const tituloPedido = document.getElementById('tituloPedido');
-   if (tabId === 'venta1') {
-       tituloPedido.textContent = 'Pedido de Cliente 1';
-   } else if (tabId === 'venta2') {
-       tituloPedido.textContent = 'Pedido de Cliente 2';
-   } else if (tabId === 'venta3') {
-       tituloPedido.textContent = 'Pedido de Cliente 3'; 
-   }  else if (tabId === 'venta4') {
-    tituloPedido.textContent = 'Pedido de Cliente 4'; 
-   }
-    else if (tabId === 'venta5') {
-        tituloPedido.textContent = 'Pedido de Cliente 5'; 
-    }
-   
+   actualizarTituloPedido(tabId);
+
 
    // Marcar el botón activo
    const buttons = document.querySelectorAll('.tab-button');

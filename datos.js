@@ -1665,22 +1665,23 @@ if (registroSeleccionado.length > 0) {
 
     if (tab =="venta1") {
    codCliente1=id;
-   document.getElementById("nombreCliente4").value = nombreCliente; 
+   document.getElementById("nombreCliente4").value = nombreCliente;
    localStorage.setItem("nombreCliente",nombreCliente);
    localStorage.setItem("codCliente1",  codCliente1);
     }
     if (tab =="venta2") {
         codCliente2=id;
-        document.getElementById("nombreCliente6").value= nombreCliente; 
+        document.getElementById("nombreCliente6").value= nombreCliente;
         localStorage.setItem("nombreCliente2",nombreCliente);
         localStorage.setItem("codCliente2",  codCliente2);
     }
     if (tab =="venta3") {
         codCliente3=id;
-        document.getElementById("nombreCliente7").value= nombreCliente; 
+        document.getElementById("nombreCliente7").value= nombreCliente;
         localStorage.setItem("nombreCliente3",nombreCliente);
         localStorage.setItem("codCliente3",  codCliente3);
     }
+    actualizarTituloPedido(tab);
 
     closeModal();
 } else {
