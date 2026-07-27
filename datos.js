@@ -87,9 +87,10 @@ const fetchEjecutarSelect = async (funct) => {
         if (response.ok) {
             const data = await response.json();
             return data;
-            
+
         } else {
-            throw new Error(`Error en la petición. Código de estado:  ${response.status}`);
+            const textoError = await response.text().catch(() => '');
+            throw new Error(`Error en la petición "${funct}". Código de estado: ${response.status}. Respuesta del servidor: ${textoError}`);
         }
     } catch (error) {
         //alert('No hay conexion con el servidor, verificar internet',error.mensaje)
@@ -151,7 +152,7 @@ async function cargarClientes() {
        
     } catch (error) {
         console.error('Error al cargar los clientes:', error.message);
-    
+        alert('Error al cargar clientes: ' + error.message);
     }
 };
 async function cargarCotizaciones(fi,ff) {
@@ -209,19 +210,15 @@ async function cargarSucursales() {
             const option2 = document.createElement('option');
             option2.value = data.BODEGA;
             option2.textContent = data.NOMBRE;
-            selectBranch3.appendChild(option2);     
+            selectBranch3.appendChild(option2);
             //selectBranch3.value =  localStorage.getItem("sucursal") || "01";
-            
+
          });
 
 
     } catch (error) {
-        console.error('Error al cargar los categoria:', error.message);
-        const selectBranch = document.getElementById('categoria');
-        const option = document.createElement('option');
-        option.value = "error";
-        option.textContent = error.message;
-        selectBranch.appendChild(option);
+        console.error('Error al cargar las sucursales:', error.message);
+        alert('Error al cargar sucursales: ' + error.message);
     }
 };
 
@@ -2282,13 +2279,17 @@ async function fetchDataClientes() {
             })
         });
 
-        if (!response.ok) throw new Error('Error al obtener los datos.');
+        if (!response.ok) {
+            const textoError = await response.text().catch(() => '');
+            throw new Error(`Error al obtener los datos. Status: ${response.status}. Respuesta del servidor: ${textoError}`);
+        }
         const data = await response.json();
         return data;
         //clientesTabla = data;
-       
+
     } catch (error) {
         console.error('Error al obtener los datos:', error);
+        throw error;
     }
 }
 async function fetchDataCotizaciones(fi,ff) {
