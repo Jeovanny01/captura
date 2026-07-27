@@ -1,9 +1,7 @@
-const startScanButton = document.getElementById("start-scan2");
-const stopScanButton = document.getElementById("stop-scan2");
+const scanButton = document.getElementById("scan-toggle2");
 const inputCodigo = document.getElementById("codigo2");
 const inputDescripcion = document.getElementById("descripcion2");
 const inputItem = document.getElementById("item2");
-
 
 let html5QrCode;
    // Detectar el ancho del dispositivo
@@ -11,7 +9,22 @@ let html5QrCode;
    const screenHeight = window.innerHeight;
    const qrboxSize = Math.min(screenWidth * 0.6, screenHeight * 0.6);
 
-startScanButton.addEventListener("click", () => {
+function marcarEscaneando(activo) {
+    if (activo) {
+        scanButton.classList.add("escaneando");
+        scanButton.textContent = "⏹ Detener";
+    } else {
+        scanButton.classList.remove("escaneando");
+        scanButton.textContent = "📷 Escanear";
+    }
+}
+
+scanButton.addEventListener("click", () => {
+    if (scanButton.classList.contains("escaneando")) {
+        detener();
+        return;
+    }
+
     const qrCodeRegionId = "reader2";
     html5QrCode = new Html5Qrcode(qrCodeRegionId);
 
@@ -40,7 +53,7 @@ startScanButton.addEventListener("click", () => {
             inputDescripcion.value = productoEncontrado.DESCRIPCION
             inputItem.value = productoEncontrado.ITEM
 
-           // alert(`Producto encontrado: ${productoEncontrado.ARTICULO}, NOMBRE: ${productoEncontrado.DESCRIPCION}`);
+           // mostrarToast(`Producto encontrado: ${productoEncontrado.ARTICULO} - ${productoEncontrado.DESCRIPCION}`, 'exito');
             return; // Sale de la función para que no continúe
         }
 
@@ -67,8 +80,7 @@ startScanButton.addEventListener("click", () => {
             onScanSuccess
         )
         .then(() => {
-            stopScanButton.disabled = false;
-            startScanButton.disabled = true;
+            marcarEscaneando(true);
         })
         .catch((err) => {
             console.error("Error al iniciar con facingMode environment, probando por lista de cámaras:", err);
@@ -82,8 +94,7 @@ startScanButton.addEventListener("click", () => {
                         html5QrCode
                             .start(cameraId, config, onScanSuccess)
                             .then(() => {
-                                stopScanButton.disabled = false;
-                                startScanButton.disabled = true;
+                                marcarEscaneando(true);
                             })
                             .catch((err2) => {
                                 console.error("Error al iniciar el escáner:", err2);
@@ -100,18 +111,12 @@ startScanButton.addEventListener("click", () => {
         });
 });
 
-// Detener el escáner
-stopScanButton.addEventListener("click", () => {
-    detener();
-});
-
 function detener() {
     // Detener el escáner después de leer el código
     html5QrCode.stop()
     .then(() => {
         console.log("Escáner detenido automáticamente.");
-        stopScanButton.disabled = true; // Deshabilitar el botón "Detener escaneo"
-        startScanButton.disabled = false; // Habilitar el botón "Iniciar escaneo"
+        marcarEscaneando(false);
     })
     .catch((err) => {
         console.error("Error al detener el escáner automáticamente:", err);
@@ -121,7 +126,7 @@ function detener() {
 // Permite que otras partes de la app (cambio de sección/tab) detengan este scanner si quedó activo
 window._scanners = window._scanners || [];
 window._scanners.push(() => {
-    if (html5QrCode && !stopScanButton.disabled) {
+    if (html5QrCode && scanButton.classList.contains("escaneando")) {
         detener();
     }
 });

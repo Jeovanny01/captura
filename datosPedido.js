@@ -74,7 +74,7 @@ function guardarTabla(){
     if (empresa == "FUNNY"){
         if (parseFloat(document.getElementById("precio4").value)==0) {
 
-            alert("No se puede guardar a precio cero!!!") ;
+            mostrarToast("No se puede guardar a precio cero!!!", 'advertencia') ;
             return
         }
     }
@@ -95,6 +95,7 @@ let sumaFormateada = sumaTotal.toFixed(2)
 document.getElementById("totalGeneral").textContent  = " Total $ " + sumaFormateada.toString()+"   UNDS: "+piezas.toString();
 //document.getElementById("totalGeneral").value = formatear("totalGeneral",document.getElementById("totalGeneral").value)
 generarTabla4(pedidoTabla);
+actualizarBadgePedido('venta1', pedidoTabla.length);
 document.getElementById('formVentas').reset();  // 'miFormulario' es el ID del formulario
 document.getElementById("nombreCliente4").value =    localStorage.getItem("nombreCliente");
 document.getElementById("tipoPrecio4").value=localStorage.getItem("tipoPrecio4");
@@ -120,7 +121,7 @@ function guardarTabla6(){
     if (empresa == "FUNNY"){
         if (parseFloat(document.getElementById("precio6").value)==0) {
 
-            alert("No se puede guardar a precio cero!!!") ;
+            mostrarToast("No se puede guardar a precio cero!!!", 'advertencia') ;
             return
         }
     }
@@ -142,6 +143,7 @@ let sumaFormateada = sumaTotal.toFixed(2)
 document.getElementById("totalGeneral6").textContent  = " Total $ " + sumaFormateada.toString()+"   UNDS: "+piezas.toString();
 //document.getElementById("totalGeneral").value = formatear("totalGeneral",document.getElementById("totalGeneral").value)
 generarTabla6(pedidoTabla2);
+actualizarBadgePedido('venta2', pedidoTabla2.length);
 document.getElementById('formVentas2').reset();  // 'miFormulario' es el ID del formulario
 document.getElementById("nombreCliente6").value =    localStorage.getItem("nombreCliente2");
 document.getElementById("tipoPrecio6").value=localStorage.getItem("tipoPrecio6");
@@ -167,7 +169,7 @@ function guardarTabla7(){
     if (empresa == "FUNNY"){
         if (parseFloat(document.getElementById("precio7").value)==0) {
 
-            alert("No se puede guardar a precio cero!!!") ;
+            mostrarToast("No se puede guardar a precio cero!!!", 'advertencia') ;
             return
         }
     }
@@ -193,6 +195,7 @@ let sumaFormateada = sumaTotal.toFixed(2)
 document.getElementById("totalGeneral7").textContent  = " Total $ " + sumaFormateada.toString()+"   UNDS: "+piezas.toString();
 //document.getElementById("totalGeneral").value = formatear("totalGeneral",document.getElementById("totalGeneral").value)
 generarTabla7(pedidoTabla3);
+actualizarBadgePedido('venta3', pedidoTabla3.length);
 document.getElementById('formVentas3').reset();  // 'miFormulario' es el ID del formulario
 document.getElementById("nombreCliente7").value =    localStorage.getItem("nombreCliente3");
 document.getElementById("tipoPrecio7").value=localStorage.getItem("tipoPrecio7");
@@ -275,9 +278,8 @@ for (let fila of pedidoTabla) {
 
 async function  savePedidoNew(button) {
 
-    let confirmacion = 
-    confirm("¿Estás seguro de que deseas GUARDAR pedido?");
-    
+    let confirmacion = await confirmarAccion("¿Estás seguro de que deseas GUARDAR pedido?");
+
     if (!confirmacion) {
         return; // Sale de la función si el usuario cancela
     }
@@ -408,7 +410,7 @@ document.getElementById("spinner2").style.display = "inline"; // Muestra el spin
 };
 
 async function  savePedidoNew2(button) {
-    let confirmacion = confirm("¿Estás seguro de que deseas GUARDAR pedido?");
+    let confirmacion = await confirmarAccion("¿Estás seguro de que deseas GUARDAR pedido?");
     
     if (!confirmacion) {
         return; // Sale de la función si el usuario cancela
@@ -528,7 +530,7 @@ async function  savePedidoNew3(button) {
     
 
 
-    let confirmacion = confirm("¿Estás seguro de que deseas GUARDAR pedido?");
+    let confirmacion = await confirmarAccion("¿Estás seguro de que deseas GUARDAR pedido?");
     
     if (!confirmacion) {
         return; // Sale de la función si el usuario cancela
@@ -605,7 +607,7 @@ async function  cancelarPedido(guardar = 0, tabForzado = null) {
 // si el usuario cambió de pestaña o tiene otra pestaña del navegador abierta.
 let tab =   tabForzado || localStorage.getItem("ventana") || "venta1"
 if (guardar ==0) {
-let confirmacion = confirm("¿Estás seguro de que deseas borrar la VENTA?");
+let confirmacion = await confirmarAccion("¿Estás seguro de que deseas borrar la VENTA?");
 
     if (!confirmacion) {
         return; // Sale de la función si el usuario cancela
@@ -623,7 +625,7 @@ if (tab =="venta1") {
     document.getElementById("tablaDatos4").innerHTML = "";
     document.getElementById("nombreCliente4").value=""
     codCliente1="CLIENTE"
-   
+    actualizarBadgePedido('venta1', 0);
 }
 if (tab =="venta2") {
     localStorage.removeItem("nombreCliente2"); 
@@ -636,6 +638,7 @@ if (tab =="venta2") {
     document.getElementById("tablaDatos6").innerHTML = "";
     document.getElementById("nombreCliente6").value=""
      codCliente2="CLIENTE"
+    actualizarBadgePedido('venta2', 0);
 }
 
 if (tab =="venta3") {
@@ -647,8 +650,9 @@ if (tab =="venta3") {
     document.getElementById("btnCancelarPedido3").style.display = "none";
     document.getElementById("totalGeneral7").textContent  =""
     document.getElementById("tablaDatos7").innerHTML = "";
-    document.getElementById("nombreCliente7").value=""  
+    document.getElementById("nombreCliente7").value=""
     codCliente3="CLIENTE"
+    actualizarBadgePedido('venta3', 0);
 }
 };
 

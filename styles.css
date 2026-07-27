@@ -818,8 +818,7 @@ select, input {
 }
 
 .scan-buttons button {
-    flex: 1 1 calc(50% - 5px); /* Restamos la mitad del gap */
-    max-width: calc(50% - 5px);
+    flex: 1 1 100%;
     min-width: 0;
     box-sizing: border-box;
     padding: 10px;
@@ -837,4 +836,139 @@ select, input {
         flex: 0 0 auto;
         width: auto;
     }
+}
+
+/* ===== Botón único de escanear/detener cámara ===== */
+.btn-scan-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    background-color: #1e9e5a;
+    transition: background-color 0.15s ease;
+}
+
+.btn-scan-toggle:hover {
+    background-color: #187f48;
+}
+
+.btn-scan-toggle.escaneando {
+    background-color: #d9362f;
+}
+
+.btn-scan-toggle.escaneando:hover {
+    background-color: #b52b25;
+}
+
+/* ===== Toasts (reemplazan alerts de confirmación/validación) ===== */
+#toast-container {
+    position: fixed;
+    left: 50%;
+    bottom: 24px;
+    transform: translateX(-50%);
+    z-index: 3000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    width: 90%;
+    max-width: 420px;
+    pointer-events: none;
+}
+
+.toast {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px 16px;
+    border-radius: 8px;
+    color: white;
+    font-size: 15px;
+    text-align: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.toast.mostrar {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.toast-exito {
+    background-color: #1e9e5a;
+}
+
+.toast-advertencia {
+    background-color: #c77c00;
+}
+
+.toast-info {
+    background-color: #0044cc;
+}
+
+/* ===== Modal de confirmación (reemplaza confirm()) ===== */
+#confirmModal .modal-content {
+    text-align: center;
+}
+
+#confirmModalMensaje {
+    margin-bottom: 20px;
+    font-size: 16px;
+}
+
+#confirmModalBotones {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+#confirmModalBotones button {
+    flex: 1;
+}
+
+#confirmModalNo {
+    background-color: #888;
+}
+
+#confirmModalNo:hover {
+    background-color: #666;
+}
+
+/* ===== Indicador de carga inicial de datos ===== */
+#cargaInicialIndicador {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 6px 10px;
+    background-color: #0044cc;
+    color: white;
+    text-align: center;
+    font-size: 13px;
+    z-index: 2500;
+    opacity: 0;
+    transform: translateY(-100%);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+#cargaInicialIndicador.mostrar {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ===== Badge de pedido pendiente en pestañas Cliente 1/2/3 ===== */
+.tab-badge {
+    display: none;
+    margin-left: 6px;
+    background-color: #d9362f;
+    color: white;
+    border-radius: 999px;
+    padding: 1px 7px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.tab-badge.mostrar {
+    display: inline-block;
 }

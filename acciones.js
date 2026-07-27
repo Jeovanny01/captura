@@ -16,23 +16,82 @@ function showSection(sectionId) {
     document.querySelectorAll('section').forEach(section => section.style.display = 'none');
     document.getElementById(sectionId).style.display = 'block';
 }
+
+// Notificación breve no bloqueante, para reemplazar los alert() de validación/éxito
+// (los mensajes de error técnico siguen usando alert() tal cual, sin cambios).
+function mostrarToast(mensaje, tipo = 'info') {
+    let contenedor = document.getElementById('toast-container');
+    if (!contenedor) {
+        contenedor = document.createElement('div');
+        contenedor.id = 'toast-container';
+        document.body.appendChild(contenedor);
+    }
+    const toast = document.createElement('div');
+    toast.className = `toast toast-${tipo}`;
+    toast.textContent = mensaje;
+    contenedor.appendChild(toast);
+    requestAnimationFrame(() => toast.classList.add('mostrar'));
+    setTimeout(() => {
+        toast.classList.remove('mostrar');
+        setTimeout(() => toast.remove(), 250);
+    }, 3000);
+}
+
+// Modal de confirmación (reemplaza confirm()). Devuelve una Promise<boolean>.
+function confirmarAccion(mensaje) {
+    return new Promise((resolve) => {
+        const modal = document.getElementById('confirmModal');
+        const mensajeEl = document.getElementById('confirmModalMensaje');
+        const btnSi = document.getElementById('confirmModalSi');
+        const btnNo = document.getElementById('confirmModalNo');
+        if (!modal || !mensajeEl || !btnSi || !btnNo) {
+            // Respaldo por si el modal no existe en esta página
+            resolve(confirm(mensaje));
+            return;
+        }
+        mensajeEl.textContent = mensaje;
+        modal.style.display = 'flex';
+
+        function limpiar(resultado) {
+            modal.style.display = 'none';
+            btnSi.removeEventListener('click', onSi);
+            btnNo.removeEventListener('click', onNo);
+            resolve(resultado);
+        }
+        function onSi() { limpiar(true); }
+        function onNo() { limpiar(false); }
+
+        btnSi.addEventListener('click', onSi);
+        btnNo.addEventListener('click', onNo);
+    });
+}
+
+// Muestra/oculta el badge de "pedido pendiente" en la pestaña de Cliente 1/2/3
+function actualizarBadgePedido(tab, cantidad) {
+    const badge = document.getElementById('badge-' + tab);
+    if (!badge) return;
+    if (cantidad > 0) {
+        badge.textContent = cantidad;
+        badge.classList.add('mostrar');
+    } else {
+        badge.classList.remove('mostrar');
+    }
+}
+
 const codigoInput = document.getElementById('codigo');
 const internoCheckbox = document.getElementById('interno');
-const boton1 = document.getElementById('start-scan');
-const boton2 = document.getElementById('stop-scan');
+const botonScan = document.getElementById('scan-toggle');
 internoCheckbox.addEventListener('change', () => {
-    
+
     if (internoCheckbox.checked) {
         codigoInput.required = false; // Desactiva el atributo 'required'
         codigoInput.value = ''; // Limpia el valor del campo
         codigoInput.disabled = true; // Opcional: Desactiva el campo
-        boton1.disabled = true; 
-        boton2.disabled = true; 
+        botonScan.disabled = true;
     } else {
        // codigoInput.required = true; // Activa el atributo 'required'
         codigoInput.disabled = false; // Habilita el campo nuevamente
-        boton1.disabled = false; 
-        boton2.disabled = false; 
+        botonScan.disabled = false;
     }
 });
 document.getElementById('sucursal').addEventListener('change', function() {
@@ -145,6 +204,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById("btnCancelarPedido").style.display = "none";
         pedidoTabla = [];
     }
+    actualizarBadgePedido('venta1', pedidoTabla.length);
     if (pedidoTabla2.length > 0) {
         // Si hay datos, recuperar y procesar la tabla
         document.getElementById("btnGuardarPedido2").style.display = "flex";
@@ -156,6 +216,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById("btnCancelarPedido2").style.display = "none";
         pedidoTabla2 = [];
     }
+    actualizarBadgePedido('venta2', pedidoTabla2.length);
     if (pedidoTabla3.length > 0) {
         // Si hay datos, recuperar y procesar la tabla
         document.getElementById("btnGuardarPedido3").style.display = "flex";
@@ -167,6 +228,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById("btnCancelarPedido3").style.display = "none";
         pedidoTabla3 = [];
     }
+    actualizarBadgePedido('venta3', pedidoTabla3.length);
 
     if(empresa==="FUNNY") {
         document.getElementById("month").style.display = "none";
@@ -195,14 +257,19 @@ document.addEventListener('DOMContentLoaded', () => {
 }
 
 try {
-   
-    cargarCategorias();
-    fetchData();
-    fetchPrivilegios();
-   cargarSucursales();
-   cargarClientes();
 
-   
+    const cargaInicialIndicador = document.getElementById('cargaInicialIndicador');
+    if (cargaInicialIndicador) cargaInicialIndicador.classList.add('mostrar');
+    Promise.allSettled([
+        cargarCategorias(),
+        fetchData(),
+        fetchPrivilegios(),
+        cargarSucursales(),
+        cargarClientes()
+    ]).then(() => {
+        if (cargaInicialIndicador) cargaInicialIndicador.classList.remove('mostrar');
+    });
+
     if (["1", "3"].includes(session.userRole)) {
         fetchData2();
     }
@@ -426,7 +493,7 @@ document.getElementById('formVentas').addEventListener('submit', function(event)
         // Si encuentra el producto por código
         if(empresa =="MMAG") {
             if(parseFloat(productoCodigo.COSTO_PROMEDIO)-(parseFloat(document.getElementById("precio4").value)/1.13) > 0){
-                alert('Producto ESTA abajo del costo');
+                mostrarToast('Producto ESTA abajo del costo', 'advertencia');
                 guardarTabla();
             } else  guardarTabla();
 
@@ -434,7 +501,7 @@ document.getElementById('formVentas').addEventListener('submit', function(event)
 
        
     } else {
-        alert('Producto no existe en la base de datos');
+        mostrarToast('Producto no existe en la base de datos', 'advertencia');
     }
 });
 
@@ -447,7 +514,7 @@ document.getElementById('formVentas2').addEventListener('submit', function(event
         // Si encuentra el producto por código
         if(empresa =="MMAG") {
             if(parseFloat(productoCodigo.COSTO_PROMEDIO)-(parseFloat(document.getElementById("precio6").value)/1.13) > 0){
-                 alert('Producto ESTA abajo del costo');
+                 mostrarToast('Producto ESTA abajo del costo', 'advertencia');
                  guardarTabla6();
             } else  guardarTabla6();
 
@@ -455,7 +522,7 @@ document.getElementById('formVentas2').addEventListener('submit', function(event
 
 
     } else {
-        alert('Producto no existe en la base de datos');
+        mostrarToast('Producto no existe en la base de datos', 'advertencia');
     }
 });
 
@@ -468,14 +535,14 @@ document.getElementById('formVentas3').addEventListener('submit', function(event
         // Si encuentra el producto por código
         if(empresa =="MMAG") {
             if(parseFloat(productoCodigo.COSTO_PROMEDIO)-(parseFloat(document.getElementById("precio7").value)/1.13) > 0){
-                 alert('Producto ESTA abajo del costo');
+                 mostrarToast('Producto ESTA abajo del costo', 'advertencia');
                   guardarTabla7();
             } else  guardarTabla7();
 
         } else  guardarTabla7(); // Llama a la función para registrar al alumno
 
     } else {
-        alert('Producto no existe en la base de datos');
+        mostrarToast('Producto no existe en la base de datos', 'advertencia');
     }
 });
 const btnEliminar = document.getElementById('btnEliminar');
@@ -488,7 +555,7 @@ const buscarExistenciaBod = document.getElementById('buscarExistenciaBod');
 buscarExistenciaBod.addEventListener('click', function () {
   if(document.getElementById("codigo4").value ==="")
   {
-    alert ("Ingrese codigo")
+    mostrarToast("Ingrese código", 'advertencia')
     return;
   }
     cargarFormularioExist(document.getElementById("codigo4").value);
@@ -497,7 +564,7 @@ const buscarExistenciaBod6 = document.getElementById('buscarExistenciaBod6');
 buscarExistenciaBod6.addEventListener('click', function () {
   if(document.getElementById("codigo6").value ==="")
   {
-    alert ("Ingrese codigo")
+    mostrarToast("Ingrese código", 'advertencia')
     return;
   }
     cargarFormularioExist(document.getElementById("codigo6").value);
@@ -506,7 +573,7 @@ const buscarExistenciaBod7 = document.getElementById('buscarExistenciaBod7');
 buscarExistenciaBod7.addEventListener('click', function () {
   if(document.getElementById("codigo7").value ==="")
   {
-    alert ("Ingrese codigo")
+    mostrarToast("Ingrese código", 'advertencia')
     return;
   }
     cargarFormularioExist(document.getElementById("codigo7").value);
@@ -560,7 +627,7 @@ buscar.addEventListener('click', function () {
     }
 
     // Si no encuentra nada
-    alert('Producto no encontrado');
+    mostrarToast('Producto no encontrado', 'advertencia');
 });
 
 // Función para actualizar los campos del formulario
@@ -595,7 +662,7 @@ buscar4.addEventListener('click', function () {
     }
 
     // Si no encuentra nada
-    alert('Producto no encontrado');
+    mostrarToast('Producto no encontrado', 'advertencia');
 });
 
 const buscar6 = document.getElementById('btnbuscar6');
@@ -620,7 +687,7 @@ buscar6.addEventListener('click', function () {
     }
 
     // Si no encuentra nada
-    alert('Producto no encontrado');
+    mostrarToast('Producto no encontrado', 'advertencia');
 });
 
 const buscar7 = document.getElementById('btnbuscar7');
@@ -645,7 +712,7 @@ buscar7.addEventListener('click', function () {
     }
 
     // Si no encuentra nada
-    alert('Producto no encontrado');
+    mostrarToast('Producto no encontrado', 'advertencia');
 });
 
 // Función para actualizar los campos del formulario
@@ -821,23 +888,26 @@ function switchTab(event, tabId) {
 function eliminarFila(enlace) {
     const row = enlace.parentNode.parentNode; // Encuentra la fila del enlace
     pedidoTabla.splice(row.rowIndex-1, 1); // Elimina el elemento en el índice
-    localStorage.removeItem("pedidoTabla"); 
+    localStorage.removeItem("pedidoTabla");
     localStorage.setItem('pedidoTabla', JSON.stringify(pedidoTabla));
     recuperarTabla(pedidoTabla);
+    actualizarBadgePedido('venta1', pedidoTabla.length);
 }
 function eliminarFila2(enlace) {
     const row = enlace.parentNode.parentNode; // Encuentra la fila del enlace
     pedidoTabla2.splice(row.rowIndex-1, 1); // Elimina el elemento en el índice
-    localStorage.removeItem("pedidoTabla2"); 
+    localStorage.removeItem("pedidoTabla2");
     localStorage.setItem('pedidoTabla2', JSON.stringify(pedidoTabla2));
     recuperarTabla2(pedidoTabla2);
+    actualizarBadgePedido('venta2', pedidoTabla2.length);
 }
 function eliminarFila3(enlace) {
     const row = enlace.parentNode.parentNode; // Encuentra la fila del enlace
     pedidoTabla3.splice(row.rowIndex-1, 1); // Elimina el elemento en el índice
-    localStorage.removeItem("pedidoTabla3"); 
+    localStorage.removeItem("pedidoTabla3");
     localStorage.setItem('pedidoTabla3', JSON.stringify(pedidoTabla3));
     recuperarTabla3(pedidoTabla3);
+    actualizarBadgePedido('venta3', pedidoTabla3.length);
 }
 
 document.getElementById("filtroInputCliente").addEventListener("input", function() {
@@ -876,7 +946,7 @@ document.getElementById("filtroInput5").addEventListener("keydown", function(eve
       document.getElementById("paso1").style.display = "none";
       document.getElementById("paso2").style.display = "block";
     } else {
-      alert("Contraseña incorrecta.");
+      mostrarToast("Contraseña incorrecta.", 'advertencia');
     }
   }
 
@@ -928,7 +998,7 @@ if (tab =="venta1") {
     }
       cerrarModal();
     } else {
-      alert("Ingrese un precio válido.");
+      mostrarToast("Ingrese un precio válido.", 'advertencia');
     }
   }
 window.actualizarCampos4 = actualizarCampos4;

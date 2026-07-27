@@ -35,7 +35,7 @@ async function exportarAExcel() {
         const data = await response.json();
 
         if (!Array.isArray(data)) {
-            alert("El JSON no es un arreglo.");
+            mostrarToast("El JSON no es un arreglo.", 'advertencia');
             return;
         }
         // Crear hoja de Excel desde los datos
@@ -340,7 +340,7 @@ async function  ActualizaCortes(){
         const ff = document.getElementById("ff").value;
       
         if (!ff) {
-            alert("Seleccione fecha!");
+            mostrarToast("Seleccione fecha!", 'advertencia');
         return
         }
         // Llama al endpoint con las fechas como parámetros
@@ -525,11 +525,11 @@ async function  descargarPdfCotTicket(cot){
 }
 async function  hacerCierre(button){
     if (ventaTotal==0) {
-        alert("No se puede hacer cierre con valor cero!");
+        mostrarToast("No se puede hacer cierre con valor cero!", 'advertencia');
     return
     }
-    let confirmacion = confirm("¿Estás seguro de que deseas HACER CIERRE?");
-    
+    let confirmacion = await confirmarAccion("¿Estás seguro de que deseas HACER CIERRE?");
+
     if (!confirmacion) {
         return; // Sale de la función si el usuario cancela
     }
@@ -541,7 +541,7 @@ async function  hacerCierre(button){
         const bodega = document.getElementById("sucursal4").value;
         const ff = document.getElementById("ff").value;
         if (!ff) {
-            alert("Seleccione fecha!");
+            mostrarToast("Seleccione fecha!", 'advertencia');
         return
         }
     
@@ -627,7 +627,7 @@ async function  saveArticulo(event) {
 
     if (productoEncontrado) {
         // Si el producto existe, detén el escáner y muestra un mensaje
-        alert(`Producto encontrado: ${productoEncontrado.ARTICULO}, NOMBRE: ${productoEncontrado.DESCRIPCION}`);
+        mostrarToast(`Producto encontrado: ${productoEncontrado.ARTICULO} - ${productoEncontrado.DESCRIPCION}`, 'advertencia');
           // Limpiar el formulario
           document.getElementById('formRegistrar').reset();  // 'miFormulario' es el ID del formulario
           document.getElementById('btn-quitar').style.display = 'none';  // Ocultar el botón
@@ -640,7 +640,7 @@ async function  saveArticulo(event) {
 
     if (productoEncontradoItems) {
         // Si el producto existe, detén el escáner y muestra un mensaje
-        alert(`Producto encontrado en items: ${productoEncontradoItems.ARTICULO}, NOMBRE: ${productoEncontradoItems.DESCRIPCION}`);
+        mostrarToast(`Producto encontrado en items: ${productoEncontradoItems.ARTICULO} - ${productoEncontradoItems.DESCRIPCION}`, 'advertencia');
           // Limpiar el formulario
           document.getElementById('formRegistrar').reset();  // 'miFormulario' es el ID del formulario
           document.getElementById('btn-quitar').style.display = 'none';  // Ocultar el botón
@@ -680,9 +680,8 @@ async function  saveArticulo(event) {
                     document.getElementById('interno').checked =false;
                     document.getElementById('codigo').required = true; // Activa el atributo 'required'
                     document.getElementById('codigo').disabled = false; // Habilita el campo nuevamente
-                    document.getElementById('start-scan').disabled = false;
-                    document.getElementById('stop-scan').disabled = false;
-                    
+                    document.getElementById('scan-toggle').disabled = false;
+
                      // Limpiar el formulario
                     document.getElementById('formRegistrar').reset();  // 'miFormulario' es el ID del formulario
                     document.getElementById('btn-quitar').style.display = 'none';  // Ocultar el botón
@@ -694,7 +693,7 @@ async function  saveArticulo(event) {
                     const errorMessage = result.data[0].ErrorMessage;
                     if (errorMessage.includes("Violation of PRIMARY KEY")) {
                       console.log("El mensaje contiene 'Violation of PRIMARY KEY'.");
-                      alert('Producto ya existe!!!');
+                      mostrarToast('Producto ya existe!!!', 'advertencia');
                       // Limpiar el formulario
                      document.getElementById('formRegistrar').reset();  // 'miFormulario' es el ID del formulario
                      document.getElementById('btn-quitar').style.display = 'none';  // Ocultar el botón
@@ -744,7 +743,7 @@ async function  saveInventario(event) {
     
     // Verificar si es nulo o está vacío
 if (!descripcion || descripcion.trim() === "") {
-    alert("Por favor, cree producto, antes de guardar inventario");
+    mostrarToast("Por favor, cree producto, antes de guardar inventario", 'advertencia');
     return; // Salir de la función o evitar continuar
   }
    
@@ -777,9 +776,8 @@ if (!descripcion || descripcion.trim() === "") {
                   
                     document.getElementById('codigo2').required = true; // Activa el atributo 'required'
                     document.getElementById('codigo2').disabled = false; // Habilita el campo nuevamente
-                    document.getElementById('start-scan2').disabled = false;
-                    document.getElementById('stop-scan2').disabled = false;
-                    
+                    document.getElementById('scan-toggle2').disabled = false;
+
                      // Limpiar el formulario
                     document.getElementById('formInventario').reset();  // 'miFormulario' es el ID del formulario
                   document.getElementById("ubicacion").value =  localStorage.getItem("ubicacion")
@@ -791,7 +789,7 @@ if (!descripcion || descripcion.trim() === "") {
                     const errorMessage = result.data[0].ErrorMessage;
                     if (errorMessage.includes("Violation of PRIMARY KEY")) {
                       console.log("El mensaje contiene 'Violation of PRIMARY KEY'.");
-                      alert('Producto ya existe!!!');
+                      mostrarToast('Producto ya existe!!!', 'advertencia');
                       // Limpiar el formulario
                      document.getElementById('formInventario').reset();  // 'miFormulario' es el ID del formulario
                     

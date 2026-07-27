@@ -188,8 +188,7 @@
           <div id="reader8" style="width: 100%; "></div>
 
             <div class="scan-buttons">
-                <button id="start-scan8" type="button">Iniciar Escaneo</button>
-                <button id="stop-scan8" type="button" disabled>Detener Escaneo</button>
+                <button id="scan-toggle8" type="button" class="btn-scan-toggle">📷 Escanear</button>
             </div>
         </div>
        
@@ -461,8 +460,7 @@
                         </div>
                     </div>
                   
-                    <button id="start-scan" type="button"> Iniciar Escaneo</button>
-                    <button id="stop-scan" type="button" disabled>Detener Escaneo</button>            
+                    <button id="scan-toggle" type="button" class="btn-scan-toggle">📷 Escanear</button>
 
             
                     <label for="item">ITEM No.</label>
@@ -540,8 +538,7 @@
                     </div>
                   
 
-                    <button id="start-scan2" type="button"> Escaneo</button>
-                    <button id="stop-scan2" type="button" disabled>Detener</button>
+                    <button id="scan-toggle2" type="button" class="btn-scan-toggle">📷 Escanear</button>
                     <button id="btnbuscar" type="button">🔍Buscar</button>
                           
                     <label for="item2">ITEM No.</label>
@@ -604,9 +601,9 @@
         <section id="ventas" class="secciones">
             <h2 id="tituloPedido">Pedido de Cliente 1</h2>
             <div class="tabs">
-                <button class="tab-button active"  onclick="switchTab(event, 'venta1')">Cliente 1</button>
-                <button class="tab-button" onclick="switchTab(event, 'venta2')">Cliente 2</button>
-                <button class="tab-button" onclick="switchTab(event, 'venta3')">Cliente 3</button>
+                <button class="tab-button active"  onclick="switchTab(event, 'venta1')">Cliente 1<span class="tab-badge" id="badge-venta1"></span></button>
+                <button class="tab-button" onclick="switchTab(event, 'venta2')">Cliente 2<span class="tab-badge" id="badge-venta2"></span></button>
+                <button class="tab-button" onclick="switchTab(event, 'venta3')">Cliente 3<span class="tab-badge" id="badge-venta3"></span></button>
             </div>
             <div id="venta1" class="tab-content active-tab">  
             <form id="formVentas">               
@@ -652,8 +649,7 @@
                         </div>
                     </div>
                     
-                    <button id="start-scan4" type="button"> Escaneo</button>
-                    <button id="stop-scan4" type="button" disabled>Detener</button>
+                    <button id="scan-toggle4" type="button" class="btn-scan-toggle">📷 Escanear</button>
                     <button id="btnbuscar4" type="button">🔍Buscar</button>
                                                    
                     <label for="descripcion4" disabled> Descripcion</label>
@@ -733,8 +729,7 @@
                         </div>
                     </div>
                   
-                    <button id="start-scan6" type="button"> Escaneo</button>
-                    <button id="stop-scan6" type="button" disabled>Detener</button>
+                    <button id="scan-toggle6" type="button" class="btn-scan-toggle">📷 Escanear</button>
                     <button id="btnbuscar6" type="button">🔍Buscar</button>               
                                                  
                     <label for="descripcion6">Descripcion</label>
@@ -818,8 +813,7 @@
                         </div>
                     </div>
 
-                    <button id="start-scan7" type="button"> Escaneo</button>
-                    <button id="stop-scan7" type="button" disabled>Detener</button>
+                    <button id="scan-toggle7" type="button" class="btn-scan-toggle">📷 Escanear</button>
                     <button id="btnbuscar7" type="button">🔍Buscar</button>
                  
                                
@@ -860,6 +854,20 @@
             </div>
         </section>
         <!-- Modal personalizado -->
+
+        <div id="cargaInicialIndicador">Cargando datos...</div>
+
+        <div id="toast-container"></div>
+
+        <div id="confirmModal" class="modal">
+            <div class="modal-content">
+                <p id="confirmModalMensaje"></p>
+                <div id="confirmModalBotones">
+                    <button id="confirmModalSi" type="button">Sí</button>
+                    <button id="confirmModalNo" type="button">No</button>
+                </div>
+            </div>
+        </div>
 
     </main>
 
