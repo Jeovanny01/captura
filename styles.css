@@ -818,7 +818,8 @@ select, input {
 }
 
 .scan-buttons button {
-    flex: 1 1 100%;
+    flex: 1 1 calc(50% - 5px); /* Restamos la mitad del gap */
+    max-width: calc(50% - 5px);
     min-width: 0;
     box-sizing: border-box;
     padding: 10px;
@@ -838,26 +839,36 @@ select, input {
     }
 }
 
-/* ===== Botón único de escanear/detener cámara ===== */
-.btn-scan-toggle {
+/* ===== Botones de iniciar/detener cámara ===== */
+.btn-scan-iniciar,
+.btn-scan-detener {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 6px;
-    background-color: #1e9e5a;
     transition: background-color 0.15s ease;
 }
 
-.btn-scan-toggle:hover {
+.btn-scan-iniciar {
+    background-color: #1e9e5a;
+}
+
+.btn-scan-iniciar:hover {
     background-color: #187f48;
 }
 
-.btn-scan-toggle.escaneando {
+.btn-scan-detener {
     background-color: #d9362f;
 }
 
-.btn-scan-toggle.escaneando:hover {
+.btn-scan-detener:hover {
     background-color: #b52b25;
+}
+
+.btn-scan-iniciar:disabled,
+.btn-scan-detener:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
 }
 
 /* ===== Toasts (reemplazan alerts de confirmación/validación) ===== */

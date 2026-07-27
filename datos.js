@@ -680,7 +680,8 @@ async function  saveArticulo(event) {
                     document.getElementById('interno').checked =false;
                     document.getElementById('codigo').required = true; // Activa el atributo 'required'
                     document.getElementById('codigo').disabled = false; // Habilita el campo nuevamente
-                    document.getElementById('scan-toggle').disabled = false;
+                    document.getElementById('start-scan').disabled = false;
+                    document.getElementById('stop-scan').disabled = false;
 
                      // Limpiar el formulario
                     document.getElementById('formRegistrar').reset();  // 'miFormulario' es el ID del formulario
@@ -776,7 +777,8 @@ if (!descripcion || descripcion.trim() === "") {
                   
                     document.getElementById('codigo2').required = true; // Activa el atributo 'required'
                     document.getElementById('codigo2').disabled = false; // Habilita el campo nuevamente
-                    document.getElementById('scan-toggle2').disabled = false;
+                    document.getElementById('start-scan2').disabled = false;
+                    document.getElementById('stop-scan2').disabled = false;
 
                      // Limpiar el formulario
                     document.getElementById('formInventario').reset();  // 'miFormulario' es el ID del formulario
