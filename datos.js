@@ -1816,7 +1816,7 @@ const articuloEdit = async (accion, articulo, descripcion, items,empresa,cat1,ca
 
 // ---- Baterías (componentes del producto, tabla ARTICULO_COMPONENTE) ----
 
-const FILAS_BATERIAS = 3;
+const FILAS_BATERIAS = 1; // un solo espacio para la batería
 let bateriasTabla = null; // artículos cuya descripción lleva "BATER", se piden una sola vez
 
 const escHtml = s => String(s ?? "").replace(/[&<>"']/g, c =>
@@ -1829,6 +1829,7 @@ async function cargarBaterias() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ bd, empresa })
     });
+    if (!response.ok) throw new Error(`la API respondió ${response.status} (¿está publicada la versión con selectBaterias?)`);
     const result = await response.json();
     if (!result.success) throw new Error((result.data && result.data[0] && result.data[0].ErrorMessage) || result.data);
     bateriasTabla = result.data || [];
@@ -1844,7 +1845,7 @@ async function pintarFilasBaterias(contenedorId, seleccion = []) {
         lista = await cargarBaterias();
     } catch (error) {
         console.error("Error al cargar baterías:", error.message);
-        cont.innerHTML = "No se pudieron cargar las baterías";
+        cont.textContent = "No se pudieron cargar las baterías: " + error.message;
         return;
     }
 
