@@ -503,6 +503,11 @@ document.getElementById('formRegistrar').addEventListener('submit', function(eve
     saveArticulo(); // Llama a la función para registrar al alumno
 });
 
+// Al limpiar el formulario de alta también se ocultan y vacían las baterías
+document.getElementById('formRegistrar').addEventListener('reset', function() {
+    limpiarBaterias('incluyeBaterias', 'bateriasFilas');
+});
+
 
 document.getElementById('formInventario').addEventListener('submit', function(event) {
     event.preventDefault(); // Evita el envío tradicional del formulario

@@ -126,6 +126,30 @@
         .form-group input[type="submit"]:hover {
             background-color: #555;
         }
+
+        /* Baterias (componentes) del producto */
+        .baterias-check {
+            display: flex !important;
+            align-items: center;
+            gap: 8px;
+            margin-top: 12px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .baterias-check input { width: auto !important; margin: 0; }
+        .baterias-filas {
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 8px;
+            margin-top: 6px;
+        }
+        .bateria-fila {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 6px;
+        }
+        .bateria-fila select { flex: 1 1 auto; min-width: 0; }
+        .bateria-fila input { flex: 0 0 80px; width: 80px !important; }
     </style>
 
 </head>
@@ -320,6 +344,12 @@
                     <label for="piezasMinimo">Mínimo</label>
                     <input type="number" id="piezaMinimoEdit" name="piezaMinimoEdit"  step="0.01"  min="0" max="100000"  placeholder="100.00">
 
+                    <label class="baterias-check">
+                        <input type="checkbox" id="incluyeBateriasEdit" onchange="toggleBaterias('incluyeBateriasEdit','bateriasFilasEdit')">
+                        Incluye baterías
+                    </label>
+                    <div id="bateriasFilasEdit" class="baterias-filas" style="display:none;"></div>
+
 
 
                    
@@ -496,6 +526,12 @@
                     <input type="number" id="piezaFardo" name="piezaFardo"  step="0.01"  min="0" max="100000"  placeholder="1.00">
                     <label for="piezasMinimo">Mínimo</label>
                     <input type="number" id="piezaMinimo" name="piezaMinimo"  step="0.01"  min="0" max="100000"  placeholder="100.00">
+
+                    <label class="baterias-check">
+                        <input type="checkbox" id="incluyeBaterias" onchange="toggleBaterias('incluyeBaterias','bateriasFilas')">
+                        Incluye baterías
+                    </label>
+                    <div id="bateriasFilas" class="baterias-filas" style="display:none;"></div>
 
 
                     

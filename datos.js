@@ -646,8 +646,11 @@ async function  saveArticulo(event) {
           document.getElementById('btn-quitar').style.display = 'none';  // Ocultar el botón
           IMAGEN=null;
         return; // Sale de la función para que no continúe
-    } 
+    }
 
+    // Se valida antes de crear el producto, para no dejarlo creado sin sus baterías
+    const baterias = leerBaterias("incluyeBaterias", "bateriasFilas");
+    if (baterias === null) return;
 
    // const usuario = "sa";
    
@@ -667,13 +670,23 @@ async function  saveArticulo(event) {
             }
             return response.text();  // Leer la respuesta como texto
         })
-        .then(text => {
+        .then(async text => {
             console.log('Raw response:', text);  // Verifica lo que devuelve el servidor
             try {
                 // Intentar convertir el texto a JSON
                 const result = JSON.parse(text);
                 console.log(result);  // Ver el contenido del objeto JSON
                 if (result.success) {
+                    // Las baterías van después porque cuelgan del código del producto recién creado
+                    if (baterias.length) {
+                        try {
+                            await guardarComponentes(result.data[0].ARTICULO, baterias);
+                        } catch (error) {
+                            console.error("Error al guardar baterías:", error.message);
+                            alert('El producto se creó, pero las baterías no se guardaron: ' + error.message +
+                                  '\nAgréguelas editando el producto.');
+                        }
+                    }
                     //alert('Producto registrado con éxito');
                     alert('Producto registrado con éxito codigo: ' + result.data[0].ARTICULO);
                     // Limpiar el formulario
@@ -1698,14 +1711,38 @@ function editarRegistro(id) {
 let registroSeleccionado = productos.filter(item => item.ARTICULO === id);
 // Si encuentras el registro, puedes hacer algo con él, por ejemplo, mostrarlo en un formulario
 if (registroSeleccionado.length > 0) {
-    console.log("Registro encontrado:", registroSeleccionado[0]); 
+    console.log("Registro encontrado:", registroSeleccionado[0]);
     cargarFormulario(registroSeleccionado[0])
+    cargarBateriasEdit(id);
        // Abrir el modal
        const modal = document.getElementById("formulario");
        modal.style.display = "flex"; // Mostrar el modal
 } else {
     console.log("Registro no encontrado");
 }
+}
+
+// Lee las baterías del producto que se está editando y las muestra.
+// `leido` marca que la lectura salió bien: si falló, al guardar NO se tocan
+// (guardar una lista vacía las borraría sin que nadie lo pidiera).
+async function cargarBateriasEdit(articulo) {
+    const cont = document.getElementById("bateriasFilasEdit");
+    limpiarBaterias("incluyeBateriasEdit", "bateriasFilasEdit");
+    cont.dataset.articulo = articulo;
+    cont.dataset.leido = "";
+    try {
+        const componentes = await fetchComponentes(articulo);
+        if (cont.dataset.articulo !== articulo) return; // ya abrieron otro producto
+        cont.dataset.leido = "1";
+        if (componentes.length) {
+            document.getElementById("incluyeBateriasEdit").checked = true;
+            cont.style.display = "block";
+            await pintarFilasBaterias("bateriasFilasEdit", componentes);
+        }
+    } catch (error) {
+        console.error("Error al leer baterías:", error.message);
+        mostrarToast("No se pudieron leer las baterías de este producto", 'advertencia');
+    }
 }
 
 function editarRegistroPe(id) {
@@ -1776,6 +1813,135 @@ const articuloEdit = async (accion, articulo, descripcion, items,empresa,cat1,ca
         throw error;
     }
 };
+
+// ---- Baterías (componentes del producto, tabla ARTICULO_COMPONENTE) ----
+
+const FILAS_BATERIAS = 3;
+let bateriasTabla = null; // artículos cuya descripción lleva "BATER", se piden una sola vez
+
+const escHtml = s => String(s ?? "").replace(/[&<>"']/g, c =>
+    ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+
+async function cargarBaterias() {
+    if (bateriasTabla) return bateriasTabla;
+    const response = await fetch(url + "selectBaterias", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ bd, empresa })
+    });
+    const result = await response.json();
+    if (!result.success) throw new Error((result.data && result.data[0] && result.data[0].ErrorMessage) || result.data);
+    bateriasTabla = result.data || [];
+    return bateriasTabla;
+}
+
+// Dibuja las filas (artículo batería + cantidad). `seleccion` = componentes ya guardados.
+async function pintarFilasBaterias(contenedorId, seleccion = []) {
+    const cont = document.getElementById(contenedorId);
+    cont.innerHTML = "Cargando baterías…";
+    let lista;
+    try {
+        lista = await cargarBaterias();
+    } catch (error) {
+        console.error("Error al cargar baterías:", error.message);
+        cont.innerHTML = "No se pudieron cargar las baterías";
+        return;
+    }
+
+    if (!lista.length) {
+        cont.innerHTML = "No hay artículos con la palabra batería";
+        return;
+    }
+
+    const opciones = lista.map(b =>
+        `<option value="${escHtml(b.ARTICULO)}">${escHtml(b.DESCRIPCION)} (${escHtml(b.ARTICULO)})</option>`).join("");
+
+    const filas = Math.max(FILAS_BATERIAS, seleccion.length);
+    cont.innerHTML = "";
+    for (let i = 0; i < filas; i++) {
+        const fila = document.createElement("div");
+        fila.className = "bateria-fila";
+        fila.innerHTML = `
+            <select class="bateria-art"><option value="">Seleccione batería</option>${opciones}</select>
+            <input type="number" class="bateria-cant" step="1" min="0" placeholder="Cant.">`;
+        const sel = seleccion[i];
+        if (sel) {
+            const select = fila.querySelector(".bateria-art");
+            // Si el componente guardado ya no tiene "batería" en la descripción, se agrega para no perderlo
+            if (!lista.some(b => b.ARTICULO === sel.ARTICULO_COMPONENTE)) {
+                select.insertAdjacentHTML("beforeend",
+                    `<option value="${escHtml(sel.ARTICULO_COMPONENTE)}">${escHtml(sel.DESCRIPCION || sel.ARTICULO_COMPONENTE)} (${escHtml(sel.ARTICULO_COMPONENTE)})</option>`);
+            }
+            select.value = sel.ARTICULO_COMPONENTE;
+            fila.querySelector(".bateria-cant").value = sel.CANTIDAD;
+        }
+        cont.appendChild(fila);
+    }
+    cont.dataset.cargado = "1";
+}
+
+function toggleBaterias(checkId, contenedorId) {
+    const cont = document.getElementById(contenedorId);
+    if (document.getElementById(checkId).checked) {
+        cont.style.display = "block";
+        if (cont.dataset.cargado !== "1") pintarFilasBaterias(contenedorId);
+    } else {
+        cont.style.display = "none";
+    }
+}
+
+function limpiarBaterias(checkId, contenedorId) {
+    document.getElementById(checkId).checked = false;
+    const cont = document.getElementById(contenedorId);
+    cont.style.display = "none";
+    cont.innerHTML = "";
+    cont.dataset.cargado = "";
+}
+
+// Lee las filas llenas. Devuelve null (y avisa) si hay una fila a medias.
+function leerBaterias(checkId, contenedorId) {
+    if (!document.getElementById(checkId).checked) return [];
+    const lista = [];
+    const filas = document.querySelectorAll(`#${contenedorId} .bateria-fila`);
+    for (const fila of filas) {
+        const art = fila.querySelector(".bateria-art").value;
+        const cant = parseFloat(fila.querySelector(".bateria-cant").value) || 0;
+        if (!art && !cant) continue;
+        if (!art || cant <= 0) {
+            mostrarToast("Cada batería necesita artículo y cantidad mayor a cero", 'advertencia');
+            return null;
+        }
+        lista.push({ ARTICULO_COMPONENTE: art, CANTIDAD: cant });
+    }
+    if (!lista.length) {
+        mostrarToast("Marcó 'Incluye baterías': seleccione al menos una batería y su cantidad", 'advertencia');
+        return null;
+    }
+    return lista;
+}
+
+async function fetchComponentes(articulo) {
+    const response = await fetch(url + "articuloComponentes", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ bd, empresa, articulo })
+    });
+    const result = await response.json();
+    if (!result.success) throw new Error((result.data && result.data[0] && result.data[0].ErrorMessage) || result.data);
+    return result.data || [];
+}
+
+// Reemplaza los componentes del artículo (lista vacía = ya no lleva baterías)
+async function guardarComponentes(articulo, componentes, articuloAnterior = "") {
+    const response = await fetch(url + "guardarComponentes", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ bd, empresa, articulo, articuloAnterior, usuario: session.user, componentes })
+    });
+    const result = await response.json();
+    if (!result.success) throw new Error((result.data && result.data[0] && result.data[0].ErrorMessage) || result.data);
+    return result.data;
+}
 
 const cotizacionLinea = async (accion,  articulo,  descripcion,  cantidad,  precioUnitario,  total,  linea,  cotizacion) => {
     try {
@@ -1936,10 +2102,25 @@ async function  saveRegistro(event) {
     // } 
 
 
+    const baterias = leerBaterias("incluyeBateriasEdit", "bateriasFilasEdit");
+    if (baterias === null) return;
+    const bateriasLeidas = document.getElementById("bateriasFilasEdit").dataset.leido === "1";
+
     if (document.getElementById("articulo").readOnly) {
             try {
                 const response = await articuloEdit("UPDATE2", articulo,descripcion,items,"FUNNY",cat1,cat2,precio,precioNormal,0,artNvo,fardo,minimo);
-                console.log("Actualizado:", response); 
+                console.log("Actualizado:", response);
+
+                // Desmarcado = ya no lleva baterías (se borran). Si cambiaron la barra, pasan al código nuevo.
+                if (bateriasLeidas && response && response.success !== false) {
+                    const codigoFinal = artNvo.trim() || articulo;
+                    try {
+                        await guardarComponentes(codigoFinal, baterias, codigoFinal !== articulo ? articulo : "");
+                    } catch (error) {
+                        console.error("Error al guardar baterías:", error.message);
+                        alert("El producto se guardó, pero las baterías no: " + error.message);
+                    }
+                }
                 // Lógica para actualizar la fila correspondiente en la tabla
                 //updateTableRowVend(id, nombre); // Función para actualizar la fila
                 fetchData();
